@@ -84,6 +84,8 @@ class AccountService:
         message=str(e)
       )
     for key, value in account_update.__dict__.items():
+      if(key == "role"):
+        continue
       setattr(_account, "{}".format(key), value)
     account = Account(**get_dict(_account))
     account_id = await self.account_repo.update(doc_id=uuid.UUID(_account.id), obj=account)
@@ -95,9 +97,7 @@ class AccountService:
       raise CredentialException(message="UNAUTHORIZED")
     if not verify_password(password_update.old_password, account.hashed_password):
       raise CredentialException(message="Old password miss matching")
-    print(account)
     hashed_password = get_hashed_password(password_update.new_password)
-    print(hashed_password)
     await self.account_repo.update_one_by_field(
       doc_id=uuid.UUID(account.id), 
       field="hashed_password",

@@ -35,29 +35,37 @@ async def register(account_create: AccountCreate):
     result = await AccountService().create_one_account(account_create)
     return success_response(data=result)
 
-@router.post(UserAPI.UPDATE_PROFILE, response_model=HttpResponse)
-async def update_profile(
-    account_update: AccountUpdate, 
-    token: str = Depends(oauth2_scheme),
-    username: str = Depends(get_actor_from_request),
-):
-    setattr(account_update, "username", username)
-    result = await AccountService().update_one_account(account_update)
-    return success_response(data=result)
-
-@router.post(UserAPI.UPDATE_PASSWORD, response_model=HttpResponse)
-async def update_password(
-    password_update: PasswordUpdate, 
-    token: str = Depends(oauth2_scheme),
-    username: str = Depends(get_actor_from_request),
-):
-    result = await AccountService().update_password(password_update, username)
-    return success_response(data=result)
-
 @router.post(UserAPI.FIND_ONE, response_model=HttpResponse)
 async def find_one(
     username: str,
     token: str = Depends(oauth2_scheme),
-):
+    ):
     result = await AccountService().get_account_by_username(username)
+    return success_response(data=result)
+    
+@router.post(UserAPI.PROFILE, response_model=HttpResponse)
+async def profile(
+    token: str = Depends(oauth2_scheme),
+    username: str = Depends(get_actor_from_request),
+    ):
+    result = await AccountService().get_account_by_username(username)
+    return success_response(data=result)
+
+@router.put(UserAPI.UPDATE_PROFILE, response_model=HttpResponse)
+async def update_profile(
+    account_update: AccountUpdate, 
+    token: str = Depends(oauth2_scheme),
+    username: str = Depends(get_actor_from_request),
+    ):
+    setattr(account_update, "username", username)
+    result = await AccountService().update_one_account(account_update)
+    return success_response(data=result)
+
+@router.put(UserAPI.UPDATE_PASSWORD, response_model=HttpResponse)
+async def update_password(
+    password_update: PasswordUpdate, 
+    token: str = Depends(oauth2_scheme),
+    username: str = Depends(get_actor_from_request),
+    ):
+    result = await AccountService().update_password(password_update, username)
     return success_response(data=result)

@@ -57,7 +57,6 @@ class MongoRepo:
   async def get_page(self, page, size, filter: Optional[dict] = None):
     pass
 
-
   async def insert_one(self, obj: T, custom_id=None):
     if obj.__class__ != self.model:
       raise TypeError(

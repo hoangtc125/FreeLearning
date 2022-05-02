@@ -6,6 +6,7 @@ import uvicorn
 
 from router.user_router import router as USER_ROUTER
 from router.admin_router import router as ADMIN_ROUTER
+from router.search_router import router as SEARCH_ROUTER
 from core.filter import (
     authorize_token,
     check_api_permission,
@@ -62,6 +63,7 @@ async def add_process_time_header(request: Request, call_next):
 
 app.include_router(USER_ROUTER)
 app.include_router(ADMIN_ROUTER)
+app.include_router(SEARCH_ROUTER)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=1234)

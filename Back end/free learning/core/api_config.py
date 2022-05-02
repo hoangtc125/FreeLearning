@@ -18,6 +18,9 @@ class AdminAPI:
   GET_ALL_USER = '/admin/get-all-user'
   
 
+class SearchAPI:
+  SEARCH = '/search'
+
 # class
 
 ALLOW_ALL = ['*']
@@ -31,4 +34,5 @@ API_PERMISSION = {
   UserAPI.FIND_ONE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
   AdminAPI.GET_ONE_USER: ALLOW_ALL,
   AdminAPI.GET_ALL_USER: [Role.ADMIN],
+  SearchAPI.SEARCH: ALLOW_ALL,
 }
