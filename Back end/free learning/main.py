@@ -30,7 +30,6 @@ async def add_process_time_header(request: Request, call_next):
     to request and response header.
     - If a valid token is found in header. The executor of the request
     will be added to request header.
-    - Logging: on the way
 
     Args:
         request (Request): The resquest data.

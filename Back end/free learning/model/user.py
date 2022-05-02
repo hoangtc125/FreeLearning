@@ -12,6 +12,10 @@ class BaseAccount(BaseModel):
   profile: Optional[dict] = {}
 
 
+class PasswordUpdate(BaseModel):
+  old_password: str
+  new_password: str
+
 class Account(BaseAccount):
   _id: str
   hashed_password: str

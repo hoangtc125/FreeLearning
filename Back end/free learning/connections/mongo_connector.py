@@ -6,6 +6,7 @@ from typing import (
     Dict)
 from uuid import uuid4
 import json
+import uuid
 
 from utils.model_utils import (
     get_dict,
@@ -72,11 +73,11 @@ class MongoRepo:
 
   async def update(self, doc_id, obj):
     if obj.__class__ != self.model:
-        raise TypeError(
-          f"{obj.__name__} can not be inserted into {self.model.__name__}"
-        )
+      raise TypeError(
+        f"{obj.__class__} can not be inserted into {self.model.__class__}"
+      )
     resp = await self.mongo_connector.update_one(
-      {"_id": doc_id}, {"$set": {"_source": get_dict(obj)}}
+      {"_id": doc_id}, {"$set": {"_source":get_dict(obj)}}
     )
     return str(doc_id)
 
@@ -89,6 +90,16 @@ class MongoRepo:
       return None
     return (str(resp["_id"]), self.model(**resp["_source"]))
 
+  async def update_one_by_field(self, doc_id, field, value):
+    try:
+      resp = await self.mongo_connector.update_one(
+        {"_id": doc_id}, {"$set": {"_source.{}".format(field):value}}
+      )
+      if not resp:
+        return None
+    except Exception:
+      return None
+    return None
 
 def get_repo(model: T, connection) -> MongoRepo:
   if not mongo_monitor.get(model.__name__, None):

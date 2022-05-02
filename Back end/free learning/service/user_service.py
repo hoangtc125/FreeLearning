@@ -1,4 +1,5 @@
 from typing import Union
+import uuid
 import starlette
 from core.constants import Role
 from exception.http_exception import CredentialException, UnprocessableEntityException
@@ -8,6 +9,7 @@ from model import (
   Account, AccountUpdate, AccountCreate, AccountResponse,
   ConfirmationToken
 )
+from model.user import PasswordUpdate
 from utils.jwt_utils import (
   ACCESS_TOKEN_EXPIRE_MINUTES,
   create_access_token,
@@ -76,12 +78,32 @@ class AccountService:
         message="Account doesn't exist",
       )
     try:
-        self.validate_account(account_update)
+      self.validate_account(account_update)
     except Exception as e:
       raise UnprocessableEntityException(
         message=str(e)
       )
-    pass
+    for key, value in account_update.__dict__.items():
+      setattr(_account, "{}".format(key), value)
+    account = Account(**get_dict(_account))
+    account_id = await self.account_repo.update(doc_id=uuid.UUID(_account.id), obj=account)
+    return to_response_dto(account_id, account_update, AccountUpdate)
+
+  async def update_password(self, password_update: PasswordUpdate, username: str):
+    account = await self.get_account_by_username(username)
+    if not account:
+      raise CredentialException(message="UNAUTHORIZED")
+    if not verify_password(password_update.old_password, account.hashed_password):
+      raise CredentialException(message="Old password miss matching")
+    print(account)
+    hashed_password = get_hashed_password(password_update.new_password)
+    print(hashed_password)
+    await self.account_repo.update_one_by_field(
+      doc_id=uuid.UUID(account.id), 
+      field="hashed_password",
+      value=hashed_password
+    )
+    return None
 
   async def authenticate_user(self, username: str, password: str):
     account = await self.get_account_by_username(username)

@@ -4,10 +4,6 @@ class Role:
   TEACHER = "TEACHER"
   SCHOOL = "SCHOOL"
 
-  @staticmethod
-  def get_all():
-    return [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL,]
-
 class BarrierStatus:
   AUTO: str = "AUTO"
 
