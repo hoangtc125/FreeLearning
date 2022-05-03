@@ -1,6 +1,3 @@
-from pydoc import doc
-from typing import Optional
-
 from exception.http_exception import RequestException
 from connections.mongo_connector import get_repo
 from model import (
@@ -8,7 +5,6 @@ from model import (
   Account
 )
 from utils.model_utils import to_response_dto, get_dict
-from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import USER_COLLECTION
 
 

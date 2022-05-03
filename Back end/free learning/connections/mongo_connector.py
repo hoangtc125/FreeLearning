@@ -14,7 +14,6 @@ from utils.model_utils import (
 )
 from core.project_config import settings
 from core.model import PaginationModel
-from utils.user_utils import to_response_dict_user
 
 __author__ = "Manh Truong"
 __copyright__ = "Copyright 2022, Techpro SDX"

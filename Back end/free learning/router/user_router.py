@@ -8,6 +8,7 @@ from model import AccountCreate
 from model.user import AccountUpdate, PasswordUpdate
 from service.user_service import AccountService
 from core.api_config import UserAPI
+from utils.router_utils import get_actor_from_request
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=UserAPI.LOGIN)
@@ -16,12 +17,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl=UserAPI.LOGIN)
 class LoginForm(BaseModel):
     username: str = "admin"
     password: str = "admin"
-    
-def get_actor_from_request(request: Request):
-    try:
-        return request._headers['x-request-user']
-    except:
-        return None
 
 @router.post(UserAPI.LOGIN)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):

@@ -1,18 +1,14 @@
 import time
 from exception.http_exception import RequestException
 from connections.mongo_connector import get_repo
-from core.model import TokenPayload
 from model.search import Search, SearchAccount, SearchResponse, SearchResult, SearchToken
 from model.token import ConfirmationToken
 from model.user import Account
 from utils.model_utils import get_dict
-from core.project_config import settings
 from connections.config import USER_COLLECTION, TOKEN_COLLECTION
 
 
 class SearchService:
-
-  ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
   def __init__(self):
     self.account_repo = get_repo(Account, USER_COLLECTION)

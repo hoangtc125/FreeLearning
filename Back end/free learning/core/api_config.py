@@ -21,6 +21,12 @@ class AdminAPI:
 class SearchAPI:
   SEARCH = '/search'
 
+
+class FollowAPI:
+  SUBCRIBE = '/follow/subcribe'
+  GET_FOLLOWERS = '/follow/get-followers'
+
+
 # class
 
 ALLOW_ALL = ['*']
@@ -35,4 +41,6 @@ API_PERMISSION = {
   AdminAPI.GET_ONE_USER: ALLOW_ALL,
   AdminAPI.GET_ALL_USER: [Role.ADMIN],
   SearchAPI.SEARCH: ALLOW_ALL,
+  FollowAPI.SUBCRIBE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
+  FollowAPI.GET_FOLLOWERS: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
 }

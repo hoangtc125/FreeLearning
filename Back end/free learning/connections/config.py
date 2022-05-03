@@ -9,3 +9,8 @@ database = client.freelearning
 
 USER_COLLECTION = database.get_collection('User')
 TOKEN_COLLECTION = database.get_collection('Token')
+COMMENT_COLLECTION = database.get_collection('Comment')
+LESSION_COLLECTION = database.get_collection('Lession')
+FOLLOW_COLLECTION = database.get_collection('Follow')
+COURSE_COLLECTION = database.get_collection('Course')
+HOMEWORK_COLLECTION = database.get_collection('Homework')

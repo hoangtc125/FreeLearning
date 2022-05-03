@@ -1,6 +1,4 @@
-from typing import Optional
 from fastapi import APIRouter
-from pydantic import BaseModel
 
 from core.model import HttpResponse, success_response
 from model.search import Search

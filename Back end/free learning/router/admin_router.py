@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from core.model import success_response
 from service.admin_service import AdminService
 from router.user_router import oauth2_scheme
-from core.api_config import UserAPI, AdminAPI
+from core.api_config import AdminAPI
 
 router = APIRouter()
 
