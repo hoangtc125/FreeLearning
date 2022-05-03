@@ -43,10 +43,11 @@ class MongoRepo:
     return (resp["_id"], self.model(**resp["_source"]))
 
   async def get_all(self, filter: Optional[dict] = None):
-    if filter:
-      raise Exception("Don't support filter")
     resp = []
-    async for item in self.mongo_connector.find():
+    print(filter)
+    async for item in self.mongo_connector.find(
+      filter if filter else {}
+    ):
       item["_id"] = str(item["_id"])
       resp.append(item)
     res = {}
@@ -76,7 +77,7 @@ class MongoRepo:
         f"{obj.__class__} can not be inserted into {self.model.__class__}"
       )
     resp = await self.mongo_connector.update_one(
-      {"_id": doc_id}, {"$set": {"_source":get_dict(obj)}}
+      {"_id": doc_id}, {"$set": {"_source": get_dict(obj)}}
     )
     return str(doc_id)
 
