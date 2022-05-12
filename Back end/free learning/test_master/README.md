@@ -11,40 +11,68 @@ File cần tạo trong folder **testcases/_router/**
  - [ ] Ví dụ:
 
     > TEST_CASE['EXAMPLE_NAME'] = {
+
     >     'INPUT':{
+
     >         param1:value1,
+
     >         param2:value2,
+
     >         ...
+
     >     },
+
     >     'MOCK':[
+
     >         {
+
     >             'path':'app.service.account_service.get_repo',
+
     >             'return_value':Repo(
+
     >                 return_insert_one="1",
+
     >                 return_get_one_by_id={
+
     >                     'multi_called':[
+
     >                         (
+
     >                             "1", VALUE1
+
     >                         ),
+
     >                         (
+
     >                             "2", VALUE2
+
     >                         ),
+
     >                         ...
+
     >                     ]
+
     >                 },
+
     >                 ...
+
     >             )
+
     >         }
+
     >     ],
+
     >     'OUTPUT':Exception() / success_response(date=None), 
+
     >     'FUNCTION':example_api,
+
     > }
 
 ## 3. Chạy testcase
 
 Tại *command-line* của *project*, chạy câu lệnh:
 
->   pytest [-p no warnings] [-vv] [-s] [--folders param1[+pram2+...]] [--files param1[+param2+...]] [--excludes param1[+param2+...]
+>   pytest [-p no warnings] [-vv] [-s] [--folders param1[+param2+...]] [--files param1[+param2+...]] [--excludes param1[+param2+...]
 
 với:
 
