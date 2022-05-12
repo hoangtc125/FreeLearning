@@ -11,5 +11,5 @@ router = APIRouter()
 
 @router.post(AdminAPI.GET_ALL_USER)
 async def get_all(token: str = Depends(oauth2_scheme)):
-  result = await AdminService().get_all_user()
-  return success_response(data=result)
+    result = await AdminService().get_all_user()
+    return success_response(data=result)

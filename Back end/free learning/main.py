@@ -24,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     """
@@ -44,23 +45,16 @@ async def add_process_time_header(request: Request, call_next):
     """
     start_time = time.time()
     if request.method != "OPTIONS":
-        request_user = authorize_token(
-            request=request
-        )
+        request_user = authorize_token(request=request)
         try:
-            check_api_permission(
-                path=request.url.path,
-                request_role=request_user.role
-            )
+            check_api_permission(path=request.url.path, request_role=request_user.role)
         except PermissionDeniedException as e:
-            return JSONResponse(
-                status_code=e.status_code,
-                headers=e.headers
-            )
+            return JSONResponse(status_code=e.status_code, headers=e.headers)
     response = await call_next(request)
     process_time = time.time() - start_time
     response.headers["X-Process-Time"] = str(process_time)
     return response
+
 
 app.include_router(USER_ROUTER)
 app.include_router(ADMIN_ROUTER)
@@ -69,5 +63,3 @@ app.include_router(FOLLOW_ROUTER)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=1234)
-
-

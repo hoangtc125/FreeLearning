@@ -10,20 +10,22 @@ from core.api_config import FollowAPI
 from utils.router_utils import get_actor_from_request
 
 router = APIRouter()
-    
+
+
 @router.post(FollowAPI.SUBCRIBE, response_model=HttpResponse)
 async def subcribe(
     publisher: str,
     token: str = Depends(oauth2_scheme),
     username: str = Depends(get_actor_from_request),
-    ):
+):
     result = await FollowService().subcribe(subcriber=username, publisher=publisher)
     return custom_response(**result)
+
 
 @router.post(FollowAPI.GET_FOLLOWERS, response_model=HttpResponse)
 async def get_followers(
     token: str = Depends(oauth2_scheme),
     username: str = Depends(get_actor_from_request),
-    ):
+):
     result = await FollowService().get_followers(username=username)
     return success_response(data=result)
