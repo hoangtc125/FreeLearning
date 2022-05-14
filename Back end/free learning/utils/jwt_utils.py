@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import randint
 from passlib.context import CryptContext
 from exception.http_exception import CredentialException
 from model import ConfirmationToken
@@ -48,4 +49,4 @@ def get_token_payload(token: str):
 
 
 if __name__ == "__main__":
-    print(get_hashed_password("admin"), get_hashed_password("admin"))
+    print(randint(1e8, 1e9))

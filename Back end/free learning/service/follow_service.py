@@ -16,7 +16,7 @@ class FollowService:
     async def subcribe(self, subcriber: str, publisher: str):
         if subcriber == publisher:
             raise RequestException(message="Can't follow yourself")
-        _publisher = await AccountService().get_account_by_username(username=publisher)
+        _publisher = await AccountService().get_account_by_field(field="username", value=publisher)
         if not _publisher:
             raise RequestException(message="Publisher doesn't exist")
         message = ""
@@ -44,7 +44,7 @@ class FollowService:
         }
 
     async def get_followers(self, username: str):
-        _account = await AccountService().get_account_by_username(username=username)
+        _account = await AccountService().get_account_by_field(field="username", value=username)
         if not _account:
             raise RequestException(message="Account doesn't exist")
         res = await self.follow_repo.get_one_by_id(doc_id=username)

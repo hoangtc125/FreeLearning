@@ -8,6 +8,7 @@ class UserAPI:
     UPDATE_PROFILE = "/user/update-profile"
     UPDATE_PASSWORD = "/user/update-password"
     FIND_ONE = "/user/find-one"
+    FORGOT_PASSWORD = '/user/forgot-password'
 
 
 class ReportAPI:
@@ -39,6 +40,7 @@ API_PERMISSION = {
     UserAPI.UPDATE_PASSWORD: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
     UserAPI.UPDATE_PROFILE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
     UserAPI.FIND_ONE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
+    UserAPI.FORGOT_PASSWORD: ALLOW_ALL,
     AdminAPI.GET_ONE_USER: ALLOW_ALL,
     AdminAPI.GET_ALL_USER: [Role.ADMIN],
     SearchAPI.SEARCH: ALLOW_ALL,

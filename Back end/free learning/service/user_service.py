@@ -1,3 +1,4 @@
+from random import randint
 from typing import Union
 import uuid
 import starlette
@@ -23,6 +24,7 @@ from utils.model_utils import get_dict, to_response_dto
 from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import USER_COLLECTION, TOKEN_COLLECTION
+import smtplib
 
 
 class AccountService:
@@ -39,8 +41,8 @@ class AccountService:
         if account.role not in Role.__dict__.keys():
             raise Exception("Unsupport Role")
 
-    async def get_account_by_username(self, username):
-        res = await self.account_repo.get_one_by_field("username", username)
+    async def get_account_by_field(self, field="username", value=None):
+        res = await self.account_repo.get_one_by_field(field=field, value=value)
         if not res:
             return None
         id, account = res
@@ -54,7 +56,7 @@ class AccountService:
         return to_response_dto(id, token, ConfirmationToken)
 
     async def create_one_account(self, account_create: AccountCreate, actor=None):
-        _account = await self.get_account_by_username(username=account_create.username)
+        _account = await self.get_account_by_field(field="username", value=account_create.username)
         if _account:
             raise CredentialException(
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
@@ -72,7 +74,7 @@ class AccountService:
         return to_response_dto(account_id, account, AccountResponse)
 
     async def update_one_account(self, account_update: AccountUpdate, actor=None):
-        _account = await self.get_account_by_username(username=account_update.username)
+        _account = await self.get_account_by_field(field="username", value=account_update.username)
         if not _account:
             raise CredentialException(
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
@@ -93,7 +95,7 @@ class AccountService:
         return to_response_dto(account_id, account_update, AccountUpdate)
 
     async def update_password(self, password_update: PasswordUpdate, username: str):
-        account = await self.get_account_by_username(username)
+        account = await self.get_account_by_field(field="username", value=username)
         if not account:
             raise CredentialException(message="UNAUTHORIZED")
         if not verify_password(password_update.old_password, account.hashed_password):
@@ -104,8 +106,42 @@ class AccountService:
         )
         return None
 
+    async def send_mail(self, sender, password, receiver, subject, message):
+        email_text = 'Subject: {}\n\n{}'.format(subject, message)
+        try: 
+            smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            smtp_server.ehlo()
+            smtp_server.login(sender, password)
+            smtp_server.sendmail(sender, receiver, email_text)
+            smtp_server.close()
+            return "Email sent successfully!"
+        except Exception as ex: 
+            return "Something went wrong...."
+
+    async def forgot_password(self, email: str):
+        account = await self.get_account_by_field(field="email", value=email)
+        if not account:
+            raise CredentialException(message="UNAUTHORIZED your email")
+
+        new_password = str(randint(1e8, 1e9))
+        print(new_password)
+        hashed_new_password = get_hashed_password(new_password)
+        try:
+            await self.account_repo.update_one_by_field(
+                doc_id=uuid.UUID(account.id), field="hashed_password", value=hashed_new_password
+            )
+        except:
+            raise CredentialException(message="Can't update new password")
+        return await self.send_mail(
+            sender='freelearningvn@gmail.com',
+            password='free123!@#',
+            receiver=account.email,
+            message=new_password,
+            subject="Update your new password in Free Learning VN"
+        )
+
     async def authenticate_user(self, username: str, password: str):
-        account = await self.get_account_by_username(username)
+        account = await self.get_account_by_field(field="username", value=username)
         if not account:
             raise CredentialException(message="UNAUTHORIZED")
         if not verify_password(password, account.hashed_password):

@@ -38,7 +38,7 @@ async def find_one(
     username: str,
     token: str = Depends(oauth2_scheme),
 ):
-    result = await AccountService().get_account_by_username(username)
+    result = await AccountService().get_account_by_field(field="username", value=username)
     return success_response(data=result)
 
 
@@ -47,7 +47,7 @@ async def profile(
     token: str = Depends(oauth2_scheme),
     username: str = Depends(get_actor_from_request),
 ):
-    result = await AccountService().get_account_by_username(username)
+    result = await AccountService().get_account_by_field(field="username", value=username)
     return success_response(data=result)
 
 
@@ -69,4 +69,11 @@ async def update_password(
     username: str = Depends(get_actor_from_request),
 ):
     result = await AccountService().update_password(password_update, username)
+    return success_response(data=result)
+
+@router.post(UserAPI.FORGOT_PASSWORD, response_model=HttpResponse)
+async def forgot_password(
+    email:str
+):
+    result = await AccountService().forgot_password(email)
     return success_response(data=result)
