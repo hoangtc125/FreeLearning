@@ -83,25 +83,61 @@ const getCode = (arr = []) => arr.map((dt) => {
 
 export function Markdown() {
   const [value, setValue] = useState(mdMermaid);
+  const [title, setTitle] = useState("");
   return (
-    <MDEditor
-      onChange={
-        (newValue = "") => {
-          window.localStorage.setItem('FREE_LEARNING_MD', newValue);
-          setValue(newValue)
-        }
-      }
-      textareaProps={{
-        placeholder: "Please enter Markdown text"
-      }}
-      height={700}
-      maxHeight={8000}
-      value={value}
-      previewOptions={{
-        components: {
-          code: Code
-        }
-      }}
-    />
+    <div className="" style={{marginTop:"20px"}}>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-default">Title</span>
+          </div>
+          <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+            value={title}
+            onChange= {(e) => setTitle(e.target.value)}  
+          />
+        </div>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Description</span>
+          </div>
+          <textarea className="form-control" aria-label="With textarea" spellCheck="false"></textarea>
+        </div>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <label className="input-group-text" for="inputGroupSelect01">Type</label>
+          </div>
+          <select className="custom-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            <option value="Math">Math</option>
+            <option value="English">English</option>
+            <option value="Literature">Literature</option>
+          </select>
+        </div>
+        <div style={{display:"flex", justifyContent:"space-between"}}>
+          <div>
+            <i className="fa fa-refresh fa-spin fa-fw"></i>
+            <span className="sr-only">Auto save...</span>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm">Publish</button>
+        </div>
+        <MDEditor
+          onChange={
+            (newValue = "") => {
+              window.localStorage.setItem('FREE_LEARNING_MD', newValue);
+              setValue(newValue)
+            }
+          }
+          textareaProps={{
+            placeholder: "Please enter Markdown text"
+          }}
+          height={700}
+          maxHeight={8000}
+          value={value}
+          previewOptions={{
+            components: {
+              code: Code
+            }
+          }}
+        />
+    </div>
   );
 }
