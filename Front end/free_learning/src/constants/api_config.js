@@ -1,0 +1,13 @@
+export let DOMAIN = "http://0.0.0.0:1234"
+export let LOGIN = '/user/login'
+export let REGISTER = "/user/register"
+export let PROFILE = "/user/me"
+export let UPDATE_PROFILE = "/user/update-profile"
+export let UPDATE_PASSWORD = "/user/update-password"
+export let FIND_ONE = "/user/find-one"
+export let GET_ONE_USER = '/admin/get-one-user'
+export let GET_ALL_USER = '/admin/get-all-user'
+export let SEARCH = '/search'
+export let SUBCRIBE = '/follow/subcribe'
+export let GET_FOLLOWERS = '/follow/get-followers'
+export let FORGOT_PASSWORD = '/user/forgot-password?email='

@@ -1,0 +1,9 @@
+# Ignore all pychace
+**/__pycache__/
+.vscode/launch.json
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
