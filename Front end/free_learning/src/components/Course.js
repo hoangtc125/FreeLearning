@@ -2,7 +2,7 @@
 
 export function Course() {
   return (
-    <section className="bg-light py-4 my-5">
+    <section className="py-4 my-5">
       <div className="container">
           <div className="row">
               <div className="col-12">

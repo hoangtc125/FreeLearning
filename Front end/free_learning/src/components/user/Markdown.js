@@ -112,7 +112,7 @@ export function Markdown() {
             <option value="Literature">Literature</option>
           </select>
         </div>
-        <div style={{display:"flex", justifyContent:"space-between"}}>
+        <div style={{display:"flex", justifyContent:"space-between", paddingBottom:"10px"}}>
           <div>
             <i className="fa fa-refresh fa-spin fa-fw"></i>
             <span className="sr-only">Auto save...</span>

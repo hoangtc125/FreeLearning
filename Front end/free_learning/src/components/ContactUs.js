@@ -59,6 +59,21 @@ export function ContactUs() {
               </div>
           </div>
       </div>
+      <div className="App-header profile-card text-center shadow bg-light p-4 my-5 rounded-3" id="aboutUs">
+        <div className="profile-photo shadow">
+            <img src="https://video.fhan2-3.fna.fbcdn.net/v/t39.30808-6/257731232_1313909815716888_3818428840467093702_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=JMTbStsFwVgAX_T7rIw&_nc_ht=video.fhan2-3.fna&oh=00_AT9NjWyo6csyUj8enHzk1bjq_cPWI5L7wYyjWvFZu1cBVw&oe=628E22DA" alt="profile Photo" className="img-fluid"/>
+        </div>
+        <h3 className="pt-3 text-secondary">Tran Cong Hoang</h3>
+        <p className="text-secondary">Web Developer & Designer</p>
+        <div className="social-links">
+            <ul>
+                <li><a href="#" style={{color:"#ccc"}}><i className="fa fa-facebook"></i></a></li>
+                <li><a href="#" style={{color:"#ccc"}}><i className="fa fa-twitter"></i></a></li>
+                <li><a href="#" style={{color:"#ccc"}}><i className="fa fa-instagram"></i></a></li>
+                <li><a href="#" style={{color:"#ccc"}}><i className="fa fa-linkedin"></i></a></li>                            
+            </ul>
+        </div>
+      </div>
     </section>
   )
 }

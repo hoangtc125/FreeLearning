@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
-import {AboutUs} from './AboutUs'
+import {Search} from './Search'
 import {Home} from './Home'
 import {ContactUs} from './ContactUs'
 import {Root} from './Root'
@@ -17,7 +17,7 @@ export function Body() {
   return(
     <Routes>
       <Route path="/" element={<Home/>}/>
-      <Route path="/aboutUs" element={<AboutUs/>}/>
+      <Route path="/search" element={<Search/>}/>
       <Route path="/contactUs" element={<ContactUs/>}/>
       <Route path="/root" element={<Root/>}/>
       <Route path="/course" element={<Course/>}/>
