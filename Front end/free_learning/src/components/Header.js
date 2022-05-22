@@ -150,10 +150,42 @@ export function ForgotPasswordForm() {
 
 export function SignUpForm() {
 
+  const [username, setUsername] = useState("")
   const [fullname, setFullname] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
+  const [status, setStatus] = useState("")
+
+  function handleRegister() {
+    if(password != repeatPassword) {
+      setStatus("Password misses matching")
+    } else {
+      setStatus("")
+      fetch(API.DOMAIN + API.REGISTER, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, email: email, fullname: fullname, password: password }),
+        credentials: "same-origin",
+        // mode: 'no-cors'
+      })
+      .then(response => {
+        return response.json()})
+      .then(data => {
+        if(data?.detail) {
+          alert(data.detail)
+        } else {
+          alert("Successful !!! Please login to use our service")
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  }
 
   return (
     <div className="modal fade" id="ModalSignUpForm" tabIndex="-1" aria-hidden="true">
@@ -166,6 +198,13 @@ export function SignUpForm() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
+                <div className="mb-3">
+                    <label htmlFor="name">Username<span className="text-danger">*</span></label>
+                    <input type="text" className="form-control" placeholder="Username" name="username" required
+                      value={username}
+                      onChange= {(e) => setUsername(e.target.value)}  
+                    />
+                </div> 
                 <div className="mb-3">
                     <label htmlFor="name">Full Name<span className="text-danger">*</span></label>
                     <input type="text" className="form-control" placeholder="Full Name" name="name" required
@@ -191,19 +230,25 @@ export function SignUpForm() {
                     <label htmlFor="psw-repeat">Repeat Password<span className="text-danger">*</span></label>
                     <input type="password" className="form-control" placeholder="Repeat Password" name="psw-repeat" required
                       value={repeatPassword}
-                      onChange= {(e) => setRepeatPassword(e.target.value)}  
+                      onChange= {(e) => {setRepeatPassword(e.target.value)}}  
                     />
                   </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label>Profile Photo</label>
                   <input type="file" id="Profile-pic" name="channel-img" className="form-control"/>
                   <label htmlFor="Profile-pic" className="choose-icon"><i className="fa fa-camera" aria-hidden="true"></i></label>
+                </div> */}
+                <div>
+                  <label className="form-check-label" style={{color:"red"}}>{status}</label>
                 </div>
                 <div className="mb-3">
-                  <label className="term-policy"><input type="checkbox"/> By creating an account you agree to our <a href="#">Terms & Privacy</a>.</label>
+                  <label className="term-policy"><input type="checkbox" required/> By creating an account you agree to our <a href="#">Terms & Privacy</a>.</label>
                 </div>
-                  <button type="submit" className="btn btn-success mx-auto w-100">Sign up</button>
-                  <input className="form-check-input" type="checkbox" value="" id="remember2" required/>
+                  <button type="submit" className="btn btn-success mx-auto w-100" onClick={(e) => {
+                    e.preventDefault()  
+                    handleRegister()}
+                  }>Sign up</button>
+                  <input className="form-check-input" type="checkbox" value="" id="remember2"/>
                   <label className="form-check-label" htmlFor="remember">Remember Me</label>
                 <hr/>
                 <div className="mb-3">

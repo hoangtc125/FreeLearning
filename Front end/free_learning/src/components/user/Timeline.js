@@ -44,7 +44,7 @@ export function Timeline() {
                 <span className="stats-total">4.3k</span>
             </div>
           </div>
-          <div className="timeline-footer">
+          <div className="timeline-footer" style={{display:"flex", justifyContent:"space-between"}}>
             <a href="" className="m-r-15 text-inverse-lighter"><i className="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
             <a href="" className="m-r-15 text-inverse-lighter"><i className="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
             <a href="" className="m-r-15 text-inverse-lighter"><i className="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>

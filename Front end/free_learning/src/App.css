@@ -343,7 +343,7 @@ opacity: 0.8;
 }
 
 pre[class^=language]{
-  min-height: 20vh;
+  min-height: 52px;
 }
 
 .listRight {

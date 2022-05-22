@@ -10,7 +10,7 @@ class BaseAccount(BaseModel):
     email: str
     avatar: Optional[str] = None
     role: Optional[str] = Role.STUDENT
-    profile: Optional[dict] = {}
+    profile: Optional[str] = None
 
 
 class PasswordUpdate(BaseModel):

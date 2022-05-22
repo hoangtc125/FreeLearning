@@ -1,6 +1,31 @@
+import Calendar from 'react-calendar';
+import React, { useEffect, useState } from 'react';
+import 'react-calendar/dist/Calendar.css';
 
+function Result(data) {
+
+  const [info, setInfo] = useState(data.data)
+
+  return (
+    <tr onClick={() => {
+      window.location.href = "/blog"
+    }}>
+      <td className="number text-center"></td>
+      <td className="image"><i class="fa fa-picture-o fa-4x" aria-hidden="true"></i></td>
+      <td className="product"><strong>{info.name}</strong><br/>{info.description}</td>
+      <td className="date text-right">
+        <div>{info.category}</div>
+        <div>{info.date}</div>
+      </td>
+    </tr>
+  )
+}
 
 export function Search() {
+
+  const [dateFrom, setDateFrom] = useState(new Date());
+  const [dateTo, setDateTo] = useState(new Date());
+
   return (
     <div className="container">
       <div className="row">
@@ -37,19 +62,9 @@ export function Search() {
                   
                   {/* <!-- BEGIN FILTER BY DATE --> */}
                   <h4>By date:</h4>
-                  From
-                  <div className="input-group date form_date" data-date="2014-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
-                    <input type="text" className="form-control"/>
-                    <span className="input-group-addon bg-blue"><i className="fa fa-th"></i></span>
+                  <div>
+                    <Calendar onChange={setDateFrom} value={dateFrom} />
                   </div>
-                  <input type="hidden" id="dtp_input1" defaultValue=""/>
-                  
-                  To
-                  <div className="input-group date form_date" data-date="2014-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
-                    <input type="text" className="form-control"/>
-                    <span className="input-group-addon bg-blue"><i className="fa fa-th"></i></span>
-                  </div>
-                  <input type="hidden" id="dtp_input2" defaultValue=""/>
                   {/* <!-- END FILTER BY DATE --> */}
                   
                   <div className="padding"></div>
@@ -93,100 +108,56 @@ export function Search() {
                     {/* <!-- BEGIN ORDER RESULT --> */}
                     <div className="col-sm-6">
                       <div className="btn-group">
-                        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                          Order by <span className="caret"></span>
-                        </button>
-                        <ul className="dropdown-menu" role="menu">
-                          <li><a href="#">Name</a></li>
-                          <li><a href="#">Date</a></li>
-                          <li><a href="#">View</a></li>
-                          <li><a href="#">Rating</a></li>
-                        </ul>
+                        <a className="nav-item dropdown">
+                            <button className="btn dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Our Services</button>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a className="dropdown-item" href="/course">Course</a></li>
+                                <li><a className="dropdown-item" href="/blog">Blog</a></li>
+                                <li><a className="dropdown-item" href="/markdown">Write Markdown</a></li>
+                                <li><hr className="dropdown-divider" /></li>
+                                <li><a className="dropdown-item" href="#">Explore More</a></li>
+                            </ul>
+                        </a>
                       </div>
                     </div>
                     {/* <!-- END ORDER RESULT --> */}
-                    
-                    <div className="col-md-6 text-right">
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default active"><i className="fa fa-list"></i></button>
-                        <button type="button" className="btn btn-default"><i className="fa fa-th"></i></button>
-                      </div>
-                    </div>
                   </div>
                   
                   {/* <!-- BEGIN TABLE RESULT --> */}
                   <div className="table-responsive">
                     <table className="table table-hover">
-                      <tbody><tr>
-                        <td className="number text-center">1</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300/FF8C00" alt=""/></td>
-                        <td className="product"><strong>Product 1</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-half-o"></i></span></td>
-                        <td className="price text-right">$350</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">2</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300/5F9EA0" alt=""/></td>
-                        <td className="product"><strong>Product 2</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-o"></i><i className="fa fa-star-o"></i></span></td>
-                        <td className="price text-right">$1,050</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">3</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300" alt=""/></td>
-                        <td className="product"><strong>Product 3</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-half-o"></i><i className="fa fa-star-o"></i></span></td>
-                        <td className="price text-right">$550</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">4</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300/8A2BE2" alt=""/></td>
-                        <td className="product"><strong>Product 4</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-o"></i></span></td>
-                        <td className="price text-right">$330</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">5</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300" alt=""/></td>
-                        <td className="product"><strong>Product 5</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i></span></td>
-                        <td className="price text-right">$540</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">6</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300/6495ED" alt=""/></td>
-                        <td className="product"><strong>Product 6</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-half-o"></i></span></td>
-                        <td className="price text-right">$870</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">7</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300/DC143C" alt=""/></td>
-                        <td className="product"><strong>Product 7</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-o"></i><i className="fa fa-star-o"></i><i className="fa fa-star-o"></i></span></td>
-                        <td className="price text-right">$620</td>
-                      </tr>
-                      <tr>
-                        <td className="number text-center">8</td>
-                        <td className="image"><img src="https://via.placeholder.com/400x300/9932CC" alt=""/></td>
-                        <td className="product"><strong>Product 8</strong><br/>This is the product description.</td>
-                        <td className="rate text-right"><span><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star"></i><i className="fa fa-star-half-o"></i></span></td>
-                        <td className="price text-right">$1,550</td>
-                      </tr>
+                      <tbody>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
+                        <Result data={{"name":"Pythonic", "description":"Gioi thieu ve Pythonic", "date":"22/5/2022", "link":"123", "category":"lession"}}/>
                     </tbody></table>
                   </div>
                   {/* <!-- END TABLE RESULT --> */}
                   
                   {/* <!-- BEGIN PAGINATION --> */}
-                  <ul className="pagination">
-                    <li className="disabled"><a href="#">«</a></li>
-                    <li className="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">»</a></li>
-                  </ul>
+                  <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                      <li className="page-item">
+                        <a className="page-link" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li className="page-item active"><a className="page-link" href="#">1</a></li>
+                      <li className="page-item"><a className="page-link" href="#">2</a></li>
+                      <li className="page-item"><a className="page-link" href="#">3</a></li>
+                      <li className="page-item">
+                        <a className="page-link" href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
                   {/* <!-- END PAGINATION --> */}
                 </div>
                 {/* <!-- END RESULT --> */}
