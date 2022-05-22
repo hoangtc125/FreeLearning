@@ -20,13 +20,17 @@ export function Body() {
       <Route path="/search" element={<Search/>}/>
       <Route path="/contactUs" element={<ContactUs/>}/>
       <Route path="/root" element={<Root/>}/>
-      <Route path="/course" element={<Course/>}/>
-      <Route path="/user/profile" element={<Profile/>}/>
-      <Route path="/user/edit" element={<Edit/>}/>      
+      <Route path="/course" element={<Course/>}/>  
       <Route path="/markdown" element={<Markdown/>}/>
       <Route path="/blog" element={<Blog/>}/>
-      <Route path="/:error" element={<Error404/>}/>
-
+      {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
+        <Route path="/user/profile" element={<Profile/>}/>
+      }
+      {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
+        <Route path="/user/edit" element={<Edit/>}/>   
+      }
+      <Route path="/:error/*" element={<Error404/>}/>
+ 
     </Routes>
   )
 }

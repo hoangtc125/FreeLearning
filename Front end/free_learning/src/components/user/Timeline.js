@@ -1,3 +1,4 @@
+import logo from '../../logo.svg';
 
 
 export function Timeline() {
@@ -17,7 +18,9 @@ export function Timeline() {
       {/* <!-- begin timeline-body --> */}
       <div className="timeline-body">
           <div className="timeline-header">
-            <span className="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt=""/></span>
+            <span className="userimage">
+              <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"6px"}} alt=""/>
+            </span>
             <span className="username"><a href="">Sean Ngu</a> <small></small></span>
             <span className="pull-right text-muted">18 Views</span>
           </div>
@@ -50,7 +53,7 @@ export function Timeline() {
             <a href="" className="m-r-15 text-inverse-lighter"><i className="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
           </div>
           <div className="timeline-comment-box">
-            <div className="user"><img src="https://bootdey.com/img/Content/avatar/avatar3.png"/></div>
+            <div className="user"><img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"6px"}} alt=""/></div>
             <div className="input">
                 <form action="">
                   <div className="input-group">

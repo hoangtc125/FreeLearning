@@ -3,10 +3,46 @@ import { Timeline } from "./Timeline"
 import { AboutUser } from "./AboutUser"
 import { useState } from "react"
 import { Followers } from "./Followers"
+import logo from '../../logo.svg';
+import { useEffect } from "react"
+import * as API from '../../constants/api_config'
 
 export function Profile() {
 
   const [view, setView] = useState("POSTS")
+  const [name, setName] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [role, setRole] = useState("")
+  const [email, setEmail] = useState("")
+  const [bio, setBio] = useState("")
+
+  useEffect(() => {
+    fetch(API.DOMAIN + API.PROFILE, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'accept': 'application/json',
+        'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
+      },
+      credentials: "same-origin",
+      // mode: 'no-cors'
+    })
+    .then(response => {
+      return response.json()})
+    .then(data => {
+      if(data?.detail) {
+        alert(data.detail)
+      } else {
+        setName(data.data.fullname)
+        setPhoneNumber(data.data.phone)
+        setEmail(data.data.email)
+        setRole(data.data.role)
+        setBio(data.data.profile)
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }, [])
 
   return (
     <div className="container">
@@ -17,13 +53,13 @@ export function Profile() {
                   <div className="profile-header">
                       <div className="profile-header-cover"></div>
                       <div className="profile-header-content">
-                        <div className="profile-header-img">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt=""/>
+                        <div className="profile-header-img" style={{background:"rgba(0,0,0,0)"}}>
+                          <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"16px"}} alt=""/>
                         </div>
                         <div className="profile-header-info">
-                            <h4 className="m-t-10 m-b-5">Tran Cong Hoang</h4>
-                            <p className="m-b-10">UXUI + Frontend Developer</p>
-                            <Link to="/user/edit" className="btn btn-sm btn-info mb-2">Edit Profile</Link>
+                            <h4 className="m-t-10 m-b-5">{name}</h4>
+                            <p className="m-b-10">{role}</p>
+                            <Link to="/user/edit" className="btn btn-sm btn-info mb-2">Follow</Link>
                         </div>
                       </div>
                       <ul className="profile-header-tab nav nav-tabs">
@@ -60,7 +96,7 @@ export function Profile() {
                   </div>
                 </div>
                 }
-                {view === "ABOUT" && <AboutUser/>}
+                {view === "ABOUT" && <AboutUser name={name} role={role} email={email} phone={phoneNumber} bio={bio}/>}
                 {view === "FOLLOWERS" &&
                 <div className="tab-pane" id="friends">
                   <div className="row">

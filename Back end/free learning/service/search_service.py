@@ -21,7 +21,6 @@ from connections.config import COURSE_COLLECTION, LESSION_COLLECTION, USER_COLLE
 class SearchService:
     def __init__(self):
         self.account_repo = get_repo(Account, USER_COLLECTION)
-        self.token_repo = get_repo(ConfirmationToken, TOKEN_COLLECTION)
         self.course_repo = get_repo(Course, COURSE_COLLECTION)
         self.lession_repo = get_repo(Lession, LESSION_COLLECTION)
         self.repos = {}
@@ -29,11 +28,6 @@ class SearchService:
             "repo": self.account_repo,
             "field_looking": "fullname",
             "response_model": SearchAccount,
-        }
-        self.repos["token"] = {
-            "repo": self.token_repo,
-            "field_looking": "token",
-            "response_model": SearchToken,
         }
         self.repos["course"] = {
             "repo": self.course_repo,
@@ -54,10 +48,12 @@ class SearchService:
         for key, repo in self.repos.items():
             regx = {"$regex": "{}".format(search_form.key_word)}
             filter = {"_source.{}".format(repo["field_looking"]): regx}
+            if not search_form.key_word:
+                filter = None
             dict_resp = await repo["repo"].get_all(filter=filter)
             list_resp = []
             for value in dict_resp.values():
-                list_resp.append(repo["response_model"](**get_dict(value)))
+                list_resp.append(repo["response_model"](**get_dict(value, allow_none=True)))
             res.append(SearchResult(search_type=key, result=list_resp))
         for idx, data in enumerate(res):
             if data.search_type == search_form.search_type and idx != 0:

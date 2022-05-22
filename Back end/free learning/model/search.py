@@ -8,11 +8,10 @@ from model.lession import Lession
 
 class Search(BaseModel):
     search_type: Optional[str]
-    key_word: str
+    key_word: Optional[str] = None
     
     @validator('search_type', pre=True, always=True)
     def validate_search_type(cls, input):
-        print(input)
         if input in ['user', 'lession', 'course']:
             return input
         else:
@@ -33,8 +32,10 @@ class SearchResponse(Search):
 class SearchAccount(BaseModel):
     username: str
     fullname: str
-    avatar: str
+    avatar: Optional[str] = None
     role: str
+    phone: Optional[str] = None
+    email: str
 
 
 class SearchToken(BaseModel):
