@@ -140,7 +140,7 @@ class AccountService:
         if not token:
             await self.token_repo.insert_one(obj=confirmation_token, custom_id=username)
         elif token.expires_at > get_current_timestamp():
-            return token
+            return (token, account.avatar)
         else:
             await self.token_repo.update(doc_id=username, obj=confirmation_token)
-        return confirmation_token
+        return (confirmation_token, account.avatar)

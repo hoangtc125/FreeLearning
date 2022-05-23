@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export function Error404() {
   return (
     <div className="page-not-found pt-5">
-      <div className="bg-light shadow">
+      <div className="bg-light shadow" style={{color:"#ccc"}}>
           <h2>4<i className="fa fa-bug"></i>4</h2>
           <h3 className="mt-4">Opps! Page Not Found</h3>
           <p>Lorem Ipsum is simply dummy text of the printing and<br/>typesetting industry.</p>

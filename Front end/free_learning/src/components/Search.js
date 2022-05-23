@@ -13,7 +13,12 @@ function ResultUser(data) {
     }}>
       <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
       <td className="image" style={{textAlign:"center", color:"#666666"}}>
+      {info.avatar === null &&
         <i className="fa fa-user fa-4x" aria-hidden="true"></i>
+      }
+      {info.avatar !== null &&
+        <img className="" src={info.avatar} style={{maxHeight:"50px", maxWidth:"50px"}}/>
+      }
       </td>
       <td className="" style={{width:"40vw"}}><strong>{info.fullname}</strong><br/>{info.role}</td>
       <td className="text-right">
@@ -248,7 +253,7 @@ export function Search() {
                               }
                               {tab.search_type === 'user' &&
                                 (tab.result).map((dt, id) => {
-                                  return <ResultUser key={id} data={{"key":id, "fullname":dt.fullname, "role":dt.role, "phone":dt.phone, "link":"/blog", "email":dt.email}}/>
+                                  return <ResultUser key={id} data={{"key":id, "fullname":dt.fullname, "role":dt.role, "phone":dt.phone, "link":"/blog", "email":dt.email, "avatar":dt.avatar}}/>
                                 })
                               }
                             </tbody>

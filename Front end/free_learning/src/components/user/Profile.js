@@ -15,6 +15,7 @@ export function Profile() {
   const [role, setRole] = useState("")
   const [email, setEmail] = useState("")
   const [bio, setBio] = useState("")
+  const [avatar, setAvatar] = useState("")
 
   useEffect(() => {
     fetch(API.DOMAIN + API.PROFILE, {
@@ -32,11 +33,12 @@ export function Profile() {
       if(data?.detail) {
         alert(data.detail)
       } else {
-        setName(data.data.fullname)
-        setPhoneNumber(data.data.phone)
-        setEmail(data.data.email)
-        setRole(data.data.role)
-        setBio(data.data.profile)
+        setName(data.data.fullname || "")
+        setPhoneNumber(data.data.phone || "")
+        setEmail(data.data.email || "")
+        setRole(data.data.role || "")
+        setBio(data.data.profile || "")
+        setAvatar(data.data.avatar || "string")
       }
     })
     .catch((error) => {
@@ -54,7 +56,12 @@ export function Profile() {
                       <div className="profile-header-cover"></div>
                       <div className="profile-header-content">
                         <div className="profile-header-img" style={{background:"rgba(0,0,0,0)"}}>
-                          <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"16px"}} alt=""/>
+                          {avatar === "string" &&
+                            <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"16px"}} alt=""/>
+                          }
+                          {avatar !== "string" &&
+                            <img className="" src={avatar} style={{maxHeight:"110px", maxWidth:"110px"}}/>
+                          }
                         </div>
                         <div className="profile-header-info">
                             <h4 className="m-t-10 m-b-5">{name}</h4>

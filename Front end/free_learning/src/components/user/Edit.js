@@ -9,6 +9,7 @@ export function Edit() {
   const [role, setRole] = useState("")
   const [email, setEmail] = useState("")
   const [bio, setBio] = useState("")
+  const [avatar, setAvatar] = useState(null)
   const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
@@ -30,11 +31,12 @@ export function Edit() {
       if(data?.detail) {
         alert(data.detail)
       } else {
-        setName(data.data.fullname)
-        setPhoneNumber(data.data.phone)
-        setEmail(data.data.email)
-        setRole(data.data.role)
-        setBio(data.data.profile)
+        setName(data.data.fullname || "")
+        setPhoneNumber(data.data.phone || "")
+        setEmail(data.data.email || "")
+        setRole(data.data.role || "")
+        setBio(data.data.profile || "")
+        setAvatar(data.data.avatar || "")
       }
     })
     .catch((error) => {
@@ -50,7 +52,7 @@ export function Edit() {
         'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: "", email: email, fullname: name, phone: phoneNumber, profile: bio }),
+      body: JSON.stringify({ username: "", email: email, fullname: name, phone: phoneNumber, profile: bio , avatar: avatar}),
       credentials: "same-origin",
       // mode: 'no-cors'
     })
@@ -99,11 +101,35 @@ export function Edit() {
     }
   }
 
+  function encodeImageFileAsURL() {
+    let element = document.getElementById("Profile-pic")
+    let file = element.files[0];
+    let reader = new FileReader();
+    reader.onloadend = function() {
+      console.log(typeof(reader.result))
+      setAvatar(reader.result)
+    }
+    reader.readAsDataURL(file);
+  }
+
   return (
     <div className="container rounded bg-white mt-5 mb-5">
       <div className="row">
           <div className="col-md-3 border-right">
-              <div className="d-flex flex-column align-items-center text-center p-3 py-5"><i class="fa fa-user-plus fa-5x" aria-hidden="true"></i><span className="font-weight-bold">{name}</span><span className="text-black-50">{email}</span><span> </span></div>
+              <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                {avatar === null &&
+                  <i className="fa fa-user-plus fa-5x" aria-hidden="true"></i>
+                }
+                {avatar !== null &&
+                  <img className="" src={avatar} style={{maxHeight:"500px", maxWidth:"300px"}}/>
+                }
+                <input type="file" id="Profile-pic" name="channel-img" className="form-control" style={{width:"fit-content", margin:"10px"}}
+                  onChange={() => encodeImageFileAsURL()}
+                />
+                <span className="font-weight-bold">{name}</span>
+                <span className="text-black-50">{email}</span>
+                <span> </span>
+              </div>
           </div>
           <div className="col-md-5 border-right">
               <div className="p-3 py-5">

@@ -29,6 +29,7 @@ export function LoginForm() {
         const TOKEN = data.token_type + " " + data.access_token
         window.localStorage.setItem('FREE_LEARNING_TOKEN', TOKEN);
         window.localStorage.setItem('FREE_LEARNING_USERNAME', username);
+        window.localStorage.setItem('FREE_LEARNING_AVATAR', data.avatar);
         window.location.reload();
       }
     })
@@ -233,11 +234,6 @@ export function SignUpForm() {
                       onChange= {(e) => {setRepeatPassword(e.target.value)}}  
                     />
                   </div>
-                {/* <div className="mb-3">
-                  <label>Profile Photo</label>
-                  <input type="file" id="Profile-pic" name="channel-img" className="form-control"/>
-                  <label htmlFor="Profile-pic" className="choose-icon"><i className="fa fa-camera" aria-hidden="true"></i></label>
-                </div> */}
                 <div>
                   <label className="form-check-label" style={{color:"red"}}>{status}</label>
                 </div>
@@ -275,10 +271,12 @@ export function LoginSignup() {
 export function UserInNavbar() {
 
   const [account, setAccount] = useState(window.localStorage.getItem("FREE_LEARNING_USERNAME"))
+  const [avatar, setAvatar] = useState(window.localStorage.getItem("FREE_LEARNING_AVATAR"))
 
   function handleLogout() {
     window.localStorage.removeItem("FREE_LEARNING_TOKEN")
     window.localStorage.removeItem("FREE_LEARNING_USERNAME")
+    window.localStorage.removeItem('FREE_LEARNING_AVATAR');
     window.location.reload()
   }
 
@@ -286,6 +284,12 @@ export function UserInNavbar() {
     <ul className="navbar-nav">
       <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {avatar === "" &&
+                <i className="fa fa-user" aria-hidden="true" style={{width:"50px"}}></i>
+              }
+              {avatar !== "" &&
+                <img className="" src={avatar} style={{maxHeight:"50px", maxWidth:"50px", marginRight:"10px"}}/>
+              }
             <a className="navbar-brand" href="#">{account}</a>
           </a>
           <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown">

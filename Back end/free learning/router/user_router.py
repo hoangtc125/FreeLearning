@@ -24,10 +24,10 @@ class LoginForm(BaseModel):
 
 @router.post(UserAPI.LOGIN)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    result = await AccountService().authenticate_user(
+    result, avatar = await AccountService().authenticate_user(
         form_data.username, form_data.password
     )
-    return {"token_type": result.token_type, "access_token": result.token}
+    return {"token_type": result.token_type, "access_token": result.token, "avatar": avatar}
 
 
 @router.post(UserAPI.REGISTER, response_model=HttpResponse)
