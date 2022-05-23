@@ -6,10 +6,10 @@ class Role:
 
 
 class Category:
-    VAN =  "văn"
-    TOAN =  "toán"
-    ANH =  "anh"
-    FREE =  "free"
+    VAN =  "Literature"
+    TOAN =  "Math"
+    ANH =  "English"
+    FREE =  "None"
 
 if __name__ == "__main__":
     print(Role.get_all())

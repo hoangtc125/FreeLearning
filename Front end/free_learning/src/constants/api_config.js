@@ -4,10 +4,12 @@ export let REGISTER = "/user/register"
 export let PROFILE = "/user/me"
 export let UPDATE_PROFILE = "/user/update-profile"
 export let UPDATE_PASSWORD = "/user/update-password"
-export let FIND_ONE = "/user/find-one"
+export let FIND_ONE = "/user/find-one?id="
 export let GET_ONE_USER = '/admin/get-one-user'
 export let GET_ALL_USER = '/admin/get-all-user'
 export let SEARCH = '/search'
 export let SUBCRIBE = '/follow/subcribe'
 export let GET_FOLLOWERS = '/follow/get-followers'
 export let FORGOT_PASSWORD = '/user/forgot-password?email='
+export let CREATE_LESSION = '/user/create-lession'
+export let GET_ONE_LESSION = '/user/get-one-lession?lession_id='

@@ -43,10 +43,18 @@ class BusinessService():
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
                 message="Course doesn't exist",
             )
-        print(resp)
         _id, course = resp
         return to_response_dto(_id, course, CourseResponse)
-        
+
+    async def get_one_lession_by_id(self, doc_id: str):
+        resp = await self.lession_repo.get_one_by_id(doc_id=uuid.UUID(doc_id))
+        if not resp:
+            raise CredentialException(
+                status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
+                message="Lession doesn't exist",
+            )
+        _id, course = resp
+        return to_response_dto(_id, course, LessionResponse)    
 
     async def get_all_courses(self, username: str = None):
         filter = {"_source.at_username": username}
@@ -137,18 +145,18 @@ class BusinessService():
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
                 message="Account doesn't exist",
             )
-        try:
-            _course = await self.course_repo.get_one_by_id(doc_id=uuid.UUID(lession.at_course_id))
-            if not _course:
-                raise CredentialException(
-                    status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
-                    message="Course doesn't exist",
-                )
-        except Exception as e:
-            raise CredentialException(
-                status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
-                message="Course doesn't exist",
-            )  
+        # try:
+        #     _course = await self.course_repo.get_one_by_id(doc_id=uuid.UUID(lession.at_course_id))
+        #     if not _course:
+        #         raise CredentialException(
+        #             status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
+        #             message="Course doesn't exist",
+        #         )
+        # except Exception as e:
+        #     raise CredentialException(
+        #         status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
+        #         message="Course doesn't exist",
+        #     )  
         try:
             self.validate_course(lession)
         except Exception as e:

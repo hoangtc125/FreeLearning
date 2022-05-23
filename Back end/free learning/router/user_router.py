@@ -38,10 +38,9 @@ async def register(account_create: AccountCreate):
 
 @router.post(UserAPI.FIND_ONE, response_model=HttpResponse)
 async def find_one(
-    username: str,
-    token: str = Depends(oauth2_scheme),
+    id: str,
 ):
-    result = await AccountService().get_account_by_field(field="username", value=username)
+    result = await AccountService().get_account_by_id(id=id)
     return success_response(data=result)
 
 
@@ -129,6 +128,13 @@ async def create_lession(
     username: str = Depends(get_actor_from_request),
 ):
     result = await BusinessService().create_lession(username=username, lession=lession)
+    return success_response(data=result)
+
+@router.post(UserAPI.GET_ONE_LESSION, response_model=HttpResponse)
+async def get_one_lession(
+    lession_id: str
+):
+    result = await BusinessService().get_one_lession_by_id(doc_id=lession_id)
     return success_response(data=result)
 
 @router.put(UserAPI.UPDATE_LESSION, response_model=HttpResponse)

@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 
 import logo from '../logo.svg';
 import * as API from '../constants/api_config'
+import { Loader } from './Loader';
 
 export function LoginForm() {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [load, setLoad] = useState(false)
 
   function handleLogin() {
+    setLoad(true)
     fetch(API.DOMAIN + API.LOGIN, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -23,6 +26,7 @@ export function LoginForm() {
     .then(response => {
       return response.json()})
     .then(data => {
+      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -40,6 +44,7 @@ export function LoginForm() {
 
   return (
     <div className="modal fade" id="ModalLoginForm" tabIndex="-1" aria-hidden="true">
+      {load && <Loader/>}
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           
@@ -89,8 +94,10 @@ export function LoginForm() {
 export function ForgotPasswordForm() {
 
   const [email, setEmail] = useState("")
+  const [load, setLoad] = useState(false)
 
   function handleForgotPassword() {
+    setLoad(true)
     fetch(API.DOMAIN + API.FORGOT_PASSWORD + `${email}`, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -102,6 +109,7 @@ export function ForgotPasswordForm() {
     .then(response => {
       return response.json()})
     .then(data => {
+      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -117,7 +125,7 @@ export function ForgotPasswordForm() {
     <div className="modal fade" id="ModalForgotPasswordForm" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          
+          {load && <Loader/>}
             <div>
               <div className="modal-header">
                 <h5 className="modal-title">Modal Forgot Password Form</h5>
@@ -157,12 +165,14 @@ export function SignUpForm() {
   const [password, setPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
   const [status, setStatus] = useState("")
+  const [load, setLoad] = useState(false)
 
   function handleRegister() {
     if(password != repeatPassword) {
       setStatus("Password misses matching")
     } else {
       setStatus("")
+      setLoad(true)
       fetch(API.DOMAIN + API.REGISTER, {
         method: 'POST', // or 'PUT'
         headers: {
@@ -176,6 +186,7 @@ export function SignUpForm() {
       .then(response => {
         return response.json()})
       .then(data => {
+        setLoad(false)
         if(data?.detail) {
           alert(data.detail)
         } else {
@@ -192,6 +203,7 @@ export function SignUpForm() {
     <div className="modal fade" id="ModalSignUpForm" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
+          {load && <Loader/>}
           <div >
             <form className="">
               <div className="modal-header">
@@ -262,8 +274,8 @@ export function SignUpForm() {
 export function LoginSignup() {
   return (
     <div className="d-flex">
-      <button className="btn btn-warning" type="submit" style={{"marginRight":"5px"}} data-bs-toggle="modal" data-bs-target="#ModalLoginForm">Log in</button>
-      <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#ModalSignUpForm">Sign up</button>
+      <button className="btn btn-warning" type="submit" style={{"marginRight":"5px"}} data-bs-toggle="modal" data-bs-target="#ModalLoginForm"><i style={{paddingRight:"5px"}} class="fa fa-sign-in" aria-hidden="true"></i>Log in</button>
+      <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#ModalSignUpForm"><i style={{paddingRight:"5px"}} class="fa fa-user-plus" aria-hidden="true"></i>Sign up</button>
     </div>
   )
 }
@@ -331,14 +343,14 @@ export function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="mob-navbar">
             <ul className="navbar-nav mb-2 mb-lg-0 mx-auto">
-              <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+              <li style={{margin:"0px 20px 0px 0px"}} className="nav-item">
+                  <Link className="nav-link active" aria-current="page" to="/"><i style={{paddingRight:"5px"}} class="fa fa-home" aria-hidden="true"></i>Home</Link>
               </li>
-              <li className="nav-item">
-                  <Link className="nav-link active" to="/search">Search</Link>
+              <li style={{margin:"0px 20px 0px 0px"}} className="nav-item">
+                  <Link className="nav-link active" to="/search"><i style={{paddingRight:"5px"}} class="fa fa-search" aria-hidden="true"></i>Search</Link>
               </li>
-              <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Our Services</a>
+              <li style={{margin:"0px 20px 0px 0px"}} className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i style={{paddingRight:"5px"}} class="fa fa-list-ul" aria-hidden="true"></i>Our Services</a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><Link className="dropdown-item" to="/course">Course</Link></li>
                       <li><Link className="dropdown-item" to="/blog">Blog</Link></li>
@@ -347,8 +359,8 @@ export function NavBar() {
                       <li><Link className="dropdown-item" to="#">Explore More</Link></li>
                   </ul>
               </li>
-              <li className="nav-item active">
-                  <Link className="nav-link active" to="/contactUs">Contact Us</Link>
+              <li style={{margin:"0px 20px 0px 0px"}} className="nav-item active">
+                  <Link className="nav-link active" to="/contactUs"><i style={{paddingRight:"5px"}} class="fa fa-envelope" aria-hidden="true"></i>Contact Us</Link>
               </li>
           </ul>
           {isLogin === false && 

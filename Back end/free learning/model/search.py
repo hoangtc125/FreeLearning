@@ -30,6 +30,7 @@ class SearchResponse(Search):
 
 
 class SearchAccount(BaseModel):
+    id: str
     username: str
     fullname: str
     avatar: Optional[str] = None
@@ -39,13 +40,14 @@ class SearchAccount(BaseModel):
 
 
 class SearchToken(BaseModel):
+    id: str
     token_type: str
     token: str
 
 
 class SearchCourse(Course):
-    pass
+    id: str
 
 
 class LessionSearch(Lession):
-    pass
+    id: str

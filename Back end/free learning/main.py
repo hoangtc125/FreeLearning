@@ -2,7 +2,6 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from core.log_config import logger
 import uvicorn
 
 from router.user_router import router as USER_ROUTER
@@ -14,6 +13,7 @@ from core.filter import (
     check_api_permission,
 )
 from exception.http_exception import PermissionDeniedException
+from core.log_config import logging
 
 app = FastAPI()
 
@@ -45,16 +45,17 @@ async def add_process_time_header(request: Request, call_next):
 
     """
     start_time = time.time()
+    request_user = None
     if request.method != "OPTIONS":
         request_user = authorize_token(request=request)
         try:
             check_api_permission(path=request.url.path, request_role=request_user.role)
         except PermissionDeniedException as e:
             return JSONResponse(status_code=e.status_code, headers=e.headers)
-        logger.info(f"username: {request_user.username}, role: {request_user.role}, host: {request.url.hostname}, api: {request.url.path}")
     response = await call_next(request)
     process_time = time.time() - start_time
     response.headers["X-Process-Time"] = str(process_time)
+    logging(request=request, response=response, request_user=request_user)
     return response
 
 

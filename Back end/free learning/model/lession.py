@@ -8,9 +8,9 @@ class Lession(NewItem, BaseModel):
     content: str
     name: str
     description: str
-    is_approved: bool
-    at_course_id: str
-    at_username: str
+    is_approved: Optional[bool] = False
+    at_course_id: Optional[str] = None
+    at_username: Optional[str] = None
     course_type: str = Category.FREE
 
 

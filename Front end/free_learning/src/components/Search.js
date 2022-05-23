@@ -2,6 +2,7 @@ import Calendar from 'react-calendar';
 import React, { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import * as API from '../constants/api_config'
+import { Loader } from './Loader';
 
 function ResultUser(data) {
 
@@ -9,7 +10,8 @@ function ResultUser(data) {
 
   return (
     <tr onClick={() => {
-      window.location.href = info.link
+      window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
+      window.location.href = API.FIND_ONE + info.id
     }}>
       <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
       <td className="image" style={{textAlign:"center", color:"#666666"}}>
@@ -35,7 +37,8 @@ function ResultLessionCourse(data) {
 
   return (
     <tr onClick={() => {
-      window.location.href = info.link
+      window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
+      window.location.href = API.GET_ONE_LESSION + info.id
     }}>
       <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
       <td className="image" style={{textAlign:"center", color:"#666666"}}>
@@ -68,8 +71,10 @@ export function Search() {
   const [keyword, setkeyword] = useState("")
   const [status, setStatus] = useState("Enter whatever you want to find")
   const [data, setData] = useState([])
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
+    setLoad(true)
     fetch(API.DOMAIN + API.SEARCH, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -83,6 +88,7 @@ export function Search() {
     .then(response => {
       return response.json()})
     .then(data => {
+      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -98,6 +104,7 @@ export function Search() {
     const radios = document.getElementsByName("flexRadioDefault")
     radios.forEach(radio => {
       if(radio.checked) {
+        setLoad(true)
         fetch(API.DOMAIN + API.SEARCH, {
           method: 'POST', // or 'PUT'
           headers: {
@@ -111,6 +118,7 @@ export function Search() {
         .then(response => {
           return response.json()})
         .then(data => {
+          setLoad(false)
           if(data?.detail) {
             alert(data.detail)
           } else {
@@ -127,6 +135,7 @@ export function Search() {
 
   return (
     <div className="container">
+      {load && <Loader/>}
       <div className="row">
         {/* <!-- BEGIN SEARCH RESULT --> */}
         <div className="col-md-12">
@@ -244,16 +253,16 @@ export function Search() {
                       return (
                         <div className="table-responsive">
                           <table className="table table-hover" style={{padding:"10px"}}>
-                            <thead><strong>{tab.search_type}</strong></thead>
+                            <thead>{tab.search_type}</thead>
                             <tbody>
                               {tab.search_type !== 'user' &&
                                 (tab.result).map((dt, id) => {
-                                  return <ResultLessionCourse key={id} data={{"key":id, "name":dt.name, "description":dt.description, "number_of_views":dt.number_of_views, "link":"/blog", "course_type":dt.course_type, "category":tab.search_type}}/>
+                                  return <ResultLessionCourse key={id} data={{"key":id, "id":dt.id, "name":dt.name, "description":dt.description, "number_of_views":dt.number_of_views, "course_type":dt.course_type, "category":tab.search_type}}/>
                                 })
                               }
                               {tab.search_type === 'user' &&
                                 (tab.result).map((dt, id) => {
-                                  return <ResultUser key={id} data={{"key":id, "fullname":dt.fullname, "role":dt.role, "phone":dt.phone, "link":"/blog", "email":dt.email, "avatar":dt.avatar}}/>
+                                  return <ResultUser key={id} data={{"key":id, "id":dt.id, "fullname":dt.fullname, "role":dt.role, "phone":dt.phone, "email":dt.email, "avatar":dt.avatar}}/>
                                 })
                               }
                             </tbody>

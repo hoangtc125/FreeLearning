@@ -3,6 +3,8 @@ import MDEditor from "@uiw/react-md-editor";
 import mermaid from "mermaid";
 import katex from 'katex';
 import 'katex/dist/katex.css';
+import { Loader } from "../Loader";
+import * as API from '../../constants/api_config'
 
 const mdMermaid = `The following are some examples of the diagrams, charts and graphs that can be made using Mermaid and the Markdown-inspired text specific to it. 
 
@@ -84,40 +86,82 @@ const getCode = (arr = []) => arr.map((dt) => {
 export function Markdown() {
   const [value, setValue] = useState(mdMermaid);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [load, setLoad] = useState(false);
+
+  function handleCreateLession() {
+    setLoad(true)
+    fetch(API.DOMAIN + API.CREATE_LESSION, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
+      },
+      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value}),
+      credentials: "same-origin",
+      // mode: 'no-cors'
+    })
+    .then(response => {
+      return response.json()})
+    .then(data => {
+      setLoad(false)
+      if(data?.detail) {
+        alert(data.detail)
+      } else {
+        alert("Successful !!!")
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+  
   return (
     <div className="" style={{marginTop:"20px"}}>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="inputGroup-sizing-default">Title</span>
+      {load && <Loader/>}
+        <div className="input-group">
+          <div className="input-group-prepend" style={{minWidth:"150px"}}>
+            <span style={{background:"none", border:"none"}} className="input-group-text" id="inputGroup-sizing-default">Title</span>
           </div>
           <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
             value={title}
             onChange= {(e) => setTitle(e.target.value)}  
           />
         </div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">Description</span>
+        <div className="input-group">
+          <div className="input-group-prepend" style={{minWidth:"150px"}}>
+            <label style={{background:"none", border:"none"}} className="input-group-text" htmlFor="inputGroupSelect01">Type</label>
           </div>
-          <textarea className="form-control" aria-label="With textarea" spellCheck="false"></textarea>
-        </div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <label className="input-group-text" for="inputGroupSelect01">Type</label>
-          </div>
-          <select className="custom-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <option value="Math">Math</option>
-            <option value="English">English</option>
-            <option value="Literature">Literature</option>
+          <select className="custom-select" id="inputGroupSelect01" style={{background:"none", border:"none"}}>
+            <option selected>Math</option>
+            <option>English</option>
+            <option>Literature</option>
           </select>
+        </div>
+        <div className="input-group">
+          <div className="input-group-prepend" style={{minWidth:"150px"}}>
+            <span style={{background:"none", border:"none"}} className="input-group-text">Description</span>
+          </div>
+          <textarea className="form-control" aria-label="With textarea" spellCheck="false"
+            value={description}
+            onChange= {(e) => setDescription(e.target.value)}  
+          ></textarea>
         </div>
         <div style={{display:"flex", justifyContent:"space-between", paddingBottom:"10px"}}>
           <div>
             <i className="fa fa-refresh fa-spin fa-fw"></i>
             <span className="sr-only">Auto save...</span>
           </div>
-          <button type="button" class="btn btn-primary btn-sm">Publish</button>
+          {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
+            <button type="button" class="btn btn-primary btn-sm"
+              onClick={() => handleCreateLession()}
+            >Publish</button>
+          }
+          {!window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
+            <span className="sr-only">Please Login to publish your writing...<button type="button" className="btn btn-primary btn-sm" disabled>Publish</button></span>
+            
+          }
         </div>
         <MDEditor
           onChange={

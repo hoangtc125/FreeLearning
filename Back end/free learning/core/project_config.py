@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     API_PREFIX = ""
     BACKEND_CORS_ORIGINS = ["*"]
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # Token expired after 7 days
-    LOGGING_CONFIG_FOLDER = os.path.join(LOG_DIR, "log/logger_.log")
+    LOGGING_CONFIG_FOLDER = os.path.join(LOG_DIR, "log/")
     SECURITY_ALGORITHM = "HS256"
     UNIQUE_ID = get_pc_unique_id()
 

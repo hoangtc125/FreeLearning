@@ -6,8 +6,9 @@ import { Followers } from "./Followers"
 import logo from '../../logo.svg';
 import { useEffect } from "react"
 import * as API from '../../constants/api_config'
+import { Loader } from "../Loader"
 
-export function Profile() {
+export function Profile(data) {
 
   const [view, setView] = useState("POSTS")
   const [name, setName] = useState("")
@@ -16,9 +17,11 @@ export function Profile() {
   const [email, setEmail] = useState("")
   const [bio, setBio] = useState("")
   const [avatar, setAvatar] = useState("")
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
-    fetch(API.DOMAIN + API.PROFILE, {
+    setLoad(true)
+    fetch(API.DOMAIN + data.api, {
       method: 'POST', // or 'PUT'
       headers: {
         'accept': 'application/json',
@@ -39,15 +42,17 @@ export function Profile() {
         setRole(data.data.role || "")
         setBio(data.data.profile || "")
         setAvatar(data.data.avatar || "string")
+        setLoad(false)
       }
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-  }, [])
+  }, [data])
 
   return (
     <div className="container">
+      {load && <Loader/>}
       <div className="row">
           <div className="col-md-12">
             <div id="content" className="content content-full-width">

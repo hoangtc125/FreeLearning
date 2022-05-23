@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import * as API from '../../constants/api_config'
+import { Loader } from "../Loader"
 
 
 export function Edit() {
@@ -14,8 +15,10 @@ export function Edit() {
   const [newPassword, setNewPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
   const [status, setStatus] = useState("")
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
+    setLoad(true)
     fetch(API.DOMAIN + API.PROFILE, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -31,6 +34,7 @@ export function Edit() {
       if(data?.detail) {
         alert(data.detail)
       } else {
+        setLoad(false)
         setName(data.data.fullname || "")
         setPhoneNumber(data.data.phone || "")
         setEmail(data.data.email || "")
@@ -45,6 +49,7 @@ export function Edit() {
   }, [])
 
   function handleUpdateProfile() {
+    setLoad(true)
     fetch(API.DOMAIN + API.UPDATE_PROFILE, {
       method: 'PUT', // or 'PUT'
       headers: {
@@ -59,6 +64,7 @@ export function Edit() {
     .then(response => {
       return response.json()})
     .then(data => {
+      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -75,6 +81,7 @@ export function Edit() {
       setStatus("Miss matching !!!")
     } else {
       setStatus("")
+      setLoad(true)
       fetch(API.DOMAIN + API.UPDATE_PASSWORD, {
         method: 'PUT', // or 'PUT'
         headers: {
@@ -89,6 +96,7 @@ export function Edit() {
       .then(response => {
         return response.json()})
       .then(data => {
+        setLoad(false)
         if(data?.detail) {
           alert(data.detail)
         } else {
@@ -114,6 +122,7 @@ export function Edit() {
 
   return (
     <div className="container rounded bg-white mt-5 mb-5">
+      {load && <Loader/>}
       <div className="row">
           <div className="col-md-3 border-right">
               <div className="d-flex flex-column align-items-center text-center p-3 py-5">

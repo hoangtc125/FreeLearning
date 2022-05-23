@@ -2,7 +2,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vh;
   pointer-events: none;
 }
 
@@ -22,7 +22,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1242,4 +1242,58 @@ line-height: 50px;
 .search #price2 {
 display: inline;
 font-weight: 600;
+}
+
+/* Root */
+.user-photo {
+  width: 120px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+/* Loader */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  overflow: hidden;
+  background: rgba(59, 59, 59, 0.3)
+}
+#preloader:before {
+  content: "";
+  width: 70px;
+  height: 70px;
+  border: 6px solid #3F51B5;
+  border-left-color: #009688;
+  border-top-color: #FF9800;
+  border-bottom-color: #FF5722;
+  position: fixed;
+  top: calc(45% - 30px);
+  left: calc(50% - 30px);
+  border-radius: 100%;
+  -webkit-animation: preloader-animate 1s linear infinite;
+  animation: preloader-animate 1s linear infinite;
+}
+/*-- Loader Animation CSS --*/
+@keyframes preloader-animate {
+0% {
+  transform: rotate(0deg);
+}
+100% {
+  transform: rotate(360deg);
+}
+}
+
+/*-- Loader Animation CSS With webkit For Browsers Support --*/
+@-webkit-keyframes animate-preloader {
+0% {
+  transform: rotate(0deg);
+}
+100% {
+  transform: rotate(360deg);
+}
 }

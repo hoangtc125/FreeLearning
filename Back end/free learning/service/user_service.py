@@ -41,6 +41,13 @@ class AccountService:
         if account.role not in Role.__dict__.keys():
             raise Exception("Unsupport Role")
 
+    async def get_account_by_id(self, id: str):
+        res = await self.account_repo.get_one_by_id(doc_id=uuid.UUID(id))
+        if not res:
+            raise UnprocessableEntityException(message="Not found user")
+        id, account = res
+        return to_response_dto(id, account, AccountResponse)
+
     async def get_account_by_field(self, field="username", value=None):
         res = await self.account_repo.get_one_by_field(field=field, value=value)
         if not res:

@@ -1,4 +1,4 @@
-
+import { Loader } from "./Loader"
 
 export function Home() {
   return (

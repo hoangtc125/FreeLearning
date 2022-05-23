@@ -52,8 +52,8 @@ class SearchService:
                 filter = None
             dict_resp = await repo["repo"].get_all(filter=filter)
             list_resp = []
-            for value in dict_resp.values():
-                list_resp.append(repo["response_model"](**get_dict(value, allow_none=True)))
+            for _id, value in dict_resp.items():
+                list_resp.append(repo["response_model"](**get_dict(value, allow_none=True), id=_id))
             res.append(SearchResult(search_type=key, result=list_resp))
         for idx, data in enumerate(res):
             if data.search_type == search_form.search_type and idx != 0:
