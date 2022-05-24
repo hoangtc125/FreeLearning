@@ -356,7 +356,7 @@ export function NavBar() {
                       <li><Link className="dropdown-item" to="/blog">Blog</Link></li>
                       <li><Link className="dropdown-item" to="/markdown">Write Markdown</Link></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="#">Explore More</Link></li>
+                      <li><Link className="dropdown-item" to="/file">Explore More</Link></li>
                   </ul>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item active">

@@ -11,7 +11,7 @@ import {Profile} from './user/Profile'
 import {Edit} from './user/Edit'
 import {Markdown} from './user/Markdown';
 import {Blog} from './user/Blog';
-import {Loader} from './Loader';
+import {File} from './user/File';
 
 import * as API from '../constants/api_config'
 
@@ -34,6 +34,7 @@ export function Body() {
       {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
         <Route path="/user/edit" element={<Edit/>}/>   
       }
+      <Route path="/file" element={<File/>}/>
       <Route path="/:error/*" element={<Error404/>}/>
  
     </Routes>

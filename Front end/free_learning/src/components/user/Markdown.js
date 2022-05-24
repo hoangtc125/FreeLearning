@@ -5,6 +5,7 @@ import katex from 'katex';
 import 'katex/dist/katex.css';
 import { Loader } from "../Loader";
 import * as API from '../../constants/api_config'
+import { File } from "./File";
 
 const mdMermaid = `The following are some examples of the diagrams, charts and graphs that can be made using Mermaid and the Markdown-inspired text specific to it. 
 
@@ -88,6 +89,7 @@ export function Markdown() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [load, setLoad] = useState(false);
+  const [input, setInput] = useState(false);
 
   function handleCreateLession() {
     setLoad(true)
@@ -116,6 +118,16 @@ export function Markdown() {
       console.error('Error:', error);
     });
   }
+
+  useEffect(() => {
+    if(input) {
+      document.getElementById('inp2').classList.add("active")
+      document.getElementById('inp1').classList.remove("active") 
+    } else {
+      document.getElementById('inp1').classList.add("active")
+      document.getElementById('inp2').classList.remove("active") 
+    }
+  }, [input])
   
   return (
     <div className="" style={{marginTop:"20px"}}>
@@ -148,11 +160,12 @@ export function Markdown() {
             onChange= {(e) => setDescription(e.target.value)}  
           ></textarea>
         </div>
-        <div style={{display:"flex", justifyContent:"space-between", paddingBottom:"10px"}}>
+        <div style={{display:"flex", justifyContent:"space-between", marginLeft:"5px", padding:"10px"}}>
           <div>
             <i className="fa fa-refresh fa-spin fa-fw"></i>
             <span className="sr-only">Auto save...</span>
           </div>
+          {/* <File/> */}
           {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
             <button type="button" class="btn btn-primary btn-sm"
               onClick={() => handleCreateLession()}
@@ -163,25 +176,53 @@ export function Markdown() {
             
           }
         </div>
-        <MDEditor
-          onChange={
-            (newValue = "") => {
-              window.localStorage.setItem('FREE_LEARNING_MD', newValue);
-              setValue(newValue)
+        <div className="card text-center">
+          <div className="card-header">
+            <ul className="nav nav-tabs card-header-tabs">
+              <li className="nav-item">
+                <button className="nav-link active" aria-current="true" href="#" id="inp1" style={{width:"25vw"}}
+                  onClick={(e) => {
+                    setInput(false)                   
+                  }}
+                >Writing</button>
+              </li>
+              <li className="nav-item">
+                <button className="nav-link" aria-current="true" href="#" id="inp2" style={{width:"25vw"}}
+                  onClick={(e) => {
+                    setInput(true)                   
+                  }}
+                >Upload PDF File</button>
+              </li>
+            </ul>
+          </div>
+          <div className="card-body">
+            {!input &&
+              <MDEditor
+              onChange={
+                (newValue = "") => {
+                  window.localStorage.setItem('FREE_LEARNING_MD', newValue);
+                  setValue(newValue)
+                }
+              }
+              textareaProps={{
+                placeholder: "Please enter Markdown text"
+              }}
+              height={700}
+              maxHeight={8000}
+              value={value}
+              previewOptions={{
+                components: {
+                  code: Code
+                }
+              }}
+            />
             }
-          }
-          textareaProps={{
-            placeholder: "Please enter Markdown text"
-          }}
-          height={700}
-          maxHeight={8000}
-          value={value}
-          previewOptions={{
-            components: {
-              code: Code
+            {input &&
+              <File/>
             }
-          }}
-        />
+          </div>
+        </div>
+        
     </div>
   );
 }
