@@ -16,6 +16,7 @@ from model.token import ConfirmationToken
 from model.user import Account
 from utils.model_utils import get_dict
 from connections.config import COURSE_COLLECTION, LESSION_COLLECTION, USER_COLLECTION, TOKEN_COLLECTION
+from core.log_config import logger
 
 
 class SearchService:
@@ -41,6 +42,7 @@ class SearchService:
         }
 
     async def search_in_repos(self, search_form: Search):
+        logger.store_message(f"form search: {search_form}")
         if search_form.search_type not in self.repos.keys():
             raise RequestException(message="Don't support this filter")
         start_time = time.time()

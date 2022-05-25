@@ -1,4 +1,0 @@
-01:13:45,371 search INFO scheme: , method: OPTIONS, status code: 200
-01:13:45,374 search INFO scheme: , method: OPTIONS, status code: 200
-01:13:45,922 search INFO username: unknown, role: unknown, , host: 0.0.0.0, api: /search, scheme: , method: POST, status code: 200
-01:13:46,16 search INFO username: unknown, role: unknown, , host: 0.0.0.0, api: /search, scheme: , method: POST, status code: 200

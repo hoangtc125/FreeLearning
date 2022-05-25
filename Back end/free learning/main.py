@@ -1,4 +1,6 @@
 import time
+from typing import Tuple
+from uuid import uuid4
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -13,7 +15,7 @@ from core.filter import (
     check_api_permission,
 )
 from exception.http_exception import PermissionDeniedException
-from core.log_config import logging
+from core.log_config import logger
 
 app = FastAPI()
 
@@ -52,10 +54,16 @@ async def add_process_time_header(request: Request, call_next):
             check_api_permission(path=request.url.path, request_role=request_user.role)
         except PermissionDeniedException as e:
             return JSONResponse(status_code=e.status_code, headers=e.headers)
-    response = await call_next(request)
-    process_time = time.time() - start_time
-    response.headers["X-Process-Time"] = str(process_time)
-    logging(request=request, response=response, request_user=request_user)
+    request_id: Tuple[bytes] = ("x-request-id".encode(), uuid4())
+    request.headers.__dict__["_list"].append(request_id)
+    try:
+        response = await call_next(request)
+        process_time = time.time() - start_time
+        response.headers["X-Process-Time"] = str(process_time)
+    except Exception as e:
+        response = str(e)
+    finally:
+        logger.logging(request=request, response=response, request_user=request_user)
     return response
 
 

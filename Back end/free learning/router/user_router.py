@@ -12,6 +12,7 @@ from service.business_service import BusinessService
 from service.user_service import AccountService
 from core.api_config import UserAPI
 from utils.router_utils import get_actor_from_request
+from core.log_config import logger
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=UserAPI.LOGIN)
@@ -50,6 +51,7 @@ async def profile(
     username: str = Depends(get_actor_from_request),
 ):
     result = await AccountService().get_account_by_field(field="username", value=username)
+    logger.store_message(f"profile: {result}")
     return success_response(data=result)
 
 
