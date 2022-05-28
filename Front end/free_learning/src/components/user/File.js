@@ -80,8 +80,9 @@ export function File() {
           </Worker>
         )}
         {/* render this if we have pdfFile state null   */}
-        {!pdfFile&&<>No file is selected yet</>}
-
+        {!pdfFile&&
+          <div style={{padding:"200px", textAlign:"center"}}>No File is selected</div>
+        }
       </div>
 
     </div>

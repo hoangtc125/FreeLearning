@@ -100,7 +100,7 @@ export function Markdown() {
         'Content-Type': 'application/json',
         'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
       },
-      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value}),
+      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value, file: window.localStorage.getItem("FREE_LEARNING_PDF")}),
       credentials: "same-origin",
       // mode: 'no-cors'
     })

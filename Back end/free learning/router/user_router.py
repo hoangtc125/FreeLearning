@@ -28,6 +28,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     result, avatar = await AccountService().authenticate_user(
         form_data.username, form_data.password
     )
+    logger.add_message(result, "avatar")
     return {"token_type": result.token_type, "access_token": result.token, "avatar": avatar}
 
 
@@ -51,7 +52,7 @@ async def profile(
     username: str = Depends(get_actor_from_request),
 ):
     result = await AccountService().get_account_by_field(field="username", value=username)
-    logger.store_message(f"profile: {result}")
+    logger.add_message(f"profile: {result}")
     return success_response(data=result)
 
 

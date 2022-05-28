@@ -21,6 +21,7 @@ from utils.model_utils import get_dict, to_response_dto
 from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import LESSION_COLLECTION, USER_COLLECTION, COURSE_COLLECTION
+# from core.log_config import logger
 
 
 class BusinessService():
@@ -53,10 +54,12 @@ class BusinessService():
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
                 message="Lession doesn't exist",
             )
-        _id, course = resp
-        return to_response_dto(_id, course, LessionResponse)    
+        course_id, course = resp
+        user = await AccountService().get_account_by_field(value=course.at_username)
+        return [to_response_dto(course_id, course, LessionResponse), user] 
 
     async def get_all_courses(self, username: str = None):
+        # logger.add_message(username)
         filter = {"_source.at_username": username}
         res = await self.course_repo.get_all(filter=filter)
         if not res:

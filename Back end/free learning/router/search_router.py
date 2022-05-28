@@ -11,6 +11,6 @@ router = APIRouter()
 
 @router.post(SearchAPI.SEARCH, response_model=HttpResponse)
 async def search(search_form: Search):
+    logger.add_message(search_form)
     result = await SearchService().search_in_repos(search_form)
-    logger.store_message(f"search: {result}")
     return success_response(data=result)

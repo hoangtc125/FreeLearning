@@ -1,9 +1,11 @@
+from collections import deque
 from datetime import datetime
-import inspect
 from inspect import FrameInfo, getframeinfo
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import os, sys
+import threading
+import traceback
 from typing import Any
 from core.project_config import LOG_DIR
 from utils.time_utils import get_current_timestamp
@@ -27,14 +29,14 @@ class MyTimedRotatingFileHandler(TimedRotatingFileHandler):
             os.makedirs(self.__base_dir)
         
 
-def get_http_request_id(frame=sys._getframe(1), context = 0):
+def get_http_request_id(frame=sys._getframe(0), context = 1):
     framelist = []
     while frame:
         frameinfo = (frame,) + getframeinfo(frame, context)
         c_frame = FrameInfo(*frameinfo)
         framelist.append(c_frame)
-        if 'main.py' in c_frame.filename:
-            return id(c_frame.frame)
+        if 'middleware/base' in c_frame.filename:
+            return id(c_frame.frame.f_locals['scope']['headers'])
         frame = frame.f_back
     return ""
 
@@ -50,6 +52,94 @@ class Logger:
             loggers[router] = Logger.create_file_handler(router)
         self.__loggers = loggers
         self.__pool = {}
+        self.input_data_queue = deque()
+        self.pool_locked = False
+        self.deque_locked = False
+    #     logger_thread = threading.Thread(target=self.__log, args=())
+    #     logger_thread.start()
+
+    # def __log(self):
+    #     print("create logging thread")
+    #     while True:
+    #         try:
+    #             res = self.__get_latest_data()
+    #             if not res:
+    #                 continue
+    #             id, latest_data = res
+    #             if latest_data['router'] not in Logger.routers:
+    #                 self.__loggers['stranger'].info("\n".join(self.__pool[id]['message']))
+    #             else: 
+    #                 self.__loggers[latest_data['router']].info("\n".join(self.__pool[id]['message']))
+    #         except Exception as e:
+    #             traceback.print_exc()
+    
+    # def start(self, request: Any = None, request_user: Any = None):
+    #     request_id = get_http_request_id(sys._getframe(0))
+    #     print(request_id)
+    #     message = ""
+    #     if request_user:
+    #         message += f"USER: {request_user.username}\n"
+    #         message += f"ROLE: {request_user.role}\n"
+    #     if request:
+    #         message += f"REQUEST: method={request.method}, url={request.url}"
+    #     self.create_messages(message, request_id=request_id)
+
+    # def add_message(self, *messages):
+    #     request_id = get_http_request_id(sys._getframe(0))
+    #     print(request_id)
+    #     self.append_message(
+    #         *messages,
+    #         request_id,
+    #     )
+
+    # def end(self, path: str = None, response: Any = None):
+    #     request_id = get_http_request_id(sys._getframe(0))
+    #     print(request_id)
+    #     message = ""
+    #     if response:
+    #         message += f"RESPONSE: status={response.status_code}, process_time={response.headers['X-Process-Time']}"
+    #     else:
+    #         message += "RESPONSE: None"
+    #     message += "\n\n=================================================\n"
+    #     router = path.split('/')[1]
+    #     self.remove_message(message, router, request_id=request_id)
+
+    # def create_messages(self, message, request_id):
+    #     print(f"Creating {message}")
+    #     while not self.pool_locked:
+    #         self.pool_locked = True
+    #         self.__pool[request_id] = {}
+    #         self.__pool[request_id]['message'] = [message]
+    #         self.__pool[request_id]['created_at'] = get_current_timestamp()
+    #     self.pool_locked = False
+
+    # def append_message(self, *messages, request_id):
+    #     print(f"Appending {messages}")
+    #     while not self.pool_locked:
+    #         self.pool_locked = True
+    #         self.__pool[request_id]['message'].extend([str(msg) for msg in messages])
+    #     self.pool_locked = False
+
+    # def remove_message(self, message, router, request_id):
+    #     print(f"Removing {message}")
+    #     while not self.pool_locked:
+    #         self.pool_locked = True
+    #         self.__pool[request_id]['message'].extend(message)
+    #         self.__pool[request_id]['router'] = router
+    #     self.pool_locked = False
+    #     self.enqueue_data(request_id, self.__pool[request_id]['message'])
+        
+    # def enqueue_data(self, id, data):
+    #     print(f"Enqueuing {data}")
+    #     while not self.deque_locked:
+    #         self.deque_locked = True
+    #         self.input_data_queue.append((id, data))
+    #     self.deque_locked = False
+
+    # def __get_latest_data(self):
+    #     if not self.input_data_queue:
+    #         return None
+    #     return self.input_data_queue.popleft()
 
     @staticmethod
     def create_file_handler(file_name):
@@ -61,46 +151,45 @@ class Logger:
         f_handler.suffix = "%Y-%m-%d"
         logger.addHandler(f_handler)
         return logger
-  
-    def logging(self, request: Any = None, response: Any = None, request_user: Any = None):
-        request_id = self.__trace_request_id()
-        print(request_id)
-        router = request.url.path.split('/')[1]
 
-        message = "\n\n"
+    def __store_message(self, *message, request_id: Any):
+        if request_id in self.__pool.keys():
+            self.__pool[request_id]['message'].extend([str(msg) for msg in message])
+        else:
+            self.__pool[request_id] = {}
+            self.__pool[request_id]['message'] = [str(msg) for msg in message]
+
+    def add_message(self, *kargs):
+        request_id = get_http_request_id(sys._getframe(0))
+        # print(request_id)
+        self.__store_message(*kargs, request_id=request_id)
+        
+    def start(self, request: Any = None, request_user: Any = None):
+        request_id = get_http_request_id(sys._getframe(0))
+        # print(request_id)
+        message = ""
         if request_user:
             message += f"USER: {request_user.username}\n"
             message += f"ROLE: {request_user.role}\n"
-        message += f"REQUEST: method={request.method}, url={request.url}\n"
-        if isinstance(response, str):
-            message += f"RESPONSE: status=500, message={response}\n"
-        else:
+        if request:
+            message += f"REQUEST: method={request.method}, url={request.url}"
+        self.__store_message(message, request_id=request_id)
+
+    def end(self, path: str = None, response: Any = None):
+        request_id = get_http_request_id(sys._getframe(0))
+        # print(request_id)
+        message = ""
+        if response:
             message += f"RESPONSE: status={response.status_code}, process_time={response.headers['X-Process-Time']}"
-
-        self.__add_message(request_id=request_id, message=message)
-
-        self.__pool[request_id].append("======================================\n")
-        if router not in Logger.routers:
-            print("aaa", get_current_timestamp())
-            self.__loggers['stranger'].info("\n\n".join(self.__pool[request_id]))
-        else: 
-            print("aaa", get_current_timestamp())
-            self.__loggers[router].info("\n\n".join(self.__pool[request_id]))
-
-    def store_message(self, message: str = None):
-        request_id = self.__trace_request_id()
-        print(request_id)
-        self.__add_message(request_id=request_id, message=message)
-
-    def __add_message(self, request_id: Any, message: str = None):
-        if request_id in self.__pool.keys():
-            self.__pool[request_id].insert(0, message)
         else:
-            self.__pool[request_id] = [message]
-
-    def __trace_request_id(self):
-        iframe_middleware_base = [iframe for iframe in inspect.stack(0) if 'middleware/base' in iframe.filename][0]
-        _, id = iframe_middleware_base.frame.f_locals['scope']['headers'][-1]
-        return id
+            message += "RESPONSE: None"
+        message += "\n\n=================================================\n"
+        self.__store_message(message, request_id=request_id)
+        router = path.split('/')[1]
+        if router not in Logger.routers:
+            self.__loggers['stranger'].info("\n".join(self.__pool[request_id]['message']))
+        else: 
+            self.__loggers[router].info("\n".join(self.__pool[request_id]['message']))
+        # print(2)
 
 logger = Logger()

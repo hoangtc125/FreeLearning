@@ -1,10 +1,7 @@
 import time
-from typing import Tuple
-from uuid import uuid4
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import uvicorn
 
 from router.user_router import router as USER_ROUTER
 from router.admin_router import router as ADMIN_ROUTER
@@ -47,23 +44,18 @@ async def add_process_time_header(request: Request, call_next):
 
     """
     start_time = time.time()
-    request_user = None
     if request.method != "OPTIONS":
         request_user = authorize_token(request=request)
+        logger.start(request=request, request_user=request_user)
         try:
             check_api_permission(path=request.url.path, request_role=request_user.role)
         except PermissionDeniedException as e:
+            logger.end(path=request.url.path, response=None)
             return JSONResponse(status_code=e.status_code, headers=e.headers)
-    request_id: Tuple[bytes] = ("x-request-id".encode(), uuid4())
-    request.headers.__dict__["_list"].append(request_id)
-    try:
-        response = await call_next(request)
-        process_time = time.time() - start_time
-        response.headers["X-Process-Time"] = str(process_time)
-    except Exception as e:
-        response = str(e)
-    finally:
-        logger.logging(request=request, response=response, request_user=request_user)
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    logger.end(path=request.url.path, response=response)
     return response
 
 
@@ -71,6 +63,3 @@ app.include_router(USER_ROUTER)
 app.include_router(ADMIN_ROUTER)
 app.include_router(SEARCH_ROUTER)
 app.include_router(FOLLOW_ROUTER)
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=1234)

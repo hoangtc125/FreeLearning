@@ -4,12 +4,24 @@ import MDEditor from '@uiw/react-md-editor';
 import { Comment } from "./Comment";
 import { Loader } from "../Loader";
 import * as API from '../../constants/api_config'
+import {FileInBlog} from './FileInBlog'
 
 export function Blog(data) {
 
   const [value, setValue] = useState(0);
   const [content, setContent] = useState("");
+  const [file, setFile] = useState("");
+  const [title, setTitle] = useState("");
+  const [created_at, setCreatedAt] = useState("");
+  const [modified_at, setModifiedAt] = useState("");
+  const [number_of_views, setNumberOfViews] = useState("");
+  const [description, setDescription] = useState("");
+  const [author, setAuthor] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [role, setRole] = useState("");
+  const [id, setId] = useState("");
   const [load, setLoad] = useState(false)
+  const [input, setInput] = useState(false);
 
   useEffect(() => {
     if (data.api) {
@@ -29,7 +41,17 @@ export function Blog(data) {
         if(data?.detail) {
           alert(data.detail)
         } else {
-          setContent(data.data.content)
+          setAuthor(data.data[1].fullname)
+          setAvatar(data.data[1].avatar)
+          setRole(data.data[1].role)
+          setId(data.data[1].id)
+          setTitle(data.data[0].name)
+          setFile(data.data[0].file)
+          setDescription(data.data[0].description)
+          setCreatedAt(new Date(data.data[0].created_at * 1000).toLocaleString())
+          setModifiedAt(new Date(data.data[0].modified_at * 1000).toLocaleString())
+          setNumberOfViews(data.data[0].number_of_views)
+          setContent(data.data[0].content)
           setLoad(false)
         }
       })
@@ -40,7 +62,17 @@ export function Blog(data) {
   }, [data])
 
   useEffect(() => {
-    let tmp = document.getElementById("content").firstElementChild.childNodes
+    if(input) {
+      document.getElementById('inp2').classList.add("active")
+      document.getElementById('inp1').classList.remove("active") 
+    } else {
+      document.getElementById('inp1').classList.add("active")
+      document.getElementById('inp2').classList.remove("active") 
+    }
+  }, [input])
+
+  useEffect(() => {
+    let tmp = document.getElementById("content").childNodes[1].childNodes
     let tableOfContent = document.getElementById("table-of-content")
     tmp.forEach(e => {
       if(e.id) {
@@ -61,14 +93,32 @@ export function Blog(data) {
       }
     })
   }, [content])
-  
 
   return (
     <div className="container" >
       {load && <Loader/>}
-      <div className="my-blog">
+      <figure style={{margin:"50px 0px 0px"}}>
+        <blockquote class="blockquote">
+          <h1 className="display-4">{title}</h1>
+        </blockquote>
+        <figcaption className="blockquote-footer">
+          {description}
+        </figcaption>
+        <div style={{display:"flex", justifyContent:"space-between"}}>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Author: <strong>{author}</strong></p>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Created at: <strong>{created_at}</strong></p>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Modified at: <strong>{modified_at}</strong></p>
+        </div>
+      </figure>
+      <div className="my-blog" style={{maxWidth:"100vw"}}>
         <div className="hide-bar">
           <div className=" left-bar">
+            <a href="#" onClick={() => {
+              window.localStorage.setItem("FREE_LEARNING_ID_FOUND", id)
+              window.location.href = API.FIND_ONE + id
+            }}><img src={avatar} style={{maxWidth:"5vw"}}></img></a>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{role}</p>
+            <div style={{margin:"10px 0px"}}></div>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Vote</p>
             <button className="btn"><i className="fa fa-chevron-up fa-2x" aria-hidden="true"></i></button>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{value}</p>
@@ -76,10 +126,36 @@ export function Blog(data) {
             <div className="rating">
               <span>☆</span><span>☆</span><span>☆</span>
             </div>
+            <div style={{margin:"10px 0px"}}></div>
+            <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{number_of_views}</p>
           </div>
         </div>
-        <div id="content" style={{maxWidth:"65vw"}}>
-          <MDEditor.Markdown source={content} />
+        <div id="content" style={{maxWidth:"60vw"}}>
+          <div className="card-header" style={{margin:"15px 0px"}}>
+            <ul className="nav nav-tabs card-header-tabs" style={{display:"flex"}}>
+              <li className="nav-item" style={{flexGrow:"1"}}>
+                <button className="nav-link active" aria-current="true" href="#" id="inp1" style={{width:"100%"}}
+                  onClick={(e) => {
+                    setInput(false)                   
+                  }}
+                >Content</button>
+              </li>
+              <li className="nav-item" style={{flexGrow:"1"}}>
+                <button className="nav-link" aria-current="true" href="#" id="inp2" style={{width:"100%"}}
+                  onClick={(e) => {
+                    setInput(true)                   
+                  }}
+                >PDF File</button>
+              </li>
+            </ul>
+          </div>
+          {!input && 
+            <MDEditor.Markdown source={content} />
+          }
+          {input &&
+            <FileInBlog data={file}/>
+          }
           <hr/>
           <Comment/>
         </div>

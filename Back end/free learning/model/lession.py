@@ -12,6 +12,7 @@ class Lession(NewItem, BaseModel):
     at_course_id: Optional[str] = None
     at_username: Optional[str] = None
     course_type: str = Category.FREE
+    file: Optional[str] = None
 
 
 class LessionCreate(Lession):
