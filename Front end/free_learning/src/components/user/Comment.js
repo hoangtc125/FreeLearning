@@ -4,7 +4,7 @@ export function Comment() {
   return (
     <div className="container">
       <div className="be-comment-block" style={{padding:"20px 0px 0px"}}>
-        <h1 className="comments-title">Comments (3)</h1>
+        <h1 className="comments-title">Bình luận (3)</h1>
         <div className="be-comment">
           <div className="be-img-comment">	
             <a href="blog-detail-2.html">
@@ -84,7 +84,7 @@ export function Comment() {
               <div className="form-group">
                 <textarea className="form-input" required="" placeholder="Your text"></textarea>
               </div>
-            <button className="btn btn-primary pull-right" style={{width:"fit-content"}}>submit</button>
+            <button className="btn btn-primary pull-right" style={{width:"fit-content"}}>Gửi bình luận </button>
             </div>
           </div>
         </form>

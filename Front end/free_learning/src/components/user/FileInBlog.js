@@ -33,7 +33,7 @@ export function FileInBlog(data) {
         )}
         {/* render this if we have pdfFile state null   */}
         {!pdfFile&&
-        <div style={{padding:"200px", textAlign:"center"}}>No File</div>
+        <div style={{padding:"200px", textAlign:"center"}}>Không có file để hiện thị </div>
         }
       </div>
     </div>

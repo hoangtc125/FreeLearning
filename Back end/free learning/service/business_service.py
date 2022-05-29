@@ -54,9 +54,11 @@ class BusinessService():
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
                 message="Lession doesn't exist",
             )
-        course_id, course = resp
-        user = await AccountService().get_account_by_field(value=course.at_username)
-        return [to_response_dto(course_id, course, LessionResponse), user] 
+        lession_id, lession = resp
+        lession.number_of_views += 1
+        await self.lession_repo.update(obj=lession, doc_id=uuid.UUID(lession_id))
+        user = await AccountService().get_account_by_field(value=lession.at_username)
+        return [to_response_dto(lession_id, lession, LessionResponse), user] 
 
     async def get_all_courses(self, username: str = None):
         # logger.add_message(username)

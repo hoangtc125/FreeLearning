@@ -79,17 +79,17 @@ export function Profile(data) {
                         onClick={() => {
                           setView("POSTS")
                         }}
-                        >POSTS</a></li>
+                        >Bài viết </a></li>
                         <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab"
                         onClick={() => {
                           setView("ABOUT")
                         }}
-                        >ABOUT</a></li>
+                        >Giới thiệu </a></li>
                         <li className="nav-item"><a href="#profile-friends" className="nav-link" data-toggle="tab"
                         onClick={() => {
                           setView("FOLLOWERS")
                         }}
-                        >FOLLOWERS</a></li>
+                        >Người theo dõi </a></li>
                       </ul>
                   </div>
                 </div>

@@ -6,7 +6,7 @@ export function Timeline() {
     <li>
       {/* <!-- begin timeline-time --> */}
       <div className="timeline-time">
-          <span className="date">today</span>
+          <span className="date">Hôm nay </span>
           <span className="time">04:20</span>
       </div>
       {/* <!-- end timeline-time --> */}
@@ -21,7 +21,7 @@ export function Timeline() {
             <span className="userimage">
               <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"6px"}} alt=""/>
             </span>
-            <span className="username"><a href="">Sean Ngu</a> <small></small></span>
+            <span className="username"><a href="">Ẩn danh </a> <small></small></span>
             <span className="pull-right text-muted">18 Views</span>
           </div>
           <div className="timeline-content">

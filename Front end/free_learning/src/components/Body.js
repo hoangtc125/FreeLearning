@@ -19,11 +19,11 @@ export function Body() {
 
   return(
     <Routes>
-      <Route path="/" element={<Home/>}/>
+      <Route path="/" element={<Course/>}/>
       <Route path="/search" element={<Search/>}/>
       <Route path="/contactUs" element={<ContactUs/>}/>
       <Route path="/root" element={<Root/>}/>
-      <Route path="/course" element={<Course/>}/>  
+      <Route path="/course" element={<Home/>}/>  
       <Route path="/markdown" element={<Markdown/>}/>
       <Route path="/blog" element={<Blog api={""}/>}/>
       <Route path="/user/get-one-lession" element={<Blog api={API.GET_ONE_LESSION + window.localStorage.getItem("FREE_LEARNING_ID_FOUND")}/>}/>

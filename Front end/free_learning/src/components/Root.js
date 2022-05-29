@@ -33,7 +33,7 @@ export function Root() {
                           </div>
                           <div className="slider-caption mt-3">
                               <p className="fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                              <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Gurdeep Dahiya</cite></figcaption>
+                              <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Trần Công Hoàng </cite></figcaption>
                           </div>
                       </div>
                       <div className="carousel-item" data-bs-interval="10000">
@@ -42,7 +42,7 @@ export function Root() {
                           </div>
                           <div className="slider-caption mt-3">
                               <p className="fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                              <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Rajnish Kumar</cite></figcaption>
+                              <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Trần Công Hoàng </cite></figcaption>
                           </div>
                       </div>
                       <div className="carousel-item" data-bs-interval="10000">
@@ -51,7 +51,7 @@ export function Root() {
                           </div>
                           <div className="slider-caption mt-3">
                               <p className="fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                              <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Pardeep Dahiya</cite></figcaption>
+                              <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Trần Công Hoàng </cite></figcaption>
                           </div>
                       </div>
                   </div>

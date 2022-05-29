@@ -143,16 +143,16 @@ export function Edit() {
           <div className="col-md-5 border-right">
               <div className="p-3 py-5">
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h4 className="text-right">Profile Settings</h4>
+                      <h4 className="text-right">Chỉnh sửa thông tin </h4>
                   </div>
                   <div className="row mt-3">
-                      <div className="col-md-12"><label className="labels">Full name</label>
+                      <div className="col-md-12"><label className="labels">Tên đầy đủ </label>
                         <input type="text" className="form-control" placeholder=""
                           value={name}
                           onChange= {(e) => setName(e.target.value)} 
                         />
                       </div>
-                      <div className="col-md-12"><label className="labels">PhoneNumber</label>
+                      <div className="col-md-12"><label className="labels">Số điện thoại </label>
                         <input type="text" className="form-control" placeholder=""
                           value={phoneNumber}
                           onChange= {(e) => setPhoneNumber(e.target.value)} 
@@ -164,13 +164,13 @@ export function Edit() {
                           onChange= {(e) => setEmail(e.target.value)} 
                         />
                       </div>
-                      <div className="col-md-12"><label className="labels">Role</label>
+                      <div className="col-md-12"><label className="labels">Chức vụ </label>
                         <input type="text" className="form-control" placeholder=""
                           value={role}
                           onChange= {(e) => setRole(e.target.value)} 
                         />
                       </div>
-                      <div className="col-md-12"><label className="labels">Bio</label>
+                      <div className="col-md-12"><label className="labels">Giới thiệu </label>
                         <input type="text" className="form-control" placeholder=""
                           value={bio}
                           onChange= {(e) => setBio(e.target.value)} 
@@ -181,25 +181,25 @@ export function Edit() {
                     onClick={() => {
                       handleUpdateProfile()
                     }}
-                  >Save Profile</button></div>
+                  >Lưu thay đổi </button></div>
               </div>
           </div>
           <div className="col-md-4">
               <div className="p-3 py-5">
-                  <div className="d-flex justify-content-between align-items-center experience"><span>Edit Password</span></div>
-                  <div className="col-md-12"><label className="labels">Old Password</label>
+                  <div className="d-flex justify-content-between align-items-center experience"><span>Thay đổi mật khẩu </span></div>
+                  <div className="col-md-12"><label className="labels">Nhập mật khẩu cũ </label>
                     <input type="password" className="form-control" placeholder=""
                       value={oldPassword}
                       onChange= {(e) => setOldPassword(e.target.value)} 
                     />
                   </div> <br/>
-                  <div className="col-md-12"><label className="labels">New Password</label>
+                  <div className="col-md-12"><label className="labels">Nhập mật khẩu mới </label>
                     <input type="password" className="form-control" placeholder=""
                       value={newPassword}
                       onChange= {(e) => setNewPassword(e.target.value)} 
                     />
                   </div> <br/>
-                  <div className="col-md-12"><label className="labels">Repeat Password</label>
+                  <div className="col-md-12"><label className="labels">Nhập lại mật khẩu mới </label>
                     <input type="password" className="form-control" placeholder=""
                       value={repeatPassword}
                           onChange= {(e) => setRepeatPassword(e.target.value)} 
@@ -210,7 +210,7 @@ export function Edit() {
                     onClick={() => {
                       handleUpdatePassword()
                     }}
-                  >Save Password</button></div>
+                  >Cập nhật mật khẩu </button></div>
               </div>
           </div>
       </div>

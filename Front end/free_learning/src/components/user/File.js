@@ -17,7 +17,7 @@ export function File() {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   // pdf file onChange state
-  const [pdfFile, setPdfFile]=useState(window.localStorage.getItem("FREE_LEARNING_PDF"));
+  const [pdfFile, setPdfFile]=useState("");
 
   // pdf file error state
   const [pdfError, setPdfError]=useState('');
@@ -55,7 +55,7 @@ export function File() {
       {/* Upload PDF */}
       <form>
 
-        <label><h5>Upload PDF</h5></label>
+        <label><h5>Tải File PDF lên </h5></label>
         <br></br>
 
         <input type='file' className="form-control"
@@ -69,7 +69,7 @@ export function File() {
 
       {/* View PDF */}
       <div style={{padding:"20px"}}></div>
-      <h5>View PDF</h5>
+      <h5>Chế độ xem trước </h5>
       <div className="viewer">
 
         {/* render this if we have a pdf file */}
@@ -81,7 +81,7 @@ export function File() {
         )}
         {/* render this if we have pdfFile state null   */}
         {!pdfFile&&
-          <div style={{padding:"200px", textAlign:"center"}}>No File is selected</div>
+          <div style={{padding:"200px", textAlign:"center"}}>Không có file để hiện thị </div>
         }
       </div>
 

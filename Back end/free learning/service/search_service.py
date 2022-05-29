@@ -16,7 +16,7 @@ from model.token import ConfirmationToken
 from model.user import Account
 from utils.model_utils import get_dict
 from connections.config import COURSE_COLLECTION, LESSION_COLLECTION, USER_COLLECTION, TOKEN_COLLECTION
-# from core.log_config import logger
+from core.log_config import logger
 
 
 class SearchService:
@@ -54,7 +54,7 @@ class SearchService:
             dict_resp = await repo["repo"].get_all(filter=filter)
             list_resp = []
             for _id, value in dict_resp.items():
-                # logger.add_message(_id)
+                await logger.add_message(_id)
                 list_resp.append(repo["response_model"](**get_dict(value, allow_none=True), id=_id))
             res.append(SearchResult(search_type=key, result=list_resp))
         for idx, data in enumerate(res):
@@ -63,7 +63,7 @@ class SearchService:
                 res[0] = res[idx]
                 res[idx] = temp_data
         process_time = time.time() - start_time
-        # logger.add_message(process_time)
+        await logger.add_message(process_time)
         return SearchResponse(
             search_type=search_form.search_type,
             key_word=search_form.key_word,

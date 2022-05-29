@@ -24,8 +24,8 @@ function ResultUser(data) {
       </td>
       <td className="" style={{width:"40vw"}}><strong>{info.fullname}</strong><br/>{info.role}</td>
       <td className="text-right">
-        <div>Phone: {info.phone}</div>
-        <div>Email: {info.email}</div>
+        <div>Điện thoại : {info.phone}</div>
+        <div>Email : {info.email}</div>
       </td>
     </tr>
   )
@@ -58,8 +58,8 @@ function ResultLessionCourse(data) {
         </div>
       </td>
       <td className="text-right">
-        <div>Type: <strong>{info.course_type}</strong></div>
-        <div>View: {info.number_of_views}</div>
+        <div>Chủ đề : <strong>{info.course_type}</strong></div>
+        <div>Lượt xem : {info.number_of_views}</div>
       </td>
     </tr>
   )
@@ -69,7 +69,7 @@ export function Search() {
 
   const [dateFrom, setDateFrom] = useState(new Date());
   const [keyword, setkeyword] = useState("")
-  const [status, setStatus] = useState("Enter whatever you want to find")
+  const [status, setStatus] = useState("Nhập từ khóa bạn muốn tìm kiếm ")
   const [data, setData] = useState([])
   const [load, setLoad] = useState(false)
 
@@ -123,7 +123,7 @@ export function Search() {
             alert(data.detail)
           } else {
             setData(data.data.results)
-            setStatus("Showing all result for keyword '" + keyword + "' in " + data.data.process_time + " s")
+            setStatus("Kết quả tìm kiếm của từ khóa '" + keyword + "' trong " + data.data.process_time + " s")
           }
         })
         .catch((error) => {
@@ -144,33 +144,33 @@ export function Search() {
               <div className="row">
                 {/* <!-- BEGIN FILTERS --> */}
                 <div className="col-md-3">
-                  <h2 className="grid-title"><i className="fa fa-filter"></i> Filters</h2>
+                  <h2 className="grid-title"><i className="fa fa-filter"></i> Bộ lọc </h2>
                   <hr/>
                   
                   {/* <!-- BEGIN FILTER BY CATEGORY --> */}
-                  <h4>By category:</h4>
+                  <h4>Tìm theo danh mục :</h4>
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="flexRadioDefault" id="lession" defaultChecked/>
                     <label className="form-check-label" htmlFor="lession">
-                      Lession
+                      Bài giảng 
                     </label>
                   </div>
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="flexRadioDefault" id="course"/>
                     <label className="form-check-label" htmlFor="course">
-                      Course
+                      Khóa học 
                     </label>
                   </div>
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="flexRadioDefault" id="user"/>
                     <label className="form-check-label" htmlFor="user">
-                    User
+                      Người dùng 
                     </label>
                   </div>
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="flexRadioDefault" id="homework"/>
                     <label className="form-check-label" htmlFor="homework">
-                    Homework
+                      Bài làm 
                     </label>
                   </div>
                   {/* <!-- END FILTER BY CATEGORY --> */}
@@ -178,7 +178,7 @@ export function Search() {
                   <div className="padding"></div>
                   
                   {/* <!-- BEGIN FILTER BY DATE --> */}
-                  <h4>By date:</h4>
+                  <h4>Tìm theo ngày :</h4>
                   <div>
                     <Calendar onChange={setDateFrom} value={dateFrom} />
                   </div>
@@ -187,8 +187,8 @@ export function Search() {
                   <div className="padding"></div>
                   
                   {/* <!-- BEGIN FILTER BY PRICE --> */}
-                  <h4>By price:</h4>
-                  Between <div id="price1">$300</div> to <div id="price2">$800</div>
+                  <h4>Tìm theo giá :</h4>
+                  Từ <div id="price1">$300</div> đến <div id="price2">$800</div>
                   <div className="slider-primary">
                     <div className="slider slider-horizontal" style={{width:"152px"}}>
                           <div className="slider-track">
@@ -207,7 +207,7 @@ export function Search() {
                 {/* <!-- END FILTERS --> */}
                 {/* <!-- BEGIN RESULT --> */}
                 <div className="col-md-9">
-                  <h2><i className="fa fa-file-o"></i> Result</h2>
+                  <h2><i className="fa fa-file-o"></i> Kết quả </h2>
                   <hr/>
                   {/* <!-- BEGIN SEARCH INPUT --> */}
                   <div className="input-group">
@@ -233,7 +233,7 @@ export function Search() {
                     <div className="col-sm-6">
                       <div className="btn-group">
                         <a className="nav-item dropdown">
-                            <button className="btn dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Order by</button>
+                            <button className="btn dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sắp xếp </button>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a className="dropdown-item" href="/course">Course</a></li>
                                 <li><a className="dropdown-item" href="/blog">Blog</a></li>

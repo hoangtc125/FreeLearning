@@ -6,7 +6,7 @@ export function Course() {
       <div className="container">
           <div className="row">
               <div className="col-12">
-                  <h2 className="mb-3 text-danger">Bootstrap 5 Cards</h2>
+                  <h2 className="mb-3 text-danger">Bài giảng nổi bật </h2>
               </div>
 
               <div className="col-md-6 col-lg-4">
@@ -17,7 +17,7 @@ export function Course() {
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">What is Lorem Ipsum?</a></h3>
                           <p className="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
-                          <a href="#" className="btn btn-danger">Read More</a>
+                          <a href="#" className="btn btn-danger">Xem thêm </a>
                       </div>
                   </div>
               </div>
@@ -30,7 +30,7 @@ export function Course() {
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Why do we use it?</a></h3>
                           <p className="card-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem</p>
-                          <a href="#" className="btn btn-danger">Read More</a>
+                          <a href="#" className="btn btn-danger">Xem thêm </a>
                       </div>
                   </div>
               </div>
@@ -43,7 +43,7 @@ export function Course() {
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Where does it come from?</a></h3>
                           <p className="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classNameical Latin literature from 45 BC, making it</p>
-                          <a href="#" className="btn btn-danger">Read More</a>
+                          <a href="#" className="btn btn-danger">Xem thêm </a>
                       </div>
                   </div>
               </div>
@@ -56,7 +56,7 @@ export function Course() {
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">What is Lorem Ipsum?</a></h3>
                           <p className="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
-                          <a href="#" className="btn btn-danger">Read More</a>
+                          <a href="#" className="btn btn-danger">Xem thêm </a>
                       </div>
                   </div>
               </div>
@@ -69,7 +69,7 @@ export function Course() {
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Why do we use it?</a></h3>
                           <p className="card-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem</p>
-                          <a href="#" className="btn btn-danger">Read More</a>
+                          <a href="#" className="btn btn-danger">Xem thêm </a>
                       </div>
                   </div>
               </div>
@@ -82,7 +82,7 @@ export function Course() {
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Where does it come from?</a></h3>
                           <p className="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classNameical Latin literature from 45 BC, making it</p>
-                          <a href="#" className="btn btn-danger">Read More</a>
+                          <a href="#" className="btn btn-danger">Xem thêm </a>
                       </div>
                   </div>
               </div>

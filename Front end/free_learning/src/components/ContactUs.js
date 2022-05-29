@@ -13,8 +13,8 @@ export function ContactUs() {
           <div className="row">
               <div className="col-md-7">
                   <div className="section-title">
-                      <h2>Contact Us</h2>
-                      <p><b>Bootstrap 4 contact form</b> is designed with a Google map. contact form pages design is created by using Bootstrap and custom CSS</p>
+                      <h2>Liên hệ với tôi </h2>
+                      <p><b>Điền đầy đủ thông tin của bạn theo mẫu dưới đây. </b>Chúng tôi sẽ nhận và tiếp thu góp ý của bạn </p>
                   </div>
               </div>
           </div>

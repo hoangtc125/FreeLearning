@@ -50,12 +50,12 @@ export function LoginForm() {
           
             <div>
               <div className="modal-header">
-                <h5 className="modal-title">Modal Log in Form</h5>
+                <h5 className="modal-title">Đăng nhập </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                    <label htmlFor="Username">Username<span className="text-danger">*</span></label>
+                    <label htmlFor="Username">Tên đăng nhập <span className="text-danger">*</span></label>
                     <input type="text" name="username" className="form-control" id="Username" placeholder="Enter Username"
                       value={username}
                       onChange= {(e) => setUsername(e.target.value)}
@@ -63,7 +63,7 @@ export function LoginForm() {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="Password">Password<span className="text-danger">*</span></label>
+                    <label htmlFor="Password">Mật khẩu <span className="text-danger">*</span></label>
                     <input type="password" name="password" className="form-control" id="Password" placeholder="Enter Password"
                       value={password}
                       onChange= {(e) => setPassword(e.target.value)}
@@ -71,8 +71,8 @@ export function LoginForm() {
                 </div>
                 <div className="mb-3">
                     <input className="form-check-input" type="checkbox" value="" id="remember" required/>
-                    <label className="form-check-label" htmlFor="remember">Remember Me</label>
-                    <a href="#" className="float-end" data-bs-target="#ModalForgotPasswordForm" data-bs-toggle="modal" data-bs-dismiss="modal">Forgot Password</a>
+                    <label className="form-check-label" htmlFor="remember">Ghi nhớ đăng nhập </label>
+                    <a href="#" className="float-end" data-bs-target="#ModalForgotPasswordForm" data-bs-toggle="modal" data-bs-dismiss="modal">Quên mật khẩu </a>
                 </div>
               </div>
               <div className="modal-footer pt-4">                  
@@ -80,10 +80,10 @@ export function LoginForm() {
                   type="button" className="btn btn-success mx-auto w-100" 
                   onClick={() => handleLogin()}
                 >
-                  Log in
+                  Đăng nhập 
                 </button>
               </div>
-              <p className="text-center">Not yet account, <a href="#" data-bs-target="#ModalSignUpForm" data-bs-toggle="modal" data-bs-dismiss="modal">Sign up</a></p> 
+              <p className="text-center">Chưa có tài khoản, <a href="#" data-bs-target="#ModalSignUpForm" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng ký ngay </a></p> 
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@ export function ForgotPasswordForm() {
           {load && <Loader/>}
             <div>
               <div className="modal-header">
-                <h5 className="modal-title">Modal Forgot Password Form</h5>
+                <h5 className="modal-title">Quên mật khẩu </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
@@ -145,11 +145,11 @@ export function ForgotPasswordForm() {
                   type="button" className="btn btn-success mx-auto w-100" 
                   onClick={() => handleForgotPassword()}
                 >
-                  Send new password to email
+                  Gửi mật khẩu mới đến Email của bạn 
                 </button>
               </div>
-              <p className="text-center">Already have an account? <a href="#" data-bs-target="#ModalLoginForm" data-bs-toggle="modal" data-bs-dismiss="modal">Log in</a></p>
-              <p className="text-center">Not yet account, <a href="#" data-bs-target="#ModalSignUpForm" data-bs-toggle="modal" data-bs-dismiss="modal">Sign up</a></p> 
+              <p className="text-center">Bạn đã có tài khoản? <a href="#" data-bs-target="#ModalLoginForm" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng nhập ngay </a></p>
+              <p className="text-center">Bạn chưa có tài khoản, <a href="#" data-bs-target="#ModalSignUpForm" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng ký ngay </a></p> 
           </div>
         </div>
       </div>
@@ -207,19 +207,19 @@ export function SignUpForm() {
           <div >
             <form className="">
               <div className="modal-header">
-                <h5 className="modal-title">Modal Sign up Form</h5>
+                <h5 className="modal-title">Đăng ký tài khoản </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                    <label htmlFor="name">Username<span className="text-danger">*</span></label>
+                    <label htmlFor="name">Tên đăng nhập <span className="text-danger">*</span></label>
                     <input type="text" className="form-control" placeholder="Username" name="username" required
                       value={username}
                       onChange= {(e) => setUsername(e.target.value)}  
                     />
                 </div> 
                 <div className="mb-3">
-                    <label htmlFor="name">Full Name<span className="text-danger">*</span></label>
+                    <label htmlFor="name">Tên đầy đủ <span className="text-danger">*</span></label>
                     <input type="text" className="form-control" placeholder="Full Name" name="name" required
                       value={fullname}
                       onChange= {(e) => setFullname(e.target.value)}  
@@ -233,14 +233,14 @@ export function SignUpForm() {
                     />
                 </div>      
                 <div className="mb-3">
-                    <label htmlFor="psw">Password<span className="text-danger">*</span></label>
+                    <label htmlFor="psw">Mật khẩu <span className="text-danger">*</span></label>
                     <input type="password" className="form-control" placeholder="Enter Password" name="psw" required
                       value={password}
                       onChange= {(e) => setPassword(e.target.value)}  
                     /> 
                   </div>   
                   <div className="mb-3">
-                    <label htmlFor="psw-repeat">Repeat Password<span className="text-danger">*</span></label>
+                    <label htmlFor="psw-repeat">Nhập lại mật khẩu <span className="text-danger">*</span></label>
                     <input type="password" className="form-control" placeholder="Repeat Password" name="psw-repeat" required
                       value={repeatPassword}
                       onChange= {(e) => {setRepeatPassword(e.target.value)}}  
@@ -250,17 +250,15 @@ export function SignUpForm() {
                   <label className="form-check-label" style={{color:"red"}}>{status}</label>
                 </div>
                 <div className="mb-3">
-                  <label className="term-policy"><input type="checkbox" required/> By creating an account you agree to our <a href="#">Terms & Privacy</a>.</label>
+                  <label className="term-policy"><input type="checkbox" required/>Tôi đồng ý với các điều khoản và chính sách của Free Learning.</label>
                 </div>
                   <button type="submit" className="btn btn-success mx-auto w-100" onClick={(e) => {
                     e.preventDefault()  
                     handleRegister()}
-                  }>Sign up</button>
-                  <input className="form-check-input" type="checkbox" value="" id="remember2"/>
-                  <label className="form-check-label" htmlFor="remember">Remember Me</label>
+                  }>Đăng ký </button>
                 <hr/>
                 <div className="mb-3">
-                  <p className="text-center">Already have an account? <a href="#" data-bs-target="#ModalLoginForm" data-bs-toggle="modal" data-bs-dismiss="modal">Log in</a></p>
+                  <p className="text-center">Bạn đã có tài khoản? <a href="#" data-bs-target="#ModalLoginForm" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng nhập ngay </a></p>
                 </div>
               </div>
             </form>
@@ -274,8 +272,8 @@ export function SignUpForm() {
 export function LoginSignup() {
   return (
     <div className="d-flex">
-      <button className="btn btn-warning" type="submit" style={{"marginRight":"5px"}} data-bs-toggle="modal" data-bs-target="#ModalLoginForm"><i style={{paddingRight:"5px"}} class="fa fa-sign-in" aria-hidden="true"></i>Log in</button>
-      <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#ModalSignUpForm"><i style={{paddingRight:"5px"}} class="fa fa-user-plus" aria-hidden="true"></i>Sign up</button>
+      <button className="btn btn-warning" type="submit" style={{"marginRight":"5px"}} data-bs-toggle="modal" data-bs-target="#ModalLoginForm"><i style={{paddingRight:"5px"}} class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập </button>
+      <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#ModalSignUpForm"><i style={{paddingRight:"5px"}} class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký </button>
     </div>
   )
 }
@@ -305,9 +303,9 @@ export function UserInNavbar() {
             <a className="navbar-brand" href="#">{account}</a>
           </a>
           <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown">
-            <Link className="dropdown-item" to="/user/profile">Profile</Link>
-            <Link className="dropdown-item" to="/user/edit">Edit Profile</Link>
-            <button className="dropdown-item" onClick={() => handleLogout()}>Log Out</button>
+            <Link className="dropdown-item" to="/user/profile">Trang cá nhân </Link>
+            <Link className="dropdown-item" to="/user/edit">Cài đặt </Link>
+            <button className="dropdown-item" onClick={() => handleLogout()}>Đăng xuất </button>
           </ul>
       </li>
     </ul>
@@ -344,23 +342,23 @@ export function NavBar() {
         <div className="collapse navbar-collapse" id="mob-navbar">
             <ul className="navbar-nav mb-2 mb-lg-0 mx-auto">
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/"><i style={{paddingRight:"5px"}} class="fa fa-home" aria-hidden="true"></i>Home</Link>
+                  <Link className="nav-link active" aria-current="page" to="/"><i style={{paddingRight:"5px"}} class="fa fa-home" aria-hidden="true"></i>Trang chủ </Link>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item">
-                  <Link className="nav-link active" to="/search"><i style={{paddingRight:"5px"}} class="fa fa-search" aria-hidden="true"></i>Search</Link>
+                  <Link className="nav-link active" to="/search"><i style={{paddingRight:"5px"}} class="fa fa-search" aria-hidden="true"></i>Tìm kiếm </Link>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i style={{paddingRight:"5px"}} class="fa fa-list-ul" aria-hidden="true"></i>Our Services</a>
+                  <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i style={{paddingRight:"5px"}} class="fa fa-list-ul" aria-hidden="true"></i>Chức năng khác </a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><Link className="dropdown-item" to="/course">Course</Link></li>
-                      <li><Link className="dropdown-item" to="/blog">Blog</Link></li>
-                      <li><Link className="dropdown-item" to="/markdown">Write Markdown</Link></li>
+                      <li><Link className="dropdown-item" to="/course">Xem khóa học </Link></li>
+                      <li><Link className="dropdown-item" to="/blog">Xem bài giảng </Link></li>
+                      <li><Link className="dropdown-item" to="/markdown">Đăng bài </Link></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="/file">Explore More</Link></li>
+                      <li><Link className="dropdown-item" to="/file">Khám phá thêm </Link></li>
                   </ul>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item active">
-                  <Link className="nav-link active" to="/contactUs"><i style={{paddingRight:"5px"}} class="fa fa-envelope" aria-hidden="true"></i>Contact Us</Link>
+                  <Link className="nav-link active" to="/contactUs"><i style={{paddingRight:"5px"}} class="fa fa-envelope" aria-hidden="true"></i>Liên hệ </Link>
               </li>
           </ul>
           {isLogin === false && 

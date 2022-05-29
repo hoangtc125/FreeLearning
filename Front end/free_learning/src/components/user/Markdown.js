@@ -134,7 +134,7 @@ export function Markdown() {
       {load && <Loader/>}
         <div className="input-group">
           <div className="input-group-prepend" style={{minWidth:"150px"}}>
-            <span style={{background:"none", border:"none"}} className="input-group-text" id="inputGroup-sizing-default">Title</span>
+            <span style={{background:"none", border:"none"}} className="input-group-text" id="inputGroup-sizing-default">Tiêu đề </span>
           </div>
           <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
             value={title}
@@ -143,17 +143,17 @@ export function Markdown() {
         </div>
         <div className="input-group">
           <div className="input-group-prepend" style={{minWidth:"150px"}}>
-            <label style={{background:"none", border:"none"}} className="input-group-text" htmlFor="inputGroupSelect01">Type</label>
+            <label style={{background:"none", border:"none"}} className="input-group-text" htmlFor="inputGroupSelect01">Chủ đề </label>
           </div>
           <select className="custom-select" id="inputGroupSelect01" style={{background:"none", border:"none"}}>
-            <option selected>Math</option>
-            <option>English</option>
-            <option>Literature</option>
+            <option selected value="Math">Toán học </option>
+            <option value="English">Tiếng Anh </option>
+            <option value="Literature">Văn học </option>
           </select>
         </div>
         <div className="input-group">
           <div className="input-group-prepend" style={{minWidth:"150px"}}>
-            <span style={{background:"none", border:"none"}} className="input-group-text">Description</span>
+            <span style={{background:"none", border:"none"}} className="input-group-text">Mô tả ngắn </span>
           </div>
           <textarea className="form-control" aria-label="With textarea" spellCheck="false"
             value={description}
@@ -163,16 +163,16 @@ export function Markdown() {
         <div style={{display:"flex", justifyContent:"space-between", marginLeft:"5px", padding:"10px"}}>
           <div>
             <i className="fa fa-refresh fa-spin fa-fw"></i>
-            <span className="sr-only">Auto save...</span>
+            <span className="sr-only">Tự động lưu ...</span>
           </div>
           {/* <File/> */}
           {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
             <button type="button" class="btn btn-primary btn-sm"
               onClick={() => handleCreateLession()}
-            >Publish</button>
+            >Đăng bài viểt </button>
           }
           {!window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
-            <span className="sr-only">Please Login to publish your writing...<button type="button" className="btn btn-primary btn-sm" disabled>Publish</button></span>
+            <span className="sr-only">Hãy đăng nhập để đăng bài viết này lên Free Learning ... <button type="button" className="btn btn-primary btn-sm" disabled>Đăng bài viết </button></span>
             
           }
         </div>
@@ -184,14 +184,14 @@ export function Markdown() {
                   onClick={(e) => {
                     setInput(false)                   
                   }}
-                >Writing</button>
+                >Nội dung </button>
               </li>
               <li className="nav-item">
                 <button className="nav-link" aria-current="true" href="#" id="inp2" style={{width:"25vw"}}
                   onClick={(e) => {
                     setInput(true)                   
                   }}
-                >Upload PDF File</button>
+                >Tải file PDF lên </button>
               </li>
             </ul>
           </div>

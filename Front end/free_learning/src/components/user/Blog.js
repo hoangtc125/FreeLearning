@@ -99,15 +99,16 @@ export function Blog(data) {
       {load && <Loader/>}
       <figure style={{margin:"50px 0px 0px"}}>
         <blockquote class="blockquote">
-          <h1 className="display-4">{title}</h1>
+          <h1 className="display-4"><strong>{title}</strong></h1>
         </blockquote>
-        <figcaption className="blockquote-footer">
+        <figcaption className="blockquote-footer mt-3">
           {description}
         </figcaption>
-        <div style={{display:"flex", justifyContent:"space-between"}}>
-            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Author: <strong>{author}</strong></p>
-            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Created at: <strong>{created_at}</strong></p>
-            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Modified at: <strong>{modified_at}</strong></p>
+        <div style={{display:"flex", justifyContent:"space-between"}} className="mt-2">
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Tác giả : <strong>{author}</strong></p>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Lượt xem : <strong>{number_of_views}</strong></p>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Ngày đăng : <strong>{created_at}</strong></p>
+            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Ngày chỉnh sửa cuối : <strong>{modified_at}</strong></p>
         </div>
       </figure>
       <div className="my-blog" style={{maxWidth:"100vw"}}>
@@ -118,16 +119,14 @@ export function Blog(data) {
               window.location.href = API.FIND_ONE + id
             }}><img src={avatar} style={{maxWidth:"5vw"}}></img></a>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{role}</p>
-            <div style={{margin:"10px 0px"}}></div>
-            <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>Vote</p>
+            <p className="text-muted mt-4" style={{margin: "0", fontSize:"20px"}}>Vote </p>
             <button className="btn"><i className="fa fa-chevron-up fa-2x" aria-hidden="true"></i></button>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{value}</p>
             <button className="btn"><i className="fa fa-chevron-down fa-2x" aria-hidden="true"></i></button>
             <div className="rating">
               <span>☆</span><span>☆</span><span>☆</span>
             </div>
-            <div style={{margin:"10px 0px"}}></div>
-            <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+            <i className="fa fa-eye fa-2x mt-4" aria-hidden="true"></i>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{number_of_views}</p>
           </div>
         </div>
@@ -139,14 +138,14 @@ export function Blog(data) {
                   onClick={(e) => {
                     setInput(false)                   
                   }}
-                >Content</button>
+                >Nội dung </button>
               </li>
               <li className="nav-item" style={{flexGrow:"1"}}>
                 <button className="nav-link" aria-current="true" href="#" id="inp2" style={{width:"100%"}}
                   onClick={(e) => {
                     setInput(true)                   
                   }}
-                >PDF File</button>
+                >File PDF đính kèm </button>
               </li>
             </ul>
           </div>
