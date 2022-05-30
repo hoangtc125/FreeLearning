@@ -12,6 +12,7 @@ export function Profile(data) {
 
   const [view, setView] = useState("POSTS")
   const [name, setName] = useState("")
+  const [username, setUsername] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
   const [role, setRole] = useState("")
   const [email, setEmail] = useState("")
@@ -36,6 +37,7 @@ export function Profile(data) {
       if(data?.detail) {
         alert(data.detail)
       } else {
+        setUsername(data.data.username)
         setName(data.data.fullname || "")
         setPhoneNumber(data.data.phone || "")
         setEmail(data.data.email || "")
@@ -49,6 +51,33 @@ export function Profile(data) {
       console.error('Error:', error);
     });
   }, [data])
+
+  function handleSubcribe(e) {
+    e.preventDefault()
+    setLoad(true)
+    fetch(API.DOMAIN + API.SUBCRIBE + username, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'accept': 'application/json',
+        'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
+      },
+      credentials: "same-origin",
+      // mode: 'no-cors'
+    })
+    .then(response => {
+      return response.json()})
+    .then(data => {
+      if(data?.detail) {
+        alert(data.detail)
+      } else {
+        alert("Successfull !!!")
+        setLoad(false)
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 
   return (
     <div className="container">
@@ -71,7 +100,7 @@ export function Profile(data) {
                         <div className="profile-header-info">
                             <h4 className="m-t-10 m-b-5">{name}</h4>
                             <p className="m-b-10">{role}</p>
-                            <Link to="/user/edit" className="btn btn-sm btn-info mb-2">Follow</Link>
+                            <a href="" onClick={(e) => handleSubcribe(e)} className="btn btn-sm btn-info mb-2">Follow</a>
                         </div>
                       </div>
                       <ul className="profile-header-tab nav nav-tabs">
@@ -111,13 +140,7 @@ export function Profile(data) {
                 {view === "ABOUT" && <AboutUser name={name} role={role} email={email} phone={phoneNumber} bio={bio}/>}
                 {view === "FOLLOWERS" &&
                 <div className="tab-pane" id="friends">
-                  <div className="row">
-                    <Followers/>
-                    <Followers/>
-                    <Followers/>
-                    <Followers/>
-                    <Followers/>
-                  </div>
+                  <Followers username={username}/>
                 </div>
                 }
             </div>

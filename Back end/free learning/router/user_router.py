@@ -28,12 +28,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     result, avatar = await AccountService().authenticate_user(
         form_data.username, form_data.password
     )
-    await logger.add_message(result, "avatar")
+    logger.enqueue_data(result, "avatar")
     return {"token_type": result.token_type, "access_token": result.token, "avatar": avatar}
 
 
 @router.post(UserAPI.REGISTER, response_model=HttpResponse)
 async def register(account_create: AccountCreate):
+    logger.enqueue_data(account_create)
     result = await AccountService().create_one_account(account_create)
     return success_response(data=result)
 
@@ -41,7 +42,8 @@ async def register(account_create: AccountCreate):
 @router.post(UserAPI.FIND_ONE, response_model=HttpResponse)
 async def find_one(
     id: str,
-):
+):  
+    logger.enqueue_data(id)
     result = await AccountService().get_account_by_id(id=id)
     return success_response(data=result)
 
@@ -51,8 +53,8 @@ async def profile(
     token: str = Depends(oauth2_scheme),
     username: str = Depends(get_actor_from_request),
 ):
+    logger.enqueue_data(token, username)
     result = await AccountService().get_account_by_field(field="username", value=username)
-    # logger.add_message(f"profile: {result}")
     return success_response(data=result)
 
 

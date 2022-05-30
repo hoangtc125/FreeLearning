@@ -21,7 +21,7 @@ from utils.model_utils import get_dict, to_response_dto
 from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import LESSION_COLLECTION, USER_COLLECTION, COURSE_COLLECTION
-# from core.log_config import logger
+from core.log_config import logger
 
 
 class BusinessService():
@@ -56,12 +56,13 @@ class BusinessService():
             )
         lession_id, lession = resp
         lession.number_of_views += 1
+        logger.enqueue_data(lession.name)
         await self.lession_repo.update(obj=lession, doc_id=uuid.UUID(lession_id))
         user = await AccountService().get_account_by_field(value=lession.at_username)
         return [to_response_dto(lession_id, lession, LessionResponse), user] 
 
     async def get_all_courses(self, username: str = None):
-        # logger.add_message(username)
+        # logger.enqueue_data(username)
         filter = {"_source.at_username": username}
         res = await self.course_repo.get_all(filter=filter)
         if not res:

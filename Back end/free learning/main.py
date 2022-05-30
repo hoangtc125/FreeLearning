@@ -47,17 +47,17 @@ async def add_process_time_header(request: Request, call_next):
     request_user = None
     if request.method != "OPTIONS":
         request_user = authorize_token(request=request)
-    await logger.start(request=request, request_user=request_user)
+    logger.enqueue_data(request, request_user, tag='start')
     if request.method != "OPTIONS":
         try:
             check_api_permission(path=request.url.path, request_role=request_user.role)
         except PermissionDeniedException as e:
-            await logger.end(path=request.url.path, response=None)
+            logger.enqueue_data(request.url.path, None, tag='end')
             return JSONResponse(status_code=e.status_code, headers=e.headers)
     response = await call_next(request)
     process_time = time.time() - start_time
     response.headers["X-Process-Time"] = str(process_time)
-    await logger.end(path=request.url.path, response=response)
+    logger.enqueue_data(request.url.path, response, tag='end')
     return response
 
 

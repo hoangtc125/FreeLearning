@@ -54,7 +54,7 @@ class SearchService:
             dict_resp = await repo["repo"].get_all(filter=filter)
             list_resp = []
             for _id, value in dict_resp.items():
-                await logger.add_message(_id)
+                logger.enqueue_data(_id)
                 list_resp.append(repo["response_model"](**get_dict(value, allow_none=True), id=_id))
             res.append(SearchResult(search_type=key, result=list_resp))
         for idx, data in enumerate(res):
@@ -63,7 +63,6 @@ class SearchService:
                 res[0] = res[idx]
                 res[idx] = temp_data
         process_time = time.time() - start_time
-        await logger.add_message(process_time)
         return SearchResponse(
             search_type=search_form.search_type,
             key_word=search_form.key_word,

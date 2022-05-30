@@ -6,6 +6,7 @@ from model.user import Account
 from utils.model_utils import get_dict, to_response_dto
 from connections.config import FOLLOW_COLLECTION, USER_COLLECTION
 from service.user_service import AccountService
+from model.search import SearchAccount
 
 
 class FollowService:
@@ -49,6 +50,12 @@ class FollowService:
             raise RequestException(message="Account doesn't exist")
         res = await self.follow_repo.get_one_by_id(doc_id=username)
         if not res:
-            raise RequestException(message="User does not exist")
-        doc_id, fl = res
-        return to_response_dto(doc_id, fl, FollowResponse)
+            return []
+        doc_id, follow = res
+        users = []
+        for fl in follow.followers:
+            user = await AccountService().get_account_by_field(field="username", value=fl)
+            if not user:
+                continue
+            users.append(SearchAccount(**get_dict(user)))
+        return to_response_dto(doc_id, Follow(followers=users), FollowResponse)

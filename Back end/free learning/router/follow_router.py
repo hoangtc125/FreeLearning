@@ -24,8 +24,7 @@ async def subcribe(
 
 @router.post(FollowAPI.GET_FOLLOWERS, response_model=HttpResponse)
 async def get_followers(
-    token: str = Depends(oauth2_scheme),
-    username: str = Depends(get_actor_from_request),
+    username: str,
 ):
     result = await FollowService().get_followers(username=username)
     return success_response(data=result)
