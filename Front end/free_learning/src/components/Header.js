@@ -34,6 +34,7 @@ export function LoginForm() {
         window.localStorage.setItem('FREE_LEARNING_TOKEN', TOKEN);
         window.localStorage.setItem('FREE_LEARNING_USERNAME', username);
         window.localStorage.setItem('FREE_LEARNING_AVATAR', data.avatar);
+        window.localStorage.setItem('FREE_LEARNING_USERID', data.id);
         window.location.reload();
       }
     })
@@ -287,6 +288,7 @@ export function UserInNavbar() {
     window.localStorage.removeItem("FREE_LEARNING_TOKEN")
     window.localStorage.removeItem("FREE_LEARNING_USERNAME")
     window.localStorage.removeItem('FREE_LEARNING_AVATAR');
+    window.localStorage.removeItem('FREE_LEARNING_USERID');
     window.location.reload()
   }
 

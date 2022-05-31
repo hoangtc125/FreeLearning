@@ -10,6 +10,9 @@ export let GET_ALL_USER = '/admin/get-all-user'
 export let SEARCH = '/search'
 export let SUBCRIBE = '/follow/subcribe?publisher='
 export let GET_FOLLOWERS = '/follow/get-followers?username='
+export let GET_MIN_FOLLOWERS = '/follow/get-min-followers?username='
 export let FORGOT_PASSWORD = '/user/forgot-password?email='
 export let CREATE_LESSION = '/user/create-lession'
 export let GET_ONE_LESSION = '/user/get-one-lession?lession_id='
+export let CREATE_COMMENT = "/comment/create"
+export let GET_COMMENTS = "/comment/get-comments?blog_id="

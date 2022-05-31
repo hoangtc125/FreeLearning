@@ -20,6 +20,7 @@ export function Blog(data) {
   const [avatar, setAvatar] = useState("");
   const [role, setRole] = useState("");
   const [id, setId] = useState("");
+  const [idBlog, setIdBlog] = useState(false);
   const [load, setLoad] = useState(false)
   const [input, setInput] = useState(false);
 
@@ -46,6 +47,7 @@ export function Blog(data) {
           setRole(data.data[1].role)
           setId(data.data[1].id)
           setTitle(data.data[0].name)
+          setIdBlog(data.data[0].id)
           setFile(data.data[0].file)
           setDescription(data.data[0].description)
           setCreatedAt(new Date(data.data[0].created_at * 1000).toLocaleString())
@@ -120,9 +122,13 @@ export function Blog(data) {
             }}><img src={avatar} style={{maxWidth:"5vw"}}></img></a>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{role}</p>
             <p className="text-muted mt-4" style={{margin: "0", fontSize:"20px"}}>Vote </p>
-            <button className="btn"><i className="fa fa-chevron-up fa-2x" aria-hidden="true"></i></button>
+            <button className="btn" onClick={() => {
+              setValue(val => val + 1)
+            }}><i className="fa fa-chevron-up fa-2x" aria-hidden="true"></i></button>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{value}</p>
-            <button className="btn"><i className="fa fa-chevron-down fa-2x" aria-hidden="true"></i></button>
+            <button className="btn" onClick={() => {
+              setValue(val => val - 1)
+            }}><i className="fa fa-chevron-down fa-2x" aria-hidden="true"></i></button>
             <div className="rating">
               <span>☆</span><span>☆</span><span>☆</span>
             </div>
@@ -156,7 +162,9 @@ export function Blog(data) {
             <FileInBlog data={file}/>
           }
           <hr/>
-          <Comment/>
+          {idBlog && 
+            <Comment id={idBlog}/>
+          }
         </div>
         <div style={{minWidth:"fit-content"}} className="hide-bar">
           <ul className="list-group list-group-flush right-bar">

@@ -35,12 +35,12 @@ export function Edit() {
         alert(data.detail)
       } else {
         setLoad(false)
-        setName(data.data.fullname || "")
-        setPhoneNumber(data.data.phone || "")
-        setEmail(data.data.email || "")
-        setRole(data.data.role || "")
-        setBio(data.data.profile || "")
-        setAvatar(data.data.avatar || "")
+        setName(data.data[0].fullname || "")
+        setPhoneNumber(data.data[0].phone || "")
+        setEmail(data.data[0].email || "")
+        setRole(data.data[0].role || "")
+        setBio(data.data[0].profile || "")
+        setAvatar(data.data[0].avatar || "")
       }
     })
     .catch((error) => {

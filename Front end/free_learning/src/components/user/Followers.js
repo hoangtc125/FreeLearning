@@ -62,7 +62,7 @@ export function Followers(data) {
     .catch((error) => {
       console.error('Error:', error);
     });
-  }, [])
+  }, [data])
 
   return (
     <div className="row">

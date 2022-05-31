@@ -50,7 +50,7 @@ export function File() {
   }
 
   return (
-    <div className="container">
+    <div className="container" style={{width:"100vw"}}>
 
       {/* Upload PDF */}
       <form>

@@ -37,6 +37,12 @@ class SearchAPI:
 class FollowAPI:
     SUBCRIBE = "/follow/subcribe"
     GET_FOLLOWERS = "/follow/get-followers"
+    GET_MIN_FOLLOWERS = "/follow/get-min-followers"
+
+
+class CommentAPI:
+    CREATE_COMMENT = "/comment/create"
+    GET_COMMENTS = "/comment/get-comments"
 
 
 # class
@@ -64,4 +70,7 @@ API_PERMISSION = {
     SearchAPI.SEARCH: ALLOW_ALL,
     FollowAPI.SUBCRIBE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
     FollowAPI.GET_FOLLOWERS: ALLOW_ALL,
+    FollowAPI.GET_MIN_FOLLOWERS: ALLOW_ALL,
+    CommentAPI.CREATE_COMMENT: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
+    CommentAPI.GET_COMMENTS: ALLOW_ALL,
 }

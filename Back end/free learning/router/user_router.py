@@ -13,6 +13,7 @@ from service.user_service import AccountService
 from core.api_config import UserAPI
 from utils.router_utils import get_actor_from_request
 from core.log_config import logger
+from service.follow_service import FollowService
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=UserAPI.LOGIN)
@@ -25,11 +26,11 @@ class LoginForm(BaseModel):
 
 @router.post(UserAPI.LOGIN)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    result, avatar = await AccountService().authenticate_user(
+    result, avatar, id = await AccountService().authenticate_user(
         form_data.username, form_data.password
     )
     logger.enqueue_data(result, "avatar")
-    return {"token_type": result.token_type, "access_token": result.token, "avatar": avatar}
+    return {"token_type": result.token_type, "access_token": result.token, "avatar": avatar, "id": id}
 
 
 @router.post(UserAPI.REGISTER, response_model=HttpResponse)
@@ -45,7 +46,8 @@ async def find_one(
 ):  
     logger.enqueue_data(id)
     result = await AccountService().get_account_by_id(id=id)
-    return success_response(data=result)
+    fls = await FollowService().get_min_followers(username=result.username)
+    return success_response(data=[result, fls])
 
 
 @router.post(UserAPI.PROFILE, response_model=HttpResponse)
@@ -55,7 +57,8 @@ async def profile(
 ):
     logger.enqueue_data(token, username)
     result = await AccountService().get_account_by_field(field="username", value=username)
-    return success_response(data=result)
+    fls = await FollowService().get_min_followers(username=username)
+    return success_response(data=[result, fls])
 
 
 @router.put(UserAPI.UPDATE_PROFILE, response_model=HttpResponse)

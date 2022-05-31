@@ -20,7 +20,8 @@ export function FileInBlog(data) {
   const [pdfFile, setPdfFile]=useState(data.data);
 
   return (
-    <div className="container">
+    <div className="container" style={{width:"60vw"}}>
+      
       {/* View PDF */}
       <div style={{padding:"20px"}}></div>
       <div className="viewer">

@@ -18,6 +18,9 @@ export function Profile(data) {
   const [email, setEmail] = useState("")
   const [bio, setBio] = useState("")
   const [avatar, setAvatar] = useState("")
+  const [followers, setFollowers] = useState(0)
+  const [isMe, setIsMe] = useState(true)
+  const [checkFollowed, setCheckFollowed] = useState(false)
   const [load, setLoad] = useState(false)
 
   useEffect(() => {
@@ -33,17 +36,36 @@ export function Profile(data) {
     })
     .then(response => {
       return response.json()})
-    .then(data => {
-      if(data?.detail) {
-        alert(data.detail)
+    .then(dt => {
+      if(dt?.detail) {
+        alert(dt.detail)
       } else {
-        setUsername(data.data.username)
-        setName(data.data.fullname || "")
-        setPhoneNumber(data.data.phone || "")
-        setEmail(data.data.email || "")
-        setRole(data.data.role || "")
-        setBio(data.data.profile || "")
-        setAvatar(data.data.avatar || "string")
+        setUsername(dt.data[0].username)
+        setName(dt.data[0].fullname || "")
+        setPhoneNumber(dt.data[0].phone || "")
+        setEmail(dt.data[0].email || "")
+        setRole(dt.data[0].role || "")
+        setBio(dt.data[0].profile || "")
+        setAvatar(dt.data[0].avatar || "string")
+        if (window.localStorage.getItem("FREE_LEARNING_USERNAME") === dt.data[0].username) {
+          setIsMe(true)
+          setFollowers(0)
+        } else {
+          setIsMe(false)
+        }
+        if (dt.data[1]) {
+          console.log(dt.data[1].id)
+          if (dt.data[1].id === window.localStorage.getItem("FREE_LEARNING_USERNAME")) {
+            setIsMe(true)
+            setFollowers(dt.data[1].followers.length)
+          } else {
+            if (dt.data[1].followers.includes(window.localStorage.getItem("FREE_LEARNING_USERNAME"))) {
+              setCheckFollowed(true)
+            } else {
+              setCheckFollowed(false)
+            }
+          }
+        }
         setLoad(false)
       }
     })
@@ -54,7 +76,10 @@ export function Profile(data) {
 
   function handleSubcribe(e) {
     e.preventDefault()
-    setLoad(true)
+    if (!window.localStorage.getItem("FREE_LEARNING_USERNAME")) {
+      alert("Hãy đăng nhập để thực hiện chức năng này ")
+      return
+    }
     fetch(API.DOMAIN + API.SUBCRIBE + username, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -71,7 +96,6 @@ export function Profile(data) {
         alert(data.detail)
       } else {
         alert("Successfull !!!")
-        setLoad(false)
       }
     })
     .catch((error) => {
@@ -100,7 +124,22 @@ export function Profile(data) {
                         <div className="profile-header-info">
                             <h4 className="m-t-10 m-b-5">{name}</h4>
                             <p className="m-b-10">{role}</p>
-                            <a href="" onClick={(e) => handleSubcribe(e)} className="btn btn-sm btn-info mb-2">Follow</a>
+                            {isMe && 
+                              <p className="m-b-10">{followers} người theo dõi </p>
+                            }
+                            {!isMe &&
+                              <a href="" id="afollow" onClick={(e) => {
+                                handleSubcribe(e)
+                                setCheckFollowed(check => !check)
+                              }} className="btn btn-sm btn-info mb-2">
+                                {checkFollowed &&
+                                  "Followed"
+                                }
+                                {!checkFollowed &&
+                                  "Follow"
+                                }
+                              </a>
+                            }
                         </div>
                       </div>
                       <ul className="profile-header-tab nav nav-tabs">
