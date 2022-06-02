@@ -6,7 +6,8 @@ from core.model import HttpResponse, custom_response, success_response
 from model.comment import CommentCreate
 from router.user_router import oauth2_scheme
 from service.follow_service import FollowService
-from core.api_config import CommentAPI, FollowAPI
+from service.notification_service import NotificationService
+from core.api_config import CommentAPI, FollowAPI, NotificationAPI
 from utils.router_utils import get_actor_from_request
 
 router = APIRouter()
@@ -51,4 +52,21 @@ async def create_comment(
     blog_id: str,
 ):
     result = await FollowService().get_comments(blog_id=blog_id)
+    return success_response(data=result)
+
+@router.get(NotificationAPI.GET_NOTIFICATIONS, response_model=HttpResponse)
+async def get_notifications(
+    user_id: str,
+    token: str = Depends(oauth2_scheme),
+):
+    result = await NotificationService().get_notifications(user_id=user_id)
+    return success_response(data=result)
+
+@router.put(NotificationAPI.READ_NOTIFICATION, response_model=HttpResponse)
+async def read_notification(
+    notification_id: str,
+    token: str = Depends(oauth2_scheme),
+    username: str = Depends(get_actor_from_request),
+):
+    result = await NotificationService().read_notification(notification_id=notification_id)
     return success_response(data=result)

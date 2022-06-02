@@ -12,6 +12,7 @@ import {Edit} from './user/Edit'
 import {Markdown} from './user/Markdown';
 import {Blog} from './user/Blog';
 import {File} from './user/File';
+import {Notifictions} from './user/Notifications';
 
 import * as API from '../constants/api_config'
 
@@ -25,7 +26,7 @@ export function Body() {
       <Route path="/root" element={<Root/>}/>
       <Route path="/course" element={<Home/>}/>  
       <Route path="/markdown" element={<Markdown/>}/>
-      <Route path="/blog" element={<Blog api={""}/>}/>
+      <Route path="/blog" element={<Notifictions/>}/>
       <Route path="/user/get-one-lession" element={<Blog api={API.GET_ONE_LESSION + window.localStorage.getItem("FREE_LEARNING_ID_FOUND")}/>}/>
       <Route path="/user/find-one" element={<Profile api={API.FIND_ONE + window.localStorage.getItem("FREE_LEARNING_ID_FOUND")}/>}/>
       {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&

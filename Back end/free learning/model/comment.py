@@ -16,5 +16,6 @@ class Comment(BaseModel):
 class CommentCreate(Comment):
     pass
 
+
 class CommentResponse(Comment):
     id: str

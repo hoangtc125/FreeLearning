@@ -22,6 +22,7 @@ from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import LESSION_COLLECTION, USER_COLLECTION, COURSE_COLLECTION
 from core.log_config import logger
+from service.notification_service import NotificationService
 
 
 class BusinessService():
@@ -151,18 +152,6 @@ class BusinessService():
                 status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
                 message="Account doesn't exist",
             )
-        # try:
-        #     _course = await self.course_repo.get_one_by_id(doc_id=uuid.UUID(lession.at_course_id))
-        #     if not _course:
-        #         raise CredentialException(
-        #             status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
-        #             message="Course doesn't exist",
-        #         )
-        # except Exception as e:
-        #     raise CredentialException(
-        #         status_code=starlette.status.HTTP_412_PRECONDITION_FAILED,
-        #         message="Course doesn't exist",
-        #     )  
         try:
             self.validate_course(lession)
         except Exception as e:
@@ -174,6 +163,7 @@ class BusinessService():
         _lession = Lession(**get_dict(lession))
         try:
             doc_id = await self.lession_repo.insert_one(obj=_lession)
+            await NotificationService().create_lession_notification(user_id=_account.id, lession=lession, lession_id=doc_id)
             return to_response_dto(doc_id, _lession, LessionResponse)
         except Exception as e:
             raise CredentialException(

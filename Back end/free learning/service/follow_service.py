@@ -1,4 +1,3 @@
-from email import message
 from exception.http_exception import RequestException
 from connections.mongo_connector import get_repo
 from model.follow import Follow, FollowResponse
@@ -7,6 +6,7 @@ from model.comment import Comment, CommentCreate, CommentResponse
 from utils.model_utils import get_dict, to_response_dto
 from connections.config import FOLLOW_COLLECTION, USER_COLLECTION, COMMENT_COLLECTION
 from service.user_service import AccountService
+from service.notification_service import NotificationService
 from model.search import SearchAccount
 
 
@@ -37,6 +37,7 @@ class FollowService:
             else:
                 list_fl.append(subcriber)
                 message = "Subcribe successfull"
+                await NotificationService().create_follow_notification(fullname=_publisher.fullname, id=_publisher.id, username=subcriber)
             await self.follow_repo.update_one_by_field(
                 doc_id=doc_id, field="followers", value=list_fl
             )
@@ -81,6 +82,7 @@ class FollowService:
         comment_create.fullname = account.fullname
         comment = Comment(**get_dict(comment_create))
         await self.comment_repo.insert_one(obj = comment)
+        await NotificationService().create_comment_notification(comment_create=comment_create)
         return "Success"
 
     async def get_comments(self, blog_id: str):

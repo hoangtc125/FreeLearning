@@ -45,6 +45,11 @@ class CommentAPI:
     GET_COMMENTS = "/comment/get-comments"
 
 
+class NotificationAPI:
+    GET_NOTIFICATIONS = '/user/notifications'
+    READ_NOTIFICATION = '/user/read-notification'
+
+
 # class
 
 ALLOW_ALL = ["*"]
@@ -73,4 +78,6 @@ API_PERMISSION = {
     FollowAPI.GET_MIN_FOLLOWERS: ALLOW_ALL,
     CommentAPI.CREATE_COMMENT: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
     CommentAPI.GET_COMMENTS: ALLOW_ALL,
+    NotificationAPI.GET_NOTIFICATIONS: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
+    NotificationAPI.READ_NOTIFICATION: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
 }
