@@ -87,7 +87,7 @@ export function Comment(data) {
       return
     }
     let comment = {
-      "created_at": Number(new Date()),
+      "created_at": Number(new Date()) / 1000,
       "content": value,
       "at_blog": data.id,
       "at_username": window.localStorage.getItem("FREE_LEARNING_USERNAME"),

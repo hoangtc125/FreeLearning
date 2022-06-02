@@ -8,12 +8,12 @@ function Lession(data) {
     
     return (
         <div className="col-md-6 col-lg-4">
-              <div className="card-box" style={{width:"25vw", height:"500px"}}>
+              <div className="card-box" style={{width:"25vw", height:"200px"}}>
                   <div className="card-thumbnail">
                       <img src="images/office-image-one.jpg" className="img-fluid" alt=""/>
                   </div>
                   <h3><a href="#" className="mt-2 text-danger">{info.name}</a></h3>
-                  <p className="text-secondary">{info.description}</p>
+                  {/* <p className="text-secondary">{info.description}</p> */}
                   <a href="#" className="btn btn-sm btn-danger float-right">Xem thêm </a>
               </div>
           </div>

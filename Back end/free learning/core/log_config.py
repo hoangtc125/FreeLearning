@@ -1,20 +1,22 @@
-import asyncio
+import logging
+import os, sys
+import threading
+from time import sleep
+import traceback
+import yaml
+from yaml.loader import SafeLoader
 from collections import deque
 from datetime import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
-import logging
 from logging.handlers import TimedRotatingFileHandler
-import os, sys
-import threading
-import traceback
-from typing import Any
-from core.project_config import LOG_DIR
+
+from core.project_config import LOG_DIR, settings
+from core.helpper import mac_from_ip
 from utils.time_utils import get_current_timestamp
 
 class MyTimedRotatingFileHandler(TimedRotatingFileHandler):
-
-    def __init__(self, file_name: str):
-        self.__file_name = file_name
+    def __init__(self, router: str, mapping: str):
+        self.__file_name = mapping[router]
         self.create_dir()
         TimedRotatingFileHandler.__init__(self, self.__base_dir + "/" + self.__file_name + "_logging.ini", when='midnight', interval=1)
   
@@ -28,99 +30,110 @@ class MyTimedRotatingFileHandler(TimedRotatingFileHandler):
         self.__base_dir = LOG_DIR + "/log/" + str(datetime.utcnow().date()).replace('-', '/')
         if not os.path.exists(self.__base_dir):
             os.makedirs(self.__base_dir)
-        
-
-def get_http_request_id(frame=sys._getframe(0), context = 1):
-    while frame:
-        if 'self' in frame.f_locals.keys() and isinstance(frame.f_locals['self'], BaseHTTPMiddleware):
-            return id(frame.f_locals['scope'])
-        frame = frame.f_back
-    return 1
-
+    
 
 class Logger:
 
-    routers = ['admin', 'follow', 'search', 'user']
-
     def __init__(self):
-        loggers = {}
-        loggers['stranger'] = Logger.create_file_handler('stranger')
-        for router in Logger.routers:
-            loggers[router] = Logger.create_file_handler(router)
-        self.__loggers = loggers
         self.__pool = {}
-        self.input_data_queue = deque()
-        self.pool_locked = False
-        self.deque_locked = False
+        self.__input_data_queue = deque()
+        self.__is_locked = False
+        self.__mapping = Logger.get_dir_mapping()
+        self.__routers = list(self.__mapping.keys())
+
+        loggers = {}
+        for router in self.__routers:
+            _logger = Logger.create_file_handler(router=router, mapping=self.__mapping)
+            loggers[router] = {
+                "critical": _logger.critical,
+                "warning": _logger.warning,
+                "debug": _logger.debug,
+                "error": _logger.error,
+                "info": _logger.info,
+            }
+        self.__loggers = loggers
 
         logger_thread = threading.Thread(target=self.__log, args=())
         logger_thread.daemon = True
         logger_thread.start()
 
     def __log(self):
-        print("create logging thread")
+        sleep(1)
         while True:
             try:
                 res = self.__get_latest_data()
                 if not res:
                     continue
-                request_id, tag, latest_data = res
+
+                request_id, latest_data ,tag, level = res
 
                 if tag == 'start':
                     self.__pool[request_id] = {}
-                    self.__pool[request_id]['message'] = latest_data['message']
+                    self.__pool[request_id]['data'] = []
                     self.__pool[request_id]['created_at'] = get_current_timestamp()
+
+                    request, request_user = latest_data
+                    if request_user:
+                        self.__pool[request_id]['data'].append((f"USER: {request_user.username}, ROLE: {request_user.role}", level))
+                    if request:
+                        self.__pool[request_id]['data'].append((f"CLIENT: client={request.client}, mac={mac_from_ip(request.client.host)}", level))
+                        self.__pool[request_id]['data'].append((f"REQUEST: method={request.method}, url={request.url}", level))
                     continue
 
-                self.__pool[request_id]['message'].extend([str(msg) for msg in latest_data['message']])
                 if tag == 'add':
+                    self.__pool[request_id]['data'].extend([(str(msg), level) for msg in latest_data])
                     continue
 
-                if latest_data['router'] not in Logger.routers:
-                    self.__loggers['stranger'].info("\n".join(self.__pool[request_id]['message']))
-                else: 
-                    self.__loggers[latest_data['router']].info("\n".join(self.__pool[request_id]['message']))
+                path, response = latest_data
+                if response:
+                    self.__pool[request_id]['data'].append((f"RESPONSE: status={response.status_code}, process_time={response.headers['X-Process-Time']}", level))
+                else:
+                    self.__pool[request_id]['data'].append(("RESPONSE: None", level))
+                self.__pool[request_id]['data'].append(("\n=================================================\n", level))
+
+                router = path.split('/')[1]
+                if router not in self.__routers:
+                    router = 'stranger'
+                
+                for data in self.__pool[request_id]['data']:
+                    _message, _level = data
+                    self.__loggers[router][_level](_message)
+                self.__pool.pop(request_id)
             except Exception as e:
                 traceback.print_exc()
         
-    def enqueue_data(self, *args, tag = 'add'):
-        data = {"message":[]}
-        request_id = get_http_request_id(sys._getframe(0))
-        if tag == 'start':
-            request, request_user = args
-            if request_user:
-                data['message'].append(f"\nUSER: {request_user.username}")
-                data['message'].append(f"ROLE: {request_user.role}")
-            if request:
-                data['message'].append(f"REQUEST: method={request.method}, url={request.url}")
-        elif tag == 'end':
-            path, response = args
-            if response:
-                data['message'].append(f"RESPONSE: status={response.status_code}, process_time={response.headers['X-Process-Time']}")
-            else:
-                data['message'].append("RESPONSE: None")
-            data['message'].append("\n=================================================\n")
-            router = path.split('/')[1]
-            data['router'] = router
-        elif tag == 'add':
-            data['message'].extend([str(msg) for msg in args])
-        while not self.deque_locked:
-            self.deque_locked = True
-            self.input_data_queue.append((request_id, tag, data))
-            self.deque_locked = False
+    def log(self, *args, tag='add', level='info'):
+        request_id = Logger.get_http_request_id(sys._getframe(0))
+        while not self.__is_locked:
+            self.__is_locked = True
+            self.__input_data_queue.append((request_id, args, tag, level))
+            self.__is_locked = False
             return None
 
     def __get_latest_data(self):
-        if not self.input_data_queue:
+        if not self.__input_data_queue:
             return None
-        return self.input_data_queue.popleft()
+        return self.__input_data_queue.popleft()
 
     @staticmethod
-    def create_file_handler(file_name):
-        logger = logging.getLogger(file_name)
-        logger.setLevel(logging.INFO)
+    def get_http_request_id(frame=sys._getframe(0), context = 1):
+        while frame:
+            if 'self' in frame.f_locals.keys() and isinstance(frame.f_locals['self'], BaseHTTPMiddleware):
+                return id(frame.f_locals['scope'])
+            frame = frame.f_back
+        return 1
+
+    @staticmethod
+    def get_dir_mapping():
+        with open(settings.LOG_DIR_MAPPING) as f:
+            return yaml.load(f, Loader=SafeLoader)
+
+    @staticmethod
+    def create_file_handler(router, mapping):
+        logger = logging.getLogger(router)
+        logger.setLevel(settings.LOG_LEVEL)
         f_format = logging.Formatter('%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt="%H:%M:%S")
-        f_handler = MyTimedRotatingFileHandler(file_name)
+        f_handler = MyTimedRotatingFileHandler(router=router, mapping=mapping)
         f_handler.setFormatter(f_format)
         f_handler.suffix = "%Y-%m-%d"
         logger.addHandler(f_handler)

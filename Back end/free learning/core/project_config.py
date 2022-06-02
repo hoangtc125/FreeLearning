@@ -1,3 +1,4 @@
+import logging
 import os, re, uuid
 from dotenv import load_dotenv
 from pydantic import BaseSettings
@@ -19,6 +20,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # Token expired after 7 days
     SECURITY_ALGORITHM = "HS256"
     UNIQUE_ID = get_pc_unique_id()
+    LOG_LEVEL = logging.DEBUG
+    LOG_DIR_MAPPING = BASE_DIR + '/resources/log_dir_config.yaml'
 
 
 settings = Settings()
