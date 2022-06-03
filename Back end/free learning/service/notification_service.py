@@ -40,11 +40,11 @@ class NotificationService:
         await self.notification_repo.update(doc_id=doc_id, obj=_notification)
         return "Successfull"
 
-    async def create_comment_notification(self, comment_create: CommentCreate):
+    async def create_comment_notification(self, comment_create: CommentCreate, user_id: str):
         notification_create = NotificationCreate(
             created_at=get_current_timestamp(),
             content='Bạn có 1 bình luận mới ở bài viết ',
-            user_id=comment_create.user_id,
+            user_id=user_id,
             href=UserAPI.GET_ONE_LESSION + '?lession_id=' + comment_create.at_blog,
         )
         await self.create_notification(notification_create=notification_create)
@@ -54,7 +54,7 @@ class NotificationService:
         user = await AccountService().get_account_by_field(value=username)
         notification_create = NotificationCreate(
             created_at = get_current_timestamp(),
-            content=f"{fullname} đã bắt đầu theo dõi bạn ",
+            content=f"{user.fullname} đã bắt đầu theo dõi bạn ",
             user_id=id,
             href=UserAPI.FIND_ONE + '?id=' + user.id
         )

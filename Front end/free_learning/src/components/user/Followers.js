@@ -8,9 +8,9 @@ function Follower(data) {
   const [info, setInfo] = useState(data.data)
 
   return (
-    <div className="col-lg-12 col-xl-6" style={{padding:"10px"}}>
+    <div className="col-lg-12 col-xl-6" style={{padding:"10px", minHeight:"120px"}}>
         <div className="card">
-            <div className="card-block post-timelines">
+            <div className="card-block post-timelines" style={{minHeight:"100px"}}>
                 <div className="media bg-white d-flex">
                     <div className="media-left media-middle">
                         <a href="#" onClick={() => {

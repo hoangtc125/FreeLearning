@@ -8,6 +8,7 @@ from connections.config import FOLLOW_COLLECTION, USER_COLLECTION, COMMENT_COLLE
 from service.user_service import AccountService
 from service.notification_service import NotificationService
 from model.search import SearchAccount
+from service.business_service import BusinessService
 
 
 class FollowService:
@@ -82,7 +83,8 @@ class FollowService:
         comment_create.fullname = account.fullname
         comment = Comment(**get_dict(comment_create))
         await self.comment_repo.insert_one(obj = comment)
-        await NotificationService().create_comment_notification(comment_create=comment_create)
+        _, user = await BusinessService().get_one_lession_by_id(doc_id=comment_create.at_blog)
+        await NotificationService().create_comment_notification(comment_create=comment_create, user_id=user.id)
         return "Success"
 
     async def get_comments(self, blog_id: str):

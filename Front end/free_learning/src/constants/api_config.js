@@ -16,3 +16,5 @@ export let CREATE_LESSION = '/user/create-lession'
 export let GET_ONE_LESSION = '/user/get-one-lession?lession_id='
 export let CREATE_COMMENT = "/comment/create"
 export let GET_COMMENTS = "/comment/get-comments?blog_id="
+export let GET_NOTIFICATIONS = '/user/notifications?user_id='
+export let READ_NOTIFICATION = '/user/read-notification?notification_id='

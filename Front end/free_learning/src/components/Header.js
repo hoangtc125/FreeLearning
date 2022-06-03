@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
 import * as API from '../constants/api_config'
 import { Loader } from './Loader';
+import { Notifications } from './user/Notifications';
 
 export function LoginForm() {
 
@@ -180,7 +181,7 @@ export function SignUpForm() {
           'accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: username, email: email, fullname: fullname, password: password }),
+        body: JSON.stringify({ username: username, email: email, fullname: fullname, password: password, role: document.getElementById('roleSelector').value }),
         credentials: "same-origin",
         // mode: 'no-cors'
       })
@@ -234,6 +235,13 @@ export function SignUpForm() {
                     />
                 </div>      
                 <div className="mb-3">
+                    <label htmlFor="role">Chức vụ<span className="text-danger" htmlFor="roleSelector">*</span></label>
+                    <select className="custom-select" id="roleSelector" style={{background:"none", border:"none", padding:"0px 0px 0px 30px"}}>
+                      <option value="STUDENT">Học sinh</option>
+                      <option value="TEACHER">Giáo viên</option>
+                    </select>
+                </div>
+                <div className="mb-3">
                     <label htmlFor="psw">Mật khẩu <span className="text-danger">*</span></label>
                     <input type="password" className="form-control" placeholder="Enter Password" name="psw" required
                       value={password}
@@ -283,6 +291,7 @@ export function UserInNavbar() {
 
   const [account, setAccount] = useState(window.localStorage.getItem("FREE_LEARNING_USERNAME"))
   const [avatar, setAvatar] = useState(window.localStorage.getItem("FREE_LEARNING_AVATAR"))
+  const [notifications, setNotifications] = useState([])
 
   function handleLogout() {
     window.localStorage.removeItem("FREE_LEARNING_TOKEN")
@@ -292,8 +301,42 @@ export function UserInNavbar() {
     window.location.reload()
   }
 
+  useEffect(() => {
+    fetch(API.DOMAIN + API.GET_NOTIFICATIONS + window.localStorage.getItem("FREE_LEARNING_USERID"), {
+      method: 'GET', // or 'PUT'
+      headers: {
+        'accept': 'application/json',
+        'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
+      },
+      credentials: "same-origin",
+      // mode: 'no-cors'
+    })
+    .then(response => {
+      return response.json()})
+    .then(data => {
+      if(data?.detail) {
+        alert(data.detail)
+      } else {
+        if(data.data) {
+          setNotifications(data.data)
+        }
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }, [])
+
   return (
     <ul className="navbar-nav">
+    <li className="nav-item dropdown">
+        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-bell" aria-hidden="true" style={{padding:"20px 0px 0px"}}></i>
+        </a>
+        <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown">
+          <Notifications data={notifications}/>
+        </ul>
+    </li>
       <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               {avatar === "" &&
