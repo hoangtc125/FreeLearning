@@ -1,4 +1,4 @@
-
+import lesson from '../images/lesson.png'
 
 export function Course() {
   return (
@@ -12,7 +12,7 @@ export function Course() {
               <div className="col-md-6 col-lg-4">
                   <div className="card my-3">
                       <div className="card-thumbnail">
-                          <img src="https://www.markuptag.com/images/image-one.jpg" className="img-fluid" alt="thumbnail"/>
+                          <img src={lesson} className="img-fluid" alt="thumbnail"/>
                       </div>
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">What is Lorem Ipsum?</a></h3>
@@ -25,7 +25,7 @@ export function Course() {
               <div className="col-md-6 col-lg-4">
                   <div className="card my-3">
                       <div className="card-thumbnail">
-                          <img src="https://www.markuptag.com/images/image-two.jpg" className="img-fluid" alt="thumbnail"/>
+                          <img src={lesson} className="img-fluid" alt="thumbnail"/>
                       </div>
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Why do we use it?</a></h3>
@@ -38,7 +38,7 @@ export function Course() {
               <div className="col-md-6 col-lg-4">
                   <div className="card my-3">
                       <div className="card-thumbnail">
-                          <img src="https://www.markuptag.com/images/image-three.jpg" className="img-fluid" alt="thumbnail"/>
+                          <img src={lesson} className="img-fluid" alt="thumbnail"/>
                       </div>
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Where does it come from?</a></h3>
@@ -51,7 +51,7 @@ export function Course() {
               <div className="col-md-6 col-lg-4">
                   <div className="card my-3">
                       <div className="card-thumbnail">
-                          <img src="https://www.markuptag.com/images/image-four.jpg" className="img-fluid" alt="thumbnail"/>
+                          <img src={lesson} className="img-fluid" alt="thumbnail"/>
                       </div>
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">What is Lorem Ipsum?</a></h3>
@@ -64,7 +64,7 @@ export function Course() {
               <div className="col-md-6 col-lg-4">
                   <div className="card my-3">
                       <div className="card-thumbnail">
-                          <img src="https://www.markuptag.com/images/image-five.jpg" className="img-fluid" alt="thumbnail"/>
+                          <img src={lesson} className="img-fluid" alt="thumbnail"/>
                       </div>
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Why do we use it?</a></h3>
@@ -77,7 +77,7 @@ export function Course() {
               <div className="col-md-6 col-lg-4">
                   <div className="card my-3">
                       <div className="card-thumbnail">
-                          <img src="https://www.markuptag.com/images/image-six.jpg" className="img-fluid" alt="thumbnail"/>
+                          <img src={lesson} className="img-fluid" alt="thumbnail"/>
                       </div>
                       <div className="card-body">
                           <h3 className="card-title"><a href="#" className="text-secondary">Where does it come from?</a></h3>

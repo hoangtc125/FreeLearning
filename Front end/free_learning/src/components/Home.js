@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react"
 import { Loader } from "./Loader"
 import * as API from '../constants/api_config'
+import lesson from '../images/lesson.png'
 
 function Lession(data) {
 
     const [info, setInfo] = useState(data.data)
     
     return (
-        <div className="col-md-6 col-lg-4">
-              <div className="card-box" style={{width:"25vw", height:"200px"}}>
-                  <div className="card-thumbnail">
-                      <img src="images/office-image-one.jpg" className="img-fluid" alt=""/>
-                  </div>
-                  <h3><a href="#" className="mt-2 text-danger">{info.name}</a></h3>
-                  {/* <p className="text-secondary">{info.description}</p> */}
-                  <a href="#" className="btn btn-sm btn-danger float-right">Xem thêm </a>
-              </div>
-          </div>
+      <div className="col-md-6 col-lg-4">
+        <div className="card my-3">
+            <div className="card-thumbnail">
+                <img src={lesson} className="img-fluid" alt="thumbnail"/>
+            </div>
+            <div className="card-body">
+                <h3 className="card-title" ><a href="#" className="text-secondary">{info.name.slice(0, 20) + "..."}</a></h3>
+                <p className="card-text">{info.description.slice(0, 50) + "..."}</p>
+                <a href="#" className="btn btn-danger"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
+                  window.location.href = API.GET_ONE_LESSION + info.id
+                }}
+                >Xem thêm </a>
+            </div>
+        </div>
+    </div>
     )
 }
 

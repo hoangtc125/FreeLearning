@@ -95,6 +95,13 @@ async def get_all_courses(
     result = await BusinessService().get_all_courses(username=username)
     return success_response(data=result)
 
+@router.post(UserAPI.GET_ALL_LESSIONS, response_model=HttpResponse)
+async def get_all_lessions(
+    username: str
+):
+    result = await BusinessService().get_all_lessions(username=username)
+    return success_response(data=result)
+
 @router.post(UserAPI.CREATE_COURSE, response_model=HttpResponse)
 async def create_course(
     course: CourseCreate,

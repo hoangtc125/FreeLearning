@@ -15,8 +15,8 @@ from core.helpper import mac_from_ip
 from utils.time_utils import get_current_timestamp
 
 class MyTimedRotatingFileHandler(TimedRotatingFileHandler):
-    def __init__(self, router: str, mapping: str):
-        self.__file_name = mapping[router]
+    def __init__(self, filename: str):
+        self.__file_name = filename
         self.create_dir()
         TimedRotatingFileHandler.__init__(self, self.__base_dir + "/" + self.__file_name + "_logging.ini", when='midnight', interval=1)
   
@@ -57,20 +57,47 @@ class Logger:
         logger_thread.daemon = True
         logger_thread.start()
 
+    @property
+    def level(self):
+        class Level:
+            CRITICAL: str = "critical"
+            WARNING: str = "warning"
+            DEBUG: str = "debug"
+            ERROR: str = "error"
+            INFO: str = "info"
+        return Level
+
+    @property
+    def tag(self):
+        class Tag:
+            START: str = "start"
+            ADD: str = "add"
+            END: str = "end"
+        return Tag
+
     def __log(self):
         sleep(1)
         while True:
             try:
+                if self.__pool:
+                    newest_id, newest_msg = list(self.__pool.items())[0]
+                    if newest_msg['expired_at'] <= get_current_timestamp():
+                        newest_msg['data'].append(("\n=================================================\n", logger.level.DEBUG))
+                        for data in newest_msg['data']:
+                            _message, _level = data
+                            self.__loggers['timeout'][_level](_message)
+                        self.__pool.pop(newest_id)
+                    
                 res = self.__get_latest_data()
                 if not res:
                     continue
 
                 request_id, latest_data ,tag, level = res
 
-                if tag == 'start':
+                if tag == self.tag.START:
                     self.__pool[request_id] = {}
                     self.__pool[request_id]['data'] = []
-                    self.__pool[request_id]['created_at'] = get_current_timestamp()
+                    self.__pool[request_id]['expired_at'] = get_current_timestamp() + settings.LOG_TIME_OUT
 
                     request, request_user = latest_data
                     if request_user:
@@ -80,7 +107,12 @@ class Logger:
                         self.__pool[request_id]['data'].append((f"REQUEST: method={request.method}, url={request.url}", level))
                     continue
 
-                if tag == 'add':
+                if request_id not in self.__pool.keys():
+                    self.__pool[request_id] = {}
+                    self.__pool[request_id]['data'] = []
+                    self.__pool[request_id]['expired_at'] = get_current_timestamp() + settings.LOG_TIME_OUT
+
+                if tag == self.tag.ADD:
                     self.__pool[request_id]['data'].extend([(str(msg), level) for msg in latest_data])
                     continue
 
@@ -133,10 +165,11 @@ class Logger:
         logger = logging.getLogger(router)
         logger.setLevel(settings.LOG_LEVEL)
         f_format = logging.Formatter('%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt="%H:%M:%S")
-        f_handler = MyTimedRotatingFileHandler(router=router, mapping=mapping)
+        f_handler = MyTimedRotatingFileHandler(filename=mapping[router])
         f_handler.setFormatter(f_format)
         f_handler.suffix = "%Y-%m-%d"
         logger.addHandler(f_handler)
         return logger
 
 logger = Logger()
+logger.log("CREATE LOGGER AND TEST TIMEOUT LOGGING", tag=logger.tag.ADD)

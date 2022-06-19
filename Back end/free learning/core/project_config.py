@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     UNIQUE_ID = get_pc_unique_id()
     LOG_LEVEL = logging.DEBUG
     LOG_DIR_MAPPING = BASE_DIR + '/resources/log_dir_config.yaml'
+    LOG_TIME_OUT = 5
 
 
 settings = Settings()

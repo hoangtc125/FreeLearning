@@ -5,5 +5,5 @@ follow: common
 search: search
 user: common
 follow: follow
-
+timeout: timeout
 ...

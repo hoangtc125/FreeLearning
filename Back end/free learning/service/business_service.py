@@ -73,6 +73,17 @@ class BusinessService():
             list_resp.append(to_response_dto(doc_id, course, CourseResponse))
         return list_resp
 
+    async def get_all_lessions(self, username: str = None):
+        # logger.log(username)
+        filter = {"_source.at_username": username}
+        res = await self.lession_repo.get_all(filter=filter)
+        if not res:
+            return None
+        list_resp = []
+        for doc_id, course in res.items():
+            list_resp.append(to_response_dto(doc_id, course, LessionResponse))
+        return list_resp
+
     async def create_course(self, course: CourseCreate, username: str = None):
         _account = await AccountService().get_account_by_field(field="username", value=username)
         if not _account:

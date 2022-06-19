@@ -7,6 +7,7 @@ import logo from '../../logo.svg';
 import { useEffect } from "react"
 import * as API from '../../constants/api_config'
 import { Loader } from "../Loader"
+import { UserLessions } from "./UserLessions"
 
 export function Profile(data) {
 
@@ -158,6 +159,11 @@ export function Profile(data) {
                           setView("FOLLOWERS")
                         }}
                         >Người theo dõi </a></li>
+                        <li className="nav-item"><a href="#profile-lessions" className="nav-link" data-toggle="tab"
+                        onClick={() => {
+                          setView("LESSIONS")
+                        }}
+                        >Các bài viết </a></li>
                       </ul>
                   </div>
                 </div>
@@ -181,6 +187,9 @@ export function Profile(data) {
                 <div className="tab-pane" id="friends">
                   <Followers username={username}/>
                 </div>
+                }
+                {view === "LESSIONS" &&
+                <UserLessions username={username}/>
                 }
             </div>
           </div>
