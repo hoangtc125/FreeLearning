@@ -84,23 +84,53 @@ const getCode = (arr = []) => arr.map((dt) => {
   return false;
 }).filter(Boolean).join("");
 
-export function LessionEdit() {
+export function LessionEdit(lession_id) {
+
   const [value, setValue] = useState(mdMermaid);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [load, setLoad] = useState(false);
   const [input, setInput] = useState(false);
 
-  function handleCreateLession() {
+  useEffect(() => {
     setLoad(true)
-    fetch(API.DOMAIN + API.CREATE_LESSION, {
-      method: 'POST', // or 'PUT'
+      fetch(API.DOMAIN + API.GET_ONE_LESSION + lession_id.lession_id , {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'accept': 'application/json',
+        },
+        credentials: "same-origin",
+        // mode: 'no-cors'
+      })
+      .then(response => {
+        return response.json()})
+      .then(data => {
+        if(data?.detail) {
+          alert(data.detail)
+        } else {
+          setLoad(false)
+          console.log(data)
+          setValue(data.data[0].content)
+          setTitle(data.data[0].name)
+          setDescription(data.data[0].description)
+          window.localStorage.setItem('FREE_LEARNING_PDF', data.data[0].file)
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [])
+
+  function handleEditLession() {
+    setLoad(true)
+    fetch(API.DOMAIN + API.UPDATE_LESSION, {
+      method: 'PUT', // or 'PUT'
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
       },
-      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value, file: window.localStorage.getItem("FREE_LEARNING_PDF")}),
+      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value, file: window.localStorage.getItem("FREE_LEARNING_PDF"), id:lession_id.lession_id}),
       credentials: "same-origin",
       // mode: 'no-cors'
     })
@@ -162,14 +192,13 @@ export function LessionEdit() {
         </div>
         <div style={{display:"flex", justifyContent:"space-between", marginLeft:"5px", padding:"10px"}}>
           <div>
-            <i className="fa fa-refresh fa-spin fa-fw"></i>
-            <span className="sr-only">Tự động lưu ...</span>
+            <i className="fa fa-book"></i>
           </div>
           {/* <File/> */}
           {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
-            <button type="button" class="btn btn-primary btn-sm"
-              onClick={() => handleCreateLession()}
-            >Đăng bài viểt </button>
+            <button type="button" className="btn btn-primary btn-sm"
+              onClick={() => handleEditLession()}
+            >Cập nhật bài viết </button>
           }
           {!window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
             <span className="sr-only">Hãy đăng nhập để đăng bài viết này lên Free Learning ... <button type="button" className="btn btn-primary btn-sm" disabled>Đăng bài viết </button></span>

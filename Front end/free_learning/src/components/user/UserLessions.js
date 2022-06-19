@@ -100,8 +100,10 @@ export function UserLessions(data) {
                                         <div style={{display:"flex", justifyContent:"space-around"}}>
                                             <a href="#" style={{width:"40%"}} className="btn btn-success"
                                                 onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    e.preventDefault()
                                                     window.localStorage.setItem("FREE_LEARNING_ID_EDIT", ls.id)
-                                                    window.location.href = API.GET_ONE_LESSION + ls.id
+                                                    window.location.href = '/user/edit-lession'
                                                 }}
                                             >Chỉnh sửa </a>
                                             <a href="#" style={{width:"40%"}} className="btn btn-danger"

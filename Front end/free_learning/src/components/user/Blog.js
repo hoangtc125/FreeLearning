@@ -50,8 +50,8 @@ export function Blog(data) {
           setIdBlog(data.data[0].id)
           setFile(data.data[0].file)
           setDescription(data.data[0].description)
-          setCreatedAt(new Date(data.data[0].created_at * 1000).toLocaleString())
-          setModifiedAt(new Date(data.data[0].modified_at * 1000).toLocaleString())
+          setCreatedAt(new Date(data.data[0].created_at * 1000 + 25200000).toLocaleString())
+          setModifiedAt(new Date(data.data[0].modified_at * 1000 + 25200000).toLocaleString())
           setNumberOfViews(data.data[0].number_of_views)
           setContent(data.data[0].content)
           setLoad(false)
@@ -74,7 +74,8 @@ export function Blog(data) {
   }, [input])
 
   useEffect(() => {
-    let tmp = document.getElementById("content").childNodes[1].childNodes
+    let tmp = document.getElementById("content").childNodes[1].firstChild.childNodes
+    console.log(tmp)
     let tableOfContent = document.getElementById("table-of-content")
     tmp.forEach(e => {
       if(e.id) {
@@ -156,7 +157,9 @@ export function Blog(data) {
             </ul>
           </div>
           {!input && 
-            <MDEditor.Markdown source={content} />
+            <div style={{width:"60vw"}}>
+              <MDEditor.Markdown source={content} />
+            </div>
           }
           {input &&
             <FileInBlog data={file}/>

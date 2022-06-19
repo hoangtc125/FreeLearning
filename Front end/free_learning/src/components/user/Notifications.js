@@ -50,7 +50,6 @@ export function Notifications(data) {
     const [notifications, setNotifications] = useState([])
 
     useEffect(() => {
-        console.log(data.data)
         setNotifications(data.data)
     }, [data])
 

@@ -17,7 +17,7 @@ export function File() {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   // pdf file onChange state
-  const [pdfFile, setPdfFile]=useState("");
+  const [pdfFile, setPdfFile]=useState(window.localStorage.getItem('FREE_LEARNING_PDF'));
 
   // pdf file error state
   const [pdfError, setPdfError]=useState('');
@@ -58,8 +58,17 @@ export function File() {
         <label><h5>Tải File PDF lên </h5></label>
         <br></br>
 
-        <input type='file' className="form-control"
-        onChange={handleFile}></input>
+        <div style={{display:"flex"}}>
+          <input type='file' className="form-control"
+          onChange={handleFile}></input>
+          <a href='#' className="btn btn-secondary btn-sm" style={{width:"200px", margin:"0px 20px", textDecoration:"none"}}
+            onClick={(e) => {
+              e.preventDefault()
+              window.localStorage.setItem('FREE_LEARNING_PDF', '')
+              setPdfFile('')
+            }}
+          >Remove File</a>
+        </div>
 
         {/* we will display error message in case user select some file
         other than pdf */}
