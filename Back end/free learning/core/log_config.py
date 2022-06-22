@@ -144,6 +144,7 @@ class Logger:
 
     def __get_latest_data(self):
         if not self.__input_data_queue:
+            sleep(0.05)
             return None
         return self.__input_data_queue.popleft()
 
