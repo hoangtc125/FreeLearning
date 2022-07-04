@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import * as API from '../constants/api_config'
 import { Loader } from './Loader';
+import lessionImg from '../images/lesson.png'
 
 function ResultUser(data) {
 
@@ -43,7 +44,8 @@ function ResultLessionCourse(data) {
       <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
       <td className="image" style={{textAlign:"center", color:"#666666"}}>
         {info.category === "lession" &&
-          <i className="fa fa-leanpub fa-4x" aria-hidden="true"></i>
+          // <i className="fa fa-leanpub fa-4x" aria-hidden="true"></i>
+          <img src={lessionImg} alt="lession"></img>
         }
         {info.category === "course" &&
           <i className="fa fa-book fa-4x" aria-hidden="true"></i>
@@ -118,7 +120,6 @@ export function Search() {
         .then(response => {
           return response.json()})
         .then(data => {
-          setLoad(false)
           if(data?.detail) {
             alert(data.detail)
           } else {
@@ -129,6 +130,7 @@ export function Search() {
         .catch((error) => {
           console.error('Error:', error);
         });
+        setLoad(false)
       }
     })
   }
@@ -251,7 +253,7 @@ export function Search() {
                   {data.length > 0 &&
                     data.map((tab, id) => {
                       return (
-                        <div className="table-responsive">
+                        <div className="table-responsive" key={id}>
                           <table className="table table-hover" style={{padding:"10px"}}>
                             <thead>{tab.search_type}</thead>
                             <tbody>

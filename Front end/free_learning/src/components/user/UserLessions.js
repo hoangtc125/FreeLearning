@@ -26,12 +26,12 @@ export function UserLessions(data) {
           alert(data.detail)
         } else {
             setLessons(data.data)
-          setLoad(false)
         }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+        setLoad(false)
     }, [data])
 
 
@@ -63,12 +63,12 @@ export function UserLessions(data) {
                     })
                     return _ls
                 })
-                setLoad(false)
             }
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+        setLoad(false)
     }
 
     return (

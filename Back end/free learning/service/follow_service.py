@@ -4,11 +4,12 @@ from model.follow import Follow, FollowResponse
 from model.user import Account
 from model.comment import Comment, CommentCreate, CommentResponse
 from utils.model_utils import get_dict, to_response_dto
-from connections.config import FOLLOW_COLLECTION, USER_COLLECTION, COMMENT_COLLECTION
+from connections.config import FOLLOW_COLLECTION, USER_COLLECTION, COMMENT_COLLECTION, POST_COLLECTION
 from service.user_service import AccountService
 from service.notification_service import NotificationService
 from model.search import SearchAccount
 from service.business_service import BusinessService
+from model.status import Status, StatusCreate
 
 
 class FollowService:
@@ -16,6 +17,7 @@ class FollowService:
         self.account_repo = get_repo(Account, USER_COLLECTION)
         self.follow_repo = get_repo(Follow, FOLLOW_COLLECTION)
         self.comment_repo = get_repo(Comment, COMMENT_COLLECTION)
+        self.status_repo = get_repo(Status, POST_COLLECTION)
 
     async def subcribe(self, subcriber: str, publisher: str):
         if subcriber == publisher:
@@ -96,3 +98,26 @@ class FollowService:
         for _id, value in res.items():
             list_resp.append(to_response_dto(_id, value, CommentResponse))
         return list_resp
+
+    async def get_status(self, user_id: str):
+        account = await AccountService().get_account_by_id(user_id)
+        if not account:
+            raise RequestException(message="Not found account")
+        filter = {"_source.user_id": user_id}
+        status = await self.status_repo.get_all(filter=filter)
+        if not status:
+            return None
+        res = []
+        for k, v in status.items():
+            res.append(v)
+        return res
+
+    async def create_status(self, status_create: StatusCreate, actor: str):
+        account = await AccountService().get_account_by_field(value=actor)
+        if not account:
+            raise RequestException(message="Not found account")
+        status = Status(**get_dict(status_create))
+        doc_id = await self.status_repo.insert_one(obj=status)
+        if not doc_id:
+            return None
+        return doc_id

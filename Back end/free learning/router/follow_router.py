@@ -1,4 +1,5 @@
 from typing import Optional
+from unittest import result
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
@@ -7,8 +8,9 @@ from model.comment import CommentCreate
 from router.user_router import oauth2_scheme
 from service.follow_service import FollowService
 from service.notification_service import NotificationService
-from core.api_config import CommentAPI, FollowAPI, NotificationAPI
+from core.api_config import CommentAPI, FollowAPI, NotificationAPI, UserAPI
 from utils.router_utils import get_actor_from_request
+from model.status import StatusCreate
 
 router = APIRouter()
 
@@ -69,4 +71,20 @@ async def read_notification(
     username: str = Depends(get_actor_from_request),
 ):
     result = await NotificationService().read_notification(notification_id=notification_id)
+    return success_response(data=result)
+
+@router.get(UserAPI.GET_STATUS, response_model=HttpResponse)
+async def get_status(
+    user_id: str
+):
+    result = await FollowService().get_status(user_id=user_id)
+    return success_response(data=result)
+
+@router.post(UserAPI.CREATE_STATUS, response_model=HttpResponse)
+async def create_status(
+    status: StatusCreate,
+    token: str = Depends(oauth2_scheme),
+    username: str = Depends(get_actor_from_request)
+):
+    result = await FollowService().create_status(status_create=status, actor=username)
     return success_response(data=result)

@@ -101,7 +101,7 @@ export function Blog(data) {
     <div className="container" >
       {load && <Loader/>}
       <figure style={{margin:"50px 0px 0px"}}>
-        <blockquote class="blockquote">
+        <blockquote className="blockquote">
           <h1 className="display-4"><strong>{title}</strong></h1>
         </blockquote>
         <figcaption className="blockquote-footer mt-3">

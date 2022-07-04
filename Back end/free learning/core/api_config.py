@@ -19,7 +19,8 @@ class UserAPI:
     GET_ONE_LESSION = '/user/get-one-lession'
     DELETE_ONE_COURSE = '/user/delete-one-course'
     DELETE_ONE_LESSION = '/user/delete-one-lession'
-
+    CREATE_STATUS = '/user/create-status'
+    GET_STATUS = '/user/get-status'
 
 class ReportAPI:
     pass
@@ -60,6 +61,8 @@ API_PERMISSION = {
     UserAPI.PROFILE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
     UserAPI.UPDATE_PASSWORD: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
     UserAPI.UPDATE_PROFILE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
+    UserAPI.CREATE_STATUS: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],
+    UserAPI.GET_STATUS: ALLOW_ALL,
     UserAPI.FIND_ONE: ALLOW_ALL,
     UserAPI.FORGOT_PASSWORD: ALLOW_ALL,
     UserAPI.CREATE_COURSE: [Role.STUDENT, Role.ADMIN, Role.TEACHER, Role.SCHOOL],

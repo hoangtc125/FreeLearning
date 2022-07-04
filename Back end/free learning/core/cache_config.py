@@ -13,17 +13,37 @@ class Cache:
         self.__redis.config_set("maxmemory-policy", "allkeys-lru")
         self.__time_to_live = settings.CACHE_TIME_TO_LIVE
 
-    def set(self, key: str, value: Any):
+    def set(self, key: Any, value: Any):
         data = pickle.dumps(value)
         self.__redis.setex(key, self.__time_to_live, data)
 
-    def get(self, key: str):
+    def get(self, key: Any):
         try:
             return pickle.loads(self.__redis.get(key))
         except:
             raise Exception()
 
-    def exists(self, key: str):
+    def append(self, key: Any, sub_key: Any, value: Any):
+        try:
+            self.__redis.append(key, {
+                sub_key: value
+            })
+        except:
+            self.set(key, value={
+                sub_key:value
+            })
+    
+    def remove(self, key: Any):
+        try:
+            self.__redis.delete(key)
+        except:
+            pass
+
+    def update(self, key: Any):
+        for sub_key in self.get(key).keys():
+            print(sub_key)       
+
+    def exists(self, key: Any):
         return self.__redis.exists(key)
 
     def get_keys(self):
@@ -41,23 +61,37 @@ class Cache:
     def get_info(self):
         return self.__redis.info()
 
-cache = Cache()
-cache.clear()
+__cache = Cache()
+__cache.clear()
 
-def caching(function):
-    async def wrapper(self, *args, **kargs):
-        key = str(args)+str(kargs)
-        pprint(cache.get_keys())
-        try:
-            print("cache-hit", cache.get_current_memory())
-            return cache.get(key)
-        except:
-            print("cache-miss", cache.get_current_memory())
-            res = await function(self, *args, **kargs)
+def cache(*_args, **_kargs):
+    def decorator(function):
+        async def wrapper(self, *args, **kargs):
+            key = str(function.__name__)
+            sub_key = pickle.dumps([args, kargs])
+            pprint(__cache.get_keys())
             try:
-                cache.set(key, res)
-                pprint(cache.get_keys())
+                res = __cache.get(key)[sub_key]
+                return res
             except:
-                pass
+                res = await function(self, *args, **kargs)
+                try:
+                    __cache.append(key, sub_key, res)
+                except:
+                    pass
+                return res
+        return wrapper
+    return decorator
+
+def cache_update(*_args, **_kargs):
+    def decorator(function):
+        async def wrapper(self, *args, **kargs):
+            pprint(__cache.get_keys())
+            res = await function(self, *args, **kargs)
+            for key in _args:
+                print(key)
+                # __cache.update(key)
+            pprint(__cache.get_keys())
             return res
-    return wrapper
+        return wrapper
+    return decorator

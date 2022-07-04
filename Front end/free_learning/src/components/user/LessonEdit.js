@@ -137,7 +137,6 @@ export function LessionEdit(lession_id) {
     .then(response => {
       return response.json()})
     .then(data => {
-      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -147,6 +146,7 @@ export function LessionEdit(lession_id) {
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }
 
   useEffect(() => {

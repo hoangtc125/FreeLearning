@@ -6,6 +6,7 @@ import uuid
 from utils.model_utils import get_dict, get_mongo_response_model
 from core.project_config import settings
 from core.model import PaginationModel
+# from core.cache_config import caching
 
 __author__ = "Manh Truong"
 __copyright__ = "Copyright 2022, Techpro SDX"
@@ -71,6 +72,7 @@ class MongoRepo:
         )
         return str(doc_id)
 
+    # @caching()
     async def get_one_by_field(self, field, value):
         try:
             resp = await self.mongo_connector.find_one(
@@ -82,6 +84,7 @@ class MongoRepo:
             return None
         return (str(resp["_id"]), self.model(**resp["_source"]))
 
+    # @caching(get_one_by_field)
     async def update_one_by_field(self, doc_id, field, value):
         try:
             resp = await self.mongo_connector.update_one(

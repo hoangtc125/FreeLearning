@@ -56,12 +56,12 @@ export function Followers(data) {
         alert(data.detail)
       } else {
         setUsers(data.data.followers)
-        setLoad(false)
       }
     })
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }, [data])
 
   return (

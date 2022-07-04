@@ -107,7 +107,6 @@ export function Markdown() {
     .then(response => {
       return response.json()})
     .then(data => {
-      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -117,6 +116,7 @@ export function Markdown() {
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export function Markdown() {
           </div>
           {/* <File/> */}
           {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
-            <button type="button" class="btn btn-primary btn-sm"
+            <button type="button" className="btn btn-primary btn-sm"
               onClick={() => handleCreateLession()}
             >Đăng bài viểt </button>
           }

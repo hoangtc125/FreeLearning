@@ -34,7 +34,6 @@ export function Edit() {
       if(data?.detail) {
         alert(data.detail)
       } else {
-        setLoad(false)
         setName(data.data[0].fullname || "")
         setPhoneNumber(data.data[0].phone || "")
         setEmail(data.data[0].email || "")
@@ -46,6 +45,7 @@ export function Edit() {
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }, [])
 
   function handleUpdateProfile() {
@@ -64,7 +64,6 @@ export function Edit() {
     .then(response => {
       return response.json()})
     .then(data => {
-      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -74,6 +73,7 @@ export function Edit() {
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }
 
   function handleUpdatePassword() {
@@ -96,7 +96,6 @@ export function Edit() {
       .then(response => {
         return response.json()})
       .then(data => {
-        setLoad(false)
         if(data?.detail) {
           alert(data.detail)
         } else {
@@ -106,6 +105,7 @@ export function Edit() {
       .catch((error) => {
         console.error('Error:', error);
       });
+      setLoad(false)
     }
   }
 

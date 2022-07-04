@@ -49,7 +49,6 @@ export function Home() {
         .then(response => {
           return response.json()})
         .then(data => {
-          setLoad(false)
           if(data?.detail) {
             alert(data.detail)
           } else {
@@ -59,7 +58,8 @@ export function Home() {
         .catch((error) => {
           console.error('Error:', error);
         });
-    }, [])
+        setLoad(false)
+      }, [])
 
   return (
     <div className="container">

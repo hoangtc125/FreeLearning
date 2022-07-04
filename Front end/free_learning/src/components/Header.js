@@ -27,7 +27,6 @@ export function LoginForm() {
     .then(response => {
       return response.json()})
     .then(data => {
-      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -42,6 +41,7 @@ export function LoginForm() {
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }
 
   return (
@@ -111,7 +111,6 @@ export function ForgotPasswordForm() {
     .then(response => {
       return response.json()})
     .then(data => {
-      setLoad(false)
       if(data?.detail) {
         alert(data.detail)
       } else {
@@ -121,6 +120,7 @@ export function ForgotPasswordForm() {
     .catch((error) => {
       console.error('Error:', error);
     });
+    setLoad(false)
   }
 
   return (
@@ -188,7 +188,6 @@ export function SignUpForm() {
       .then(response => {
         return response.json()})
       .then(data => {
-        setLoad(false)
         if(data?.detail) {
           alert(data.detail)
         } else {
@@ -199,8 +198,9 @@ export function SignUpForm() {
         console.error('Error:', error);
       });
     }
+    setLoad(false)
   }
-
+  
   return (
     <div className="modal fade" id="ModalSignUpForm" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
@@ -281,8 +281,8 @@ export function SignUpForm() {
 export function LoginSignup() {
   return (
     <div className="d-flex">
-      <button className="btn btn-warning" type="submit" style={{"marginRight":"5px"}} data-bs-toggle="modal" data-bs-target="#ModalLoginForm"><i style={{paddingRight:"5px"}} class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập </button>
-      <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#ModalSignUpForm"><i style={{paddingRight:"5px"}} class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký </button>
+      <button className="btn btn-warning" type="submit" style={{"marginRight":"5px"}} data-bs-toggle="modal" data-bs-target="#ModalLoginForm"><i style={{paddingRight:"5px"}} className="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập </button>
+      <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#ModalSignUpForm"><i style={{paddingRight:"5px"}} className="fa fa-user-plus" aria-hidden="true"></i>Đăng ký </button>
     </div>
   )
 }
@@ -331,7 +331,7 @@ export function UserInNavbar() {
     <ul className="navbar-nav">
     <li className="nav-item dropdown">
         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa fa-bell" aria-hidden="true" style={{padding:"20px 0px 0px"}}></i>
+          <i className="fa fa-bell" aria-hidden="true" style={{padding:"10px 0px 0px"}}></i>
         </a>
         <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown">
           <Notifications data={notifications}/>
@@ -387,13 +387,13 @@ export function NavBar() {
         <div className="collapse navbar-collapse" id="mob-navbar">
             <ul className="navbar-nav mb-2 mb-lg-0 mx-auto">
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/"><i style={{paddingRight:"5px"}} class="fa fa-home" aria-hidden="true"></i>Trang chủ </Link>
+                  <Link className="nav-link active" aria-current="page" to="/"><i style={{paddingRight:"5px"}} className="fa fa-home" aria-hidden="true"></i>Trang chủ </Link>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item">
-                  <Link className="nav-link active" to="/search"><i style={{paddingRight:"5px"}} class="fa fa-search" aria-hidden="true"></i>Tìm kiếm </Link>
+                  <Link className="nav-link active" to="/search"><i style={{paddingRight:"5px"}} className="fa fa-search" aria-hidden="true"></i>Tìm kiếm </Link>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i style={{paddingRight:"5px"}} class="fa fa-list-ul" aria-hidden="true"></i>Chức năng khác </a>
+                  <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i style={{paddingRight:"5px"}} className="fa fa-list-ul" aria-hidden="true"></i>Chức năng khác </a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><Link className="dropdown-item" to="/course">Xem khóa học </Link></li>
                       <li><Link className="dropdown-item" to="/blog">Xem bài giảng </Link></li>
@@ -403,7 +403,7 @@ export function NavBar() {
                   </ul>
               </li>
               <li style={{margin:"0px 20px 0px 0px"}} className="nav-item active">
-                  <Link className="nav-link active" to="/contactUs"><i style={{paddingRight:"5px"}} class="fa fa-envelope" aria-hidden="true"></i>Liên hệ </Link>
+                  <Link className="nav-link active" to="/contactUs"><i style={{paddingRight:"5px"}} className="fa fa-envelope" aria-hidden="true"></i>Liên hệ </Link>
               </li>
           </ul>
           {isLogin === false && 

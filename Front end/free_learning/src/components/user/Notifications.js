@@ -25,7 +25,7 @@ function Notification(data) {
             <div className="font-weight-bold mr-3" style={{flexGrow:"1", margin:"0px 20px"}}>
                 <div className="mb-2">{info.content}</div>
                 {!info.is_read &&
-                    <button type="button" className="btn btn-outline-success btn-sm" disabled>{date} <i class="fa fa-clock-o" aria-hidden="true"></i></button>
+                    <button type="button" className="btn btn-outline-success btn-sm" disabled>{date} <i className="fa fa-clock-o" aria-hidden="true"></i></button>
                 }
             </div>
             <span className="ml-auto mb-auto">

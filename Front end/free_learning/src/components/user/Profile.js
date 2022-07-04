@@ -23,6 +23,7 @@ export function Profile(data) {
   const [isMe, setIsMe] = useState(true)
   const [checkFollowed, setCheckFollowed] = useState(false)
   const [load, setLoad] = useState(false)
+  const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
     setLoad(true)
@@ -55,7 +56,6 @@ export function Profile(data) {
           setIsMe(false)
         }
         if (dt.data[1]) {
-          console.log(dt.data[1].id)
           if (dt.data[1].id === window.localStorage.getItem("FREE_LEARNING_USERNAME")) {
             setIsMe(true)
             setFollowers(dt.data[1].followers.length)
@@ -67,12 +67,29 @@ export function Profile(data) {
             }
           }
         }
-        setLoad(false)
       }
     })
     .catch((error) => {
       console.error('Error:', error);
     });
+    const user_id = data.api.includes("me") ? window.localStorage.getItem("FREE_LEARNING_USERID") : window.localStorage.getItem("FREE_LEARNING_ID_FOUND")
+    fetch(API.DOMAIN + API.GET_STATUS + user_id, {
+      method: 'GET', // or 'PUT'
+      headers: {
+        'accept': 'application/json',
+      },
+      credentials: "same-origin",
+      // mode: 'no-cors'
+    })
+    .then(response => {
+      return response.json()})
+    .then(dt => {
+      setTimeline(dt.data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    setLoad(false)
   }, [data])
 
   function handleSubcribe(e) {
@@ -119,8 +136,17 @@ export function Profile(data) {
                             <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"16px"}} alt=""/>
                           }
                           {avatar !== "string" &&
-                            <img className="" src={avatar} style={{maxHeight:"110px", maxWidth:"110px"}}/>
+                            <a href="#" data-bs-target="#ModalAvatar" data-bs-toggle="modal" data-bs-dismiss="modal">
+                              <img className="" src={avatar} style={{maxHeight:"110px", maxWidth:"110px", cursor:"pointer"}}/>
+                            </a>
                           }
+                          <div className="modal fade" id="ModalAvatar" tabIndex="-1" aria-hidden="true">
+                            <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content">
+                                  <img className="" src={avatar} style={{top:"50%", maxHeight:"70vh", maxWidth:"70vw"}}/>
+                              </div>
+                          </div>
+                        </div>
                         </div>
                         <div className="profile-header-info">
                             <h4 className="m-t-10 m-b-5">{name}</h4>
@@ -168,15 +194,31 @@ export function Profile(data) {
                   </div>
                 </div>
                 {view === "POSTS" &&
-                <div className="profile-content">
+                <div className="profile-content"  style={{display:"flex", padding:"0"}}>
                   <div className="tab-content p-0">
-                      <div className="tab-pane fade active show" id="profile-post">
-                        <ul className="timeline">
-                          <Timeline/>
-                          <Timeline/>
-                          <Timeline/>
-                          <Timeline/>
-                          <Timeline/>
+                      <div className="tab-pane fade active show" id="profile-post" style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                        {isMe &&
+                          <div className="timeline-comment-box" style={{minWidth:"90vw", background:"#fff", padding:"30px 40px 50px", display:"flex"}}>
+                            <div className="user">
+                              <img src={avatar} className="" style={{height:"fit-content", width:"fit-content", objectFit:"cover", marginTop:"6px"}} alt=""/></div>
+                              <div className="input" style={{flexGrow:"1", padding:"0 20px", marginLeft:"-10px"}}>
+                                  <form action="">
+                                    <div className="input-group">
+                                        <input type="text" className="form-control rounded-corner" placeholder="Bạn đang nghĩ gì?" style={{borderRadius:"999px"}}/>
+                                        <span className="input-group-btn p-l-10">
+                                        </span>
+                                    </div>
+                                  </form>
+                              </div>
+                              <button className="btn btn-primary profile-button">Post</button>
+                          </div>
+                        }
+                        <ul className="timeline" style={{width:"100%"}}>
+                          {!!timeline &&
+                            timeline.map((item, id) => {
+                              return <Timeline key={id} avatar={avatar} name={name} timeline={item}/>
+                            })
+                          }
                         </ul>
                       </div>
                   </div>
