@@ -39,3 +39,7 @@ python-decouple
 pytest == 7.1.1
 pytest_mock == 3.7.0
 python_arptable
+isort
+black
+flake8
+pre-commit
