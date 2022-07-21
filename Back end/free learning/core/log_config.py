@@ -39,7 +39,6 @@ class Logger:
         self.__input_data_queue = deque()
         self.__is_locked = False
         self.__thread_lock = threading.Event()
-        self.__thread_lock.set()
         self.__mapping = Logger.get_dir_mapping()
         self.__routers = list(self.__mapping.keys())
 
@@ -78,7 +77,6 @@ class Logger:
         return Tag
 
     def __log(self):
-        sleep(2)
         while True:
             try:
                 if self.__pool:
@@ -146,7 +144,6 @@ class Logger:
             return None
 
     def __get_latest_data(self):
-        # sleep(0.05)
         if not self.__input_data_queue:
             self.__thread_lock.clear()
             self.__thread_lock.wait()

@@ -333,7 +333,7 @@ export function UserInNavbar() {
         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i className="fa fa-bell" aria-hidden="true" style={{padding:"10px 0px 0px"}}></i>
         </a>
-        <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown">
+        <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown" style={{"box-shadow": "rgba(0, 0, 0, 0.35) 0px 5px 15px;"}}>
           <Notifications data={notifications}/>
         </ul>
     </li>

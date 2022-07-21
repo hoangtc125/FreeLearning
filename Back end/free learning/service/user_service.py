@@ -25,6 +25,7 @@ from utils.model_utils import get_dict, to_response_dto
 from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import USER_COLLECTION, TOKEN_COLLECTION
+from core.cache_config import cache
 
 
 class AccountService:
@@ -41,6 +42,7 @@ class AccountService:
         if account.role not in Role.__dict__.keys():
             raise Exception("Unsupport Role")
 
+    @cache(reloaded_by=[Account])
     async def get_account_by_id(self, id: str):
         res = await self.account_repo.get_one_by_id(doc_id=uuid.UUID(id))
         if not res:
@@ -48,6 +50,7 @@ class AccountService:
         id, account = res
         return to_response_dto(id, account, AccountResponse)
 
+    @cache(reloaded_by=[Account])
     async def get_account_by_field(self, field="username", value=None):
         res = await self.account_repo.get_one_by_field(field=field, value=value)
         if not res:

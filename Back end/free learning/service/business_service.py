@@ -23,6 +23,7 @@ from utils.time_utils import get_current_timestamp, get_timestamp_after
 from connections.config import LESSION_COLLECTION, USER_COLLECTION, COURSE_COLLECTION
 from core.log_config import logger
 from service.notification_service import NotificationService
+from core.cache_config import cache
 
 
 class BusinessService():
@@ -38,6 +39,7 @@ class BusinessService():
         if item.course_type not in Category.__dict__.values():
             raise Exception("Unsupport Category")
 
+    @cache(reloaded_by=[Lession])
     async def get_one_course_by_id(self, doc_id: str):
         resp = await self.course_repo.get_one_by_id(doc_id=uuid.UUID(doc_id))
         if not resp:
@@ -48,6 +50,7 @@ class BusinessService():
         _id, course = resp
         return to_response_dto(_id, course, CourseResponse)
 
+    @cache(reloaded_by=[Lession])
     async def get_one_lession_by_id(self, doc_id: str):
         resp = await self.lession_repo.get_one_by_id(doc_id=uuid.UUID(doc_id))
         if not resp:
@@ -62,6 +65,7 @@ class BusinessService():
         user = await AccountService().get_account_by_field(value=lession.at_username)
         return [to_response_dto(lession_id, lession, LessionResponse), user] 
 
+    @cache(reloaded_by=[Lession])
     async def get_all_courses(self, username: str = None):
         # logger.log(username)
         filter = {"_source.at_username": username}
@@ -73,6 +77,7 @@ class BusinessService():
             list_resp.append(to_response_dto(doc_id, course, CourseResponse))
         return list_resp
 
+    @cache(reloaded_by=[Lession])
     async def get_all_lessions(self, username: str = None):
         # logger.log(username)
         filter = {"_source.at_username": username}

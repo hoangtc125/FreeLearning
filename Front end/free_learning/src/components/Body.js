@@ -21,7 +21,7 @@ export function Body() {
 
   return(
     <Routes>
-      <Route path="/" element={<Course/>}/>
+      <Route path="/" element={<Root/>}/>
       <Route path="/search" element={<Search/>}/>
       <Route path="/contactUs" element={<ContactUs/>}/>
       <Route path="/root" element={<Root/>}/>

@@ -19,10 +19,10 @@ function Notification(data) {
   return (
       <a href="#" style={{textDecoration:"none"}} onClick={(e) => handleReadNotification(e)}>
         <div className="p-3 d-flex align-items-center osahan-post-header">
-            <div className="dropdown-list-image mr-3">
-              <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"6px"}} alt=""/>
-            </div>
-            <div className="font-weight-bold mr-3" style={{flexGrow:"1", margin:"0px 20px"}}>
+            {/* <div className="dropdown-list-image mr-3"> */}
+              {/* <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"6px"}} alt=""/> */}
+            {/* </div> */}
+            <div className="font-weight-bold mr-3" style={{flexGrow:"1", margin:"0px "}}>
                 <div className="mb-2">{info.content}</div>
                 {!info.is_read &&
                     <button type="button" className="btn btn-outline-success btn-sm" disabled>{date} <i className="fa fa-clock-o" aria-hidden="true"></i></button>

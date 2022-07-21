@@ -1,22 +1,9 @@
 import logo from '../logo.svg';
-
+import {avatar, lock, cover} from '../images'
+import { Home } from './Home';
 
 export function Root() {
   return (
-    // <header classNameName="App-header">
-    //   <img src={logo} classNameName="App-logo" alt="logo" />
-    //   <p>
-    //     Edit <code>src/App.js</code> and save to reload.
-    //   </p>
-    //   <a
-    //     classNameName="App-link"
-    //     href="https://reactjs.org"
-    //     target="_blank"
-    //     rel="noopener noreferrer"
-    //   >
-    //     Learn React
-    //   </a>
-    // </header>
     <section id="testimonial-slider" className="App-header">
       <div className="container">
           <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -29,28 +16,28 @@ export function Root() {
                   <div className="carousel-inner text-center text-white py-4">
                       <div className="carousel-item active" data-bs-interval="10000">
                           <div className="shadow">
-                              <img style={{maxHeight:"60vh", minHeight:"60px"}} src="https://video.fpnh22-3.fna.fbcdn.net/v/t39.30808-6/240596486_1264840270623843_4582448100876258519_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=e3f864&_nc_ohc=WIEbCj33K80AX-ZU-Oc&tn=YbfprhnIqnGzsA-O&_nc_ht=video.fpnh22-3.fna&oh=00_AT-N8OauPTL9JzBr0MRYSCh6GxU41AWbZY6eOxaXOzx6Vg&oe=6290470F" className="img-fluid" alt="testimonial slider"/>
+                              <img style={{maxHeight:"60vh", minHeight:"60px"}} src={avatar} className="img-fluid" alt="testimonial slider"/>
                           </div>
                           <div className="slider-caption mt-3">
-                              <p className="fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                              <p className="fs-5">Một cuốn sách thực sự hay nên đọc trong tuổi trẻ, rồi đọc lại khi đã trưởng thành, và một nửa lúc tuổi già, giống như một tòa nhà đẹp nên được chiêm ngưỡng trong ánh bình minh, nắng trưa và ánh trăng.</p>
                               <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Trần Công Hoàng </cite></figcaption>
                           </div>
                       </div>
                       <div className="carousel-item" data-bs-interval="10000">
                           <div className="shadow">
-                              <img style={{maxHeight:"60vh", minHeight:"60px"}} src="https://video.fpnh22-4.fna.fbcdn.net/v/t39.30808-6/257731232_1313909815716888_3818428840467093702_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=h2cmUEuCU-oAX8V-7x4&_nc_ht=video.fpnh22-4.fna&oh=00_AT_JfH02dnC8OMCq9b9VC_93_L8WRhdGBtHBoLsot_aSKg&oe=62901D1A" classNameName="App-logo" alt="logo" />
+                              <img style={{maxHeight:"60vh", minHeight:"60px"}} src={lock} alt="logo" />
                           </div>
                           <div className="slider-caption mt-3">
-                              <p className="fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                              <p className="fs-5">Những gì sách dạy chúng ta cũng giống như lửa. Chúng ta lấy nó từ nhà hàng xóm, thắp nó trong nhà ta, đem nó truyền cho người khác và nó trở thành tài sản của tất cả mọi người.</p>
                               <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Trần Công Hoàng </cite></figcaption>
                           </div>
                       </div>
                       <div className="carousel-item" data-bs-interval="10000">
                           <div className="shadow">
-                              <img style={{maxHeight:"60vh", minHeight:"60px"}} src="https://video.fpnh22-4.fna.fbcdn.net/v/t39.30808-6/257731232_1313909815716888_3818428840467093702_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=h2cmUEuCU-oAX8V-7x4&_nc_ht=video.fpnh22-4.fna&oh=00_AT_JfH02dnC8OMCq9b9VC_93_L8WRhdGBtHBoLsot_aSKg&oe=62901D1A" classNameName="App-logo" alt="logo" />
+                              <img style={{maxHeight:"60vh", minHeight:"60px"}} src={cover} alt="logo" />
                           </div>
                           <div className="slider-caption mt-3">
-                              <p className="fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                              <p className="fs-5">Cuốn sách tốt nhất cho bạn là cuốn sách nói nhiều nhất với bạn vào lúc bạn đọc nó. Tôi không nói tới cuốn sách cho bạn nhiều bài học nhất mà là cuốn sách nuôi dưỡng tâm hồn bạn. Và điều đó phụ thuộc vào tuổi tác, trải nghiệm, nhu cầu về tâm lý và tinh thần.</p>
                               <figcaption className="blockquote-footer mt-3 text-white fs-5"><cite>Trần Công Hoàng </cite></figcaption>
                           </div>
                       </div>
@@ -66,6 +53,7 @@ export function Root() {
               </button>
           </div>
       </div>
+      <Home/>
   </section>
   )
 }

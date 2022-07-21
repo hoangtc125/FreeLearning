@@ -17,6 +17,7 @@ from model.user import Account
 from utils.model_utils import get_dict
 from connections.config import COURSE_COLLECTION, LESSION_COLLECTION, USER_COLLECTION, TOKEN_COLLECTION
 from core.log_config import logger
+from core.cache_config import cache
 
 
 class SearchService:
@@ -41,6 +42,7 @@ class SearchService:
             "response_model": LessionSearch,
         }
 
+    @cache(reloaded_by=[Account, Course, Lession])
     async def search_in_repos(self, search_form: Search):
         if search_form.search_type not in self.repos.keys():
             raise RequestException(message="Don't support this filter")

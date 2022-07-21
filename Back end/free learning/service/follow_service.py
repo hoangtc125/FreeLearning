@@ -10,6 +10,7 @@ from service.notification_service import NotificationService
 from model.search import SearchAccount
 from service.business_service import BusinessService
 from model.status import Status, StatusCreate
+from core.cache_config import cache
 
 
 class FollowService:
@@ -50,6 +51,7 @@ class FollowService:
             "data": {"_id": publisher, "followers": list_fl},
         }
 
+    @cache(reloaded_by=[Account, Follow, Comment, Status])
     async def get_followers(self, username: str):
         _account = await AccountService().get_account_by_field(field="username", value=username)
         if not _account:
@@ -66,6 +68,7 @@ class FollowService:
             users.append(SearchAccount(**get_dict(user)))
         return to_response_dto(doc_id, Follow(followers=users), FollowResponse)
 
+    @cache(reloaded_by=[Account, Follow, Comment, Status])
     async def get_min_followers(self, username: str):
         _account = await AccountService().get_account_by_field(field="username", value=username)
         if not _account:
@@ -89,6 +92,7 @@ class FollowService:
         await NotificationService().create_comment_notification(comment_create=comment_create, user_id=user.id)
         return "Success"
 
+    @cache(reloaded_by=[Account, Follow, Comment, Status])
     async def get_comments(self, blog_id: str):
         filter = {"_source.at_blog": blog_id}
         res = await self.comment_repo.get_all(filter=filter)
@@ -99,6 +103,7 @@ class FollowService:
             list_resp.append(to_response_dto(_id, value, CommentResponse))
         return list_resp
 
+    @cache(reloaded_by=[Account, Follow, Comment, Status])
     async def get_status(self, user_id: str):
         account = await AccountService().get_account_by_id(user_id)
         if not account:

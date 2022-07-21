@@ -9,12 +9,13 @@ from utils.time_utils import get_current_timestamp
 from connections.config import NOTIFICATION_COLLECTION
 from core.api_config import UserAPI 
 from service.user_service import AccountService
-
+from core.cache_config import cache
 
 class NotificationService:
     def __init__(self):
         self.notification_repo = get_repo(Notification, NOTIFICATION_COLLECTION)
 
+    @cache(reloaded_by=[Notification])
     async def get_notifications(self, user_id: str):
         filter = {"_source.user_id": user_id}
         res = await self.notification_repo.get_all(filter=filter)
@@ -23,6 +24,7 @@ class NotificationService:
         list_resp = []
         for _id, value in res.items():
             list_resp.append(to_response_dto(_id, value, NotificationResponse))
+        list_resp.reverse()
         return list_resp
 
     async def create_notification(self, notification_create: NotificationCreate):

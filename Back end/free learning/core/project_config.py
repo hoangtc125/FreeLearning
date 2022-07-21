@@ -24,9 +24,9 @@ class Settings(BaseSettings):
     LOG_DIR_MAPPING = BASE_DIR + '/resources/log_dir_config.yaml'
     LOG_TIME_OUT = 5
     CACHE_TIME_TO_LIVE = 100
+    BACKEND_NAME = os.path.basename(BASE_DIR)
 
 
 settings = Settings()
 
-if __name__ == "__main__":
-    print(settings)
+print(settings)

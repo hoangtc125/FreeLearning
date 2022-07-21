@@ -6,14 +6,7 @@ import uuid
 from utils.model_utils import get_dict, get_mongo_response_model
 from core.project_config import settings
 from core.model import PaginationModel
-# from core.cache_config import caching
-
-__author__ = "Manh Truong"
-__copyright__ = "Copyright 2022, Techpro SDX"
-__credits__ = ["Manh Truong", "Duong Nguyen Dinh", "Dung Nguyen"]
-__contact__ = "truong.bui@techpro-sdx.com.vn"
-__maintainer__ = []
-__version__ = "1.0.0"
+from core.cache_config import cache_delete
 
 T = TypeVar("T")
 mongo_monitor = {}
@@ -46,7 +39,8 @@ class MongoRepo:
 
     async def get_page(self, page, size, filter: Optional[dict] = None):
         pass
-
+    
+    @cache_delete
     async def insert_one(self, obj: T, custom_id=None):
         if obj.__class__ != self.model:
             raise TypeError(
@@ -58,10 +52,12 @@ class MongoRepo:
         )
         return str(doc_id)
 
+    @cache_delete
     async def delete(self, _id):
         resp = await self.mongo_connector.delete_one({"_id": _id})
         return resp
 
+    @cache_delete
     async def update(self, doc_id, obj):
         if obj.__class__ != self.model:
             raise TypeError(
@@ -72,7 +68,6 @@ class MongoRepo:
         )
         return str(doc_id)
 
-    # @caching()
     async def get_one_by_field(self, field, value):
         try:
             resp = await self.mongo_connector.find_one(
@@ -84,7 +79,7 @@ class MongoRepo:
             return None
         return (str(resp["_id"]), self.model(**resp["_source"]))
 
-    # @caching(get_one_by_field)
+    @cache_delete
     async def update_one_by_field(self, doc_id, field, value):
         try:
             resp = await self.mongo_connector.update_one(
