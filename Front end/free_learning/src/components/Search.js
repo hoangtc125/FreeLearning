@@ -4,31 +4,31 @@ import 'react-calendar/dist/Calendar.css';
 import * as API from '../constants/api_config'
 import { Loader } from './Loader';
 import lessionImg from '../images/lesson.png'
+import { Link } from 'react-router-dom';
 
 function ResultUser(data) {
 
   const [info, setInfo] = useState(data.data)
 
   return (
-    <tr onClick={() => {
-      window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
-      window.location.href = API.FIND_ONE + info.id
-    }}>
-      <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
-      <td className="image" style={{textAlign:"center", color:"#666666"}}>
-      {info.avatar === null &&
-        <i className="fa fa-user fa-4x" aria-hidden="true"></i>
-      }
-      {info.avatar !== null &&
-        <img className="" src={info.avatar} style={{maxHeight:"50px", maxWidth:"50px"}}/>
-      }
-      </td>
-      <td className="" style={{width:"40vw"}}><strong>{info.fullname}</strong><br/>{info.role}</td>
-      <td className="text-right">
-        <div>Điện thoại : {info.phone}</div>
-        <div>Email : {info.email}</div>
-      </td>
-    </tr>
+    <Link to={'/user/find-one/' + info.id}>
+      <tr>
+        <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
+        <td className="image" style={{textAlign:"center", color:"#666666"}}>
+        {info.avatar === null &&
+          <i className="fa fa-user fa-4x" aria-hidden="true"></i>
+        }
+        {info.avatar !== null &&
+          <img className="" src={info.avatar} style={{maxHeight:"50px", maxWidth:"50px"}}/>
+        }
+        </td>
+        <td className="" style={{width:"40vw"}}><strong>{info.fullname}</strong><br/>{info.role}</td>
+        <td className="text-right">
+          <div>Điện thoại : {info.phone}</div>
+          <div>Email : {info.email}</div>
+        </td>
+      </tr>
+    </Link>
   )
 }
 
@@ -37,33 +37,32 @@ function ResultLessionCourse(data) {
   const [info, setInfo] = useState(data.data)
 
   return (
-    <tr onClick={() => {
-      window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
-      window.location.href = API.GET_ONE_LESSION + info.id
-    }}>
-      <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
-      <td className="image" style={{textAlign:"center", color:"#666666"}}>
-        {info.category === "lession" &&
-          // <i className="fa fa-leanpub fa-4x" aria-hidden="true"></i>
-          <img src={lessionImg} alt="lession"></img>
-        }
-        {info.category === "course" &&
-          <i className="fa fa-book fa-4x" aria-hidden="true"></i>
-        }
-        {info.category === "homework" &&
-          <i className="fa fa-file-text fa-4x" aria-hidden="true"></i>
-        }
-      </td>
-      <td className="" style={{width:"40vw"}}>
-        <div>
-          <strong>{info.name}</strong><br/>{info.description}
-        </div>
-      </td>
-      <td className="text-right">
-        <div>Chủ đề : <strong>{info.course_type}</strong></div>
-        <div>Lượt xem : {info.number_of_views}</div>
-      </td>
-    </tr>
+    <Link to={'/user/get-one-lession/' + info.id}>
+      <tr>
+        <td className="number" style={{width:"5px"}}>{info.key + 1}</td>
+        <td className="image" style={{textAlign:"center", color:"#666666"}}>
+          {info.category === "lession" &&
+            // <i className="fa fa-leanpub fa-4x" aria-hidden="true"></i>
+            <img src={lessionImg} alt="lession"></img>
+          }
+          {info.category === "course" &&
+            <i className="fa fa-book fa-4x" aria-hidden="true"></i>
+          }
+          {info.category === "homework" &&
+            <i className="fa fa-file-text fa-4x" aria-hidden="true"></i>
+          }
+        </td>
+        <td className="" style={{width:"40vw"}}>
+          <div>
+            <strong>{info.name}</strong><br/>{info.description}
+          </div>
+        </td>
+        <td className="text-right">
+          <div>Chủ đề : <strong>{info.course_type}</strong></div>
+          <div>Lượt xem : {info.number_of_views}</div>
+        </td>
+      </tr>
+    </Link>
   )
 }
 

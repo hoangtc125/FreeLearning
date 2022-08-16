@@ -84,7 +84,7 @@ const getCode = (arr = []) => arr.map((dt) => {
   return false;
 }).filter(Boolean).join("");
 
-export function LessionEdit(lession_id) {
+export function LessionEdit() {
 
   const [value, setValue] = useState(mdMermaid);
   const [title, setTitle] = useState("");
@@ -94,7 +94,7 @@ export function LessionEdit(lession_id) {
 
   useEffect(() => {
     setLoad(true)
-      fetch(API.DOMAIN + API.GET_ONE_LESSION + lession_id.lession_id , {
+      fetch(API.DOMAIN + API.GET_ONE_LESSION + document.URL.substring(document.URL.lastIndexOf("/") + 1) , {
         method: 'POST', // or 'PUT'
         headers: {
           'accept': 'application/json',
@@ -130,7 +130,7 @@ export function LessionEdit(lession_id) {
         'Content-Type': 'application/json',
         'Authorization': window.localStorage.getItem("FREE_LEARNING_TOKEN"),
       },
-      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value, file: window.localStorage.getItem("FREE_LEARNING_PDF"), id:lession_id.lession_id}),
+      body: JSON.stringify({ name: title, content: value, description: description, course_type: document.getElementById('inputGroupSelect01').value, file: window.localStorage.getItem("FREE_LEARNING_PDF"), id:document.URL.substring(document.URL.lastIndexOf("/") + 1)}),
       credentials: "same-origin",
       // mode: 'no-cors'
     })

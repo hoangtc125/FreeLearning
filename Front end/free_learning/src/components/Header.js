@@ -35,7 +35,7 @@ export function LoginForm() {
         window.localStorage.setItem('FREE_LEARNING_USERNAME', username);
         window.localStorage.setItem('FREE_LEARNING_AVATAR', data.avatar);
         window.localStorage.setItem('FREE_LEARNING_USERID', data.id);
-        window.location.reload();
+        window.location.href = "/"
       }
     })
     .catch((error) => {
@@ -78,12 +78,12 @@ export function LoginForm() {
                 </div>
               </div>
               <div className="modal-footer pt-4">                  
-                <button 
-                  type="button" className="btn btn-success mx-auto w-100" 
+                <Link 
+                  to="/" className="btn btn-success mx-auto w-100" 
                   onClick={() => handleLogin()}
                 >
                   Đăng nhập 
-                </button>
+                </Link>
               </div>
               <p className="text-center">Chưa có tài khoản, <a href="#" data-bs-target="#ModalSignUpForm" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng ký ngay </a></p> 
           </div>
@@ -298,7 +298,7 @@ export function UserInNavbar() {
     window.localStorage.removeItem("FREE_LEARNING_USERNAME")
     window.localStorage.removeItem('FREE_LEARNING_AVATAR');
     window.localStorage.removeItem('FREE_LEARNING_USERID');
-    window.location.reload()
+    window.location.href = "/"
   }
 
   useEffect(() => {
@@ -350,7 +350,7 @@ export function UserInNavbar() {
           <ul className="dropdown-menu listRight" aria-labelledby="navbarDropdown">
             <Link className="dropdown-item" to="/user/profile">Trang cá nhân </Link>
             <Link className="dropdown-item" to="/user/edit">Cài đặt </Link>
-            <button className="dropdown-item" onClick={() => handleLogout()}>Đăng xuất </button>
+            <Link className="dropdown-item" to="/" onClick={() => handleLogout()}>Đăng xuất </Link>
           </ul>
       </li>
     </ul>

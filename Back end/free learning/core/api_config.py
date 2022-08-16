@@ -2,53 +2,53 @@ from core.constants import Role
 
 
 class UserAPI:
-    LOGIN = "/user/login"
-    REGISTER = "/user/register"
-    PROFILE = "/user/me"
-    UPDATE_PROFILE = "/user/update-profile"
-    UPDATE_PASSWORD = "/user/update-password"
-    FIND_ONE = "/user/find-one"
-    FORGOT_PASSWORD = '/user/forgot-password'
-    CREATE_COURSE = '/user/create-course'
-    CREATE_LESSION = '/user/create-lession'
-    UPDATE_COURSE = '/user/update-course' 
-    UPDATE_LESSION = '/user/update-lession'
-    GET_ALL_COURSES = '/user/get-all-courses'
-    GET_ONE_COURSE = '/user/get-one-course'
-    GET_ALL_LESSIONS = '/user/get-all-lessions'
-    GET_ONE_LESSION = '/user/get-one-lession'
-    DELETE_ONE_COURSE = '/user/delete-one-course'
-    DELETE_ONE_LESSION = '/user/delete-one-lession'
-    CREATE_STATUS = '/user/create-status'
-    GET_STATUS = '/user/get-status'
+    LOGIN = "/api/user/login"
+    REGISTER = "/api/user/register"
+    PROFILE = "/api/user/me"
+    UPDATE_PROFILE = "/api/user/update-profile"
+    UPDATE_PASSWORD = "/api/user/update-password"
+    FIND_ONE = "/api/user/find-one"
+    FORGOT_PASSWORD = '/api/user/forgot-password'
+    CREATE_COURSE = '/api/user/create-course'
+    CREATE_LESSION = '/api/user/create-lession'
+    UPDATE_COURSE = '/api/user/update-course' 
+    UPDATE_LESSION = '/api/user/update-lession'
+    GET_ALL_COURSES = '/api/user/get-all-courses'
+    GET_ONE_COURSE = '/api/user/get-one-course'
+    GET_ALL_LESSIONS = '/api/user/get-all-lessions'
+    GET_ONE_LESSION = '/api/user/get-one-lession'
+    DELETE_ONE_COURSE = '/api/user/delete-one-course'
+    DELETE_ONE_LESSION = '/api/user/delete-one-lession'
+    CREATE_STATUS = '/api/user/create-status'
+    GET_STATUS = '/api/user/get-status'
 
 class ReportAPI:
     pass
 
 
 class AdminAPI:
-    GET_ONE_USER = "/admin/get-one-user"
-    GET_ALL_USER = "/admin/get-all-user"
+    GET_ONE_USER = "/api/admin/get-one-user"
+    GET_ALL_USER = "/api/admin/get-all-user"
 
 
 class SearchAPI:
-    SEARCH = "/search"
+    SEARCH = "/api/search"
 
 
 class FollowAPI:
-    SUBCRIBE = "/follow/subcribe"
-    GET_FOLLOWERS = "/follow/get-followers"
-    GET_MIN_FOLLOWERS = "/follow/get-min-followers"
+    SUBCRIBE = "/api/follow/subcribe"
+    GET_FOLLOWERS = "/api/follow/get-followers"
+    GET_MIN_FOLLOWERS = "/api/follow/get-min-followers"
 
 
 class CommentAPI:
-    CREATE_COMMENT = "/comment/create"
-    GET_COMMENTS = "/comment/get-comments"
+    CREATE_COMMENT = "/api/comment/create"
+    GET_COMMENTS = "/api/comment/get-comments"
 
 
 class NotificationAPI:
-    GET_NOTIFICATIONS = '/user/notifications'
-    READ_NOTIFICATION = '/user/read-notification'
+    GET_NOTIFICATIONS = '/api/user/notifications'
+    READ_NOTIFICATION = '/api/user/read-notification'
 
 
 # class

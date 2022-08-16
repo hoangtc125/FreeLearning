@@ -1,5 +1,7 @@
 import time
-from fastapi import FastAPI, Request
+import uvicorn
+from fastapi import FastAPI, Request, Response
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
@@ -13,8 +15,12 @@ from core.filter import (
 )
 from exception.http_exception import PermissionDeniedException
 from core.log_config import logger
+from core.project_config import settings
+from connections.config import db
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="/usr/bin/free-learning-production/static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -60,8 +66,19 @@ async def add_process_time_header(request: Request, call_next):
     logger.log(request.url.path, response, tag=logger.tag.END)
     return response
 
+@app.get("/")
+async def read_items():
+    with open('/usr/bin/free-learning-production/build/index.html') as fh:
+        data = fh.read()
+    return Response(content=data, media_type="text/html")
 
 app.include_router(USER_ROUTER)
 app.include_router(ADMIN_ROUTER)
 app.include_router(SEARCH_ROUTER)
 app.include_router(FOLLOW_ROUTER)
+
+app.add_event_handler("startup", db.connect_db)
+app.add_event_handler("shutdown", db.close_db)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(settings.BACKEND_PORT))

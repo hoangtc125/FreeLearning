@@ -1,5 +1,6 @@
 import * as API from '../../constants/api_config'
 import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom'
 
 
 function Cmt(data) {
@@ -14,29 +15,21 @@ function Cmt(data) {
   return (
     <div className="be-comment">
       <div className="be-img-comment">	
-        <a href="#" onClick={(e) => {
-          e.preventDefault()
-          window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.user_id)
-          window.location.href = API.FIND_ONE + info.user_id
-        }}>
+        <Link to={'/user/find-one/' + info.user_id}>
           <img src={info.avatar} alt="" className="be-ava-comment"/>
-        </a>
+        </Link>
       </div>
       <div className="be-comment-content">
         
           <span className="be-comment-name">
-            <a href="#" onClick={(e) => {
-              e.preventDefault()
-              window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.user_id)
-              window.location.href = API.FIND_ONE + info.user_id
-            }}>
+            <Link to={'/user/find-one/' + info.user_id} >
             {window.localStorage.getItem("FREE_LEARNING_USERNAME") === data.data.username &&
               "You"
             }
             {window.localStorage.getItem("FREE_LEARNING_USERNAME") !== data.data.username &&
               info.name
             }
-            </a>
+            </Link>
             </span>
           <span className="be-comment-time">
             <i className="fa fa-clock-o"></i>

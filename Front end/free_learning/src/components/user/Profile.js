@@ -27,7 +27,11 @@ export function Profile(data) {
 
   useEffect(() => {
     setLoad(true)
-    fetch(API.DOMAIN + data.api, {
+    let _path = API.DOMAIN + data.api
+    if (data.api != '/api/user/me') {
+      _path = API.DOMAIN + data.api + document.URL.substring(document.URL.lastIndexOf("/") + 1)
+    }
+    fetch(_path, {
       method: 'POST', // or 'PUT'
       headers: {
         'accept': 'application/json',

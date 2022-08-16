@@ -4,7 +4,7 @@ from model.follow import Follow, FollowResponse
 from model.user import Account
 from model.comment import Comment, CommentCreate, CommentResponse
 from utils.model_utils import get_dict, to_response_dto
-from connections.config import FOLLOW_COLLECTION, USER_COLLECTION, COMMENT_COLLECTION, POST_COLLECTION
+from connections.config import db
 from service.user_service import AccountService
 from service.notification_service import NotificationService
 from model.search import SearchAccount
@@ -15,10 +15,10 @@ from core.cache_config import cache
 
 class FollowService:
     def __init__(self):
-        self.account_repo = get_repo(Account, USER_COLLECTION)
-        self.follow_repo = get_repo(Follow, FOLLOW_COLLECTION)
-        self.comment_repo = get_repo(Comment, COMMENT_COLLECTION)
-        self.status_repo = get_repo(Status, POST_COLLECTION)
+        self.account_repo = get_repo(Account, db.USER_COLLECTION)
+        self.follow_repo = get_repo(Follow, db.FOLLOW_COLLECTION)
+        self.comment_repo = get_repo(Comment, db.COMMENT_COLLECTION)
+        self.status_repo = get_repo(Status, db.POST_COLLECTION)
 
     async def subcribe(self, subcriber: str, publisher: str):
         if subcriber == publisher:

@@ -5,6 +5,7 @@ import { Comment } from "./Comment";
 import { Loader } from "../Loader";
 import * as API from '../../constants/api_config'
 import {FileInBlog} from './FileInBlog'
+import { Link } from "react-router-dom";
 
 export function Blog(data) {
 
@@ -27,7 +28,7 @@ export function Blog(data) {
   useEffect(() => {
     if (data.api) {
       setLoad(true)
-      fetch(API.DOMAIN + data.api, {
+      fetch(API.DOMAIN + data.api + document.URL.substring(document.URL.lastIndexOf("/") + 1), {
         method: 'POST', // or 'PUT'
         headers: {
           'accept': 'application/json',
@@ -117,10 +118,7 @@ export function Blog(data) {
       <div className="my-blog" style={{maxWidth:"100vw"}}>
         <div className="hide-bar">
           <div className=" left-bar">
-            <a href="#" onClick={() => {
-              window.localStorage.setItem("FREE_LEARNING_ID_FOUND", id)
-              window.location.href = API.FIND_ONE + id
-            }}><img src={avatar} style={{maxWidth:"5vw"}}></img></a>
+            <Link to={'/user/find-one/' + id} ><img src={avatar} style={{maxWidth:"5vw"}}></img></Link>
             <p className="text-muted" style={{margin: "0", fontSize:"20px"}}>{role}</p>
             <p className="text-muted mt-4" style={{margin: "0", fontSize:"20px"}}>Vote </p>
             <button className="btn" onClick={() => {

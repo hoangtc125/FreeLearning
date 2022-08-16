@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 import logo from '../../logo.svg';
 
 function Notification(data) {
@@ -10,14 +11,8 @@ function Notification(data) {
         setDate(new Date(data.data.created_at * 1000).toLocaleString())
     }, [data])
 
-    function handleReadNotification(e) {
-        e.preventDefault()
-        window.localStorage.setItem("FREE_LEARNING_ID_FOUND", String(info.href).split("=")[1])
-        window.location.href = info.href
-    }
-
   return (
-      <a href="#" style={{textDecoration:"none"}} onClick={(e) => handleReadNotification(e)}>
+      <Link to={String(info.href).slice(4).split('?')[0] + '/' + String(info.href).split("=")[1]} style={{textDecoration:"none"}}>
         <div className="p-3 d-flex align-items-center osahan-post-header">
             {/* <div className="dropdown-list-image mr-3"> */}
               {/* <img src={logo} className="App-logo" style={{height:"fit-content", width:"fit-content", marginTop:"6px"}} alt=""/> */}
@@ -41,7 +36,7 @@ function Notification(data) {
                 <br />
             </span>
         </div>
-      </a>
+      </Link>
   )
 }
 

@@ -1,4 +1,3 @@
-import sys
 import redis
 import pickle
 import inspect
@@ -14,21 +13,22 @@ class Cache:
     function_mapping = {}
     chain = {}
 
-    def __init__(self, 
-        host: str = "localhost",
-        port: int = 6379,
-        maxmemory: str = "500M",
-        policy: str = "allkeys-lru",
-        time_to_live: int = 60 * 60 * 24):
-
-        self.__redis = redis.Redis(host=host, port=port)
-        self.__redis.config_set("maxmemory", maxmemory)
-        self.__redis.config_set("maxmemory-policy", policy)
-        self.__time_to_live = time_to_live
+    def __init__(self):
+        try:
+            self.__redis = redis.Redis(host='localhost', port=settings.REDIS_PORT)
+            self.__redis.config_set("maxmemory", settings.REDIS_MAXMEMORY)
+            self.__redis.config_set("maxmemory-policy", settings.REDIS_POLICY)
+            self.__redis.config_set("stop-writes-on-bgsave-error", "no")
+            self.__time_to_live = settings.REDIS_TIME_TO_LIVE
+        except:
+            pass
         
     def set(self, key: Any, value: Any):
-        data = pickle.dumps(value)
-        self.__redis.setex(key, self.__time_to_live, data)
+        try:
+            data = pickle.dumps(value)
+            self.__redis.setex(key, self.__time_to_live, data)
+        except:
+            pass
 
     def get(self, key: str):
         try:
@@ -81,7 +81,10 @@ class Cache:
         return self.__redis.keys()
 
     def clear(self):
-        self.__redis.flushdb()
+        try:
+            self.__redis.flushdb()
+        except:
+            pass
 
     def get_current_memory(self):
         return self.__redis.info()['used_memory']

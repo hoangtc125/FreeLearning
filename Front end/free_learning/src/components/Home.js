@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Loader } from "./Loader"
 import * as API from '../constants/api_config'
 import lesson from '../images/lesson.png'
+import { Link } from "react-router-dom"
 
 function Lession(data) {
 
@@ -13,17 +14,12 @@ function Lession(data) {
             <div className="card-thumbnail">
                 <img src={lesson} className="img-fluid" alt="thumbnail"/>
             </div>
-            <div className="card-body">
+            <Link className="card-body" to={'/user/get-one-lession/' + info.id}>
                 <h3 className="card-title" ><a href="#" className="text-secondary">{info.name.slice(0, 20) + "..."}</a></h3>
                 <p className="card-text">{info.description.slice(0, 50) + "..."}</p>
-                <a href="#" className="btn btn-danger"
-                onClick={(e) => {
-                  e.preventDefault()
-                  window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
-                  window.location.href = API.GET_ONE_LESSION + info.id
-                }}
+                <a href="/" className="btn btn-danger"
                 >Xem thêm </a>
-            </div>
+            </Link>
         </div>
     </div>
     )

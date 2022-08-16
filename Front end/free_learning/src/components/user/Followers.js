@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Loader } from "../Loader"
 import * as API from '../../constants/api_config'
+import { Link } from "react-router-dom"
 
 
 function Follower(data) {
@@ -13,12 +14,9 @@ function Follower(data) {
             <div className="card-block post-timelines" style={{minHeight:"100px"}}>
                 <div className="media bg-white d-flex">
                     <div className="media-left media-middle">
-                        <a href="#" onClick={() => {
-                          window.localStorage.setItem("FREE_LEARNING_ID_FOUND", info.id)
-                          window.location.href = API.FIND_ONE + info.id
-                        }}>
+                        <Link to={'/user/find-one/' + info.id}>
                             <img className="media-object" width="120" src={info.avatar} alt=""/>
-                        </a>
+                        </Link>
                     </div>
                     <div className="media-body friend-elipsis">
                         <div className="f-15 f-bold m-b-5">{info.fullname}</div>

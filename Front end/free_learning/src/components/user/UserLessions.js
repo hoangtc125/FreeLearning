@@ -2,7 +2,7 @@ import lesson from '../../images/lesson.png'
 import { Loader } from '../Loader'
 import * as API from '../../constants/api_config'
 import { useState, useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
 export function UserLessions(data) {
 
     const [username, setUsername] = useState(data.username)
@@ -82,13 +82,7 @@ export function UserLessions(data) {
                 {lessons && 
                 lessons.map((ls, id) => {
                     return (
-                        <a href='#' className="col-md-6 col-lg-4" key={id} style={{textDecoration:"none", color:"#333"}}
-                            onClick={e => {
-                                e.preventDefault()
-                                window.localStorage.setItem("FREE_LEARNING_ID_FOUND", ls.id)
-                                window.location.href = API.GET_ONE_LESSION + ls.id
-                            }}
-                        >
+                        <Link to={'/user/get-one-lession/' + ls.id} className="col-md-6 col-lg-4" key={id} style={{textDecoration:"none", color:"#333"}}>
                             <div className="card my-3">
                                 <div className="card-thumbnail">
                                     <img src={lesson} className="img-fluid" alt="thumbnail"/>
@@ -98,14 +92,7 @@ export function UserLessions(data) {
                                         <p className="card-text">{ls.description.slice(0, 50) + "..."}</p>
                                     {window.localStorage.getItem('FREE_LEARNING_USERNAME') === username &&
                                         <div style={{display:"flex", justifyContent:"space-around"}}>
-                                            <a href="#" style={{width:"40%"}} className="btn btn-success"
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    e.preventDefault()
-                                                    window.localStorage.setItem("FREE_LEARNING_ID_EDIT", ls.id)
-                                                    window.location.href = '/user/edit-lession'
-                                                }}
-                                            >Chỉnh sửa </a>
+                                            <Link to={'/user/edit-lession/' + ls.id} style={{width:"40%"}} className="btn btn-success">Chỉnh sửa </Link>
                                             <a href="#" style={{width:"40%"}} className="btn btn-danger"
                                                 onClick={(e) => {
                                                     e.stopPropagation()
@@ -117,7 +104,7 @@ export function UserLessions(data) {
                                     }
                                     </div>
                             </div>
-                        </a>
+                        </Link>
                     )
                 })
                 }

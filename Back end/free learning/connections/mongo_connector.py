@@ -1,7 +1,5 @@
-from typing import Any, List, Optional, TypeVar, Dict
+from typing import Optional, TypeVar
 from uuid import uuid4
-import json
-import uuid
 
 from utils.model_utils import get_dict, get_mongo_response_model
 from core.project_config import settings

@@ -10,7 +10,7 @@ from datetime import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
 from logging.handlers import TimedRotatingFileHandler
 
-from core.project_config import LOG_DIR, settings
+from core.project_config import settings
 from core.helpper import mac_from_ip
 from utils.time_utils import get_current_timestamp
 
@@ -27,7 +27,7 @@ class MyTimedRotatingFileHandler(TimedRotatingFileHandler):
         self.rolloverAt = self.rolloverAt + self.interval
 
     def create_dir(self):
-        self.__base_dir = LOG_DIR + "/log/" + str(datetime.utcnow().date()).replace('-', '/')
+        self.__base_dir = settings.LOG_DIR + "/log/" + str(datetime.utcnow().date()).replace('-', '/')
         if not os.path.exists(self.__base_dir):
             os.makedirs(self.__base_dir)
     

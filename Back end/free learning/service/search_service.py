@@ -15,16 +15,16 @@ from model.search import (
 from model.token import ConfirmationToken
 from model.user import Account
 from utils.model_utils import get_dict
-from connections.config import COURSE_COLLECTION, LESSION_COLLECTION, USER_COLLECTION, TOKEN_COLLECTION
+from connections.config import db
 from core.log_config import logger
 from core.cache_config import cache
 
 
 class SearchService:
     def __init__(self):
-        self.account_repo = get_repo(Account, USER_COLLECTION)
-        self.course_repo = get_repo(Course, COURSE_COLLECTION)
-        self.lession_repo = get_repo(Lession, LESSION_COLLECTION)
+        self.account_repo = get_repo(Account, db.USER_COLLECTION)
+        self.course_repo = get_repo(Course, db.COURSE_COLLECTION)
+        self.lession_repo = get_repo(Lession, db.LESSION_COLLECTION)
         self.repos = {}
         self.repos["user"] = {
             "repo": self.account_repo,

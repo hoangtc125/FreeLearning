@@ -24,7 +24,7 @@ from utils.mail_utils import send_mail
 from utils.model_utils import get_dict, to_response_dto
 from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
-from connections.config import USER_COLLECTION, TOKEN_COLLECTION
+from connections.config import db
 from core.cache_config import cache
 
 
@@ -33,8 +33,8 @@ class AccountService:
     ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
     def __init__(self):
-        self.account_repo = get_repo(Account, USER_COLLECTION)
-        self.token_repo = get_repo(ConfirmationToken, TOKEN_COLLECTION)
+        self.account_repo = get_repo(Account, db.USER_COLLECTION)
+        self.token_repo = get_repo(ConfirmationToken, db.TOKEN_COLLECTION)
 
     @staticmethod
     def validate_account(account: Union[Account, AccountCreate, AccountUpdate]):

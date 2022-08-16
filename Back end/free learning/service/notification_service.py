@@ -6,14 +6,14 @@ from model.comment import CommentCreate
 from model.lession import LessionCreate
 from utils.model_utils import get_dict, to_response_dto
 from utils.time_utils import get_current_timestamp
-from connections.config import NOTIFICATION_COLLECTION
+from connections.config import db
 from core.api_config import UserAPI 
 from service.user_service import AccountService
 from core.cache_config import cache
 
 class NotificationService:
     def __init__(self):
-        self.notification_repo = get_repo(Notification, NOTIFICATION_COLLECTION)
+        self.notification_repo = get_repo(Notification, db.NOTIFICATION_COLLECTION)
 
     @cache(reloaded_by=[Notification])
     async def get_notifications(self, user_id: str):

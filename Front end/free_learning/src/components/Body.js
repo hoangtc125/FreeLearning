@@ -14,9 +14,6 @@ import {Blog} from './user/Blog';
 import {File} from './user/File';
 import {Notifications} from './user/Notifications';
 import { LessionEdit } from './user/LessonEdit';
-
-import * as API from '../constants/api_config'
-
 export function Body() {
 
   return(
@@ -28,11 +25,11 @@ export function Body() {
       <Route path="/course" element={<Home/>}/>  
       <Route path="/markdown" element={<Markdown/>}/>
       <Route path="/blog" element={<Notifications/>}/>
-      <Route path="/user/get-one-lession" element={<Blog api={API.GET_ONE_LESSION + window.localStorage.getItem("FREE_LEARNING_ID_FOUND")}/>}/>
-      <Route path="/user/find-one" element={<Profile api={API.FIND_ONE + window.localStorage.getItem("FREE_LEARNING_ID_FOUND")}/>}/>
-      <Route path="/user/edit-lession" element={<LessionEdit lession_id={window.localStorage.getItem("FREE_LEARNING_ID_EDIT")}/>}/>
+      <Route path="/user/get-one-lession/:swag" element={<Blog api={'/api/user/get-one-lession?lession_id='}/>}/>
+      <Route path="/user/find-one/:swag" element={<Profile api={'/api/user/find-one?id='}/>}/>
+      <Route path="/user/edit-lession/:swag" element={<LessionEdit/>}/>
       {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
-        <Route path="/user/profile" element={<Profile api={API.PROFILE}/>}/>
+        <Route path="/user/profile" element={<Profile api={'/api/user/me'}/>}/>
       }
       {window.localStorage.getItem("FREE_LEARNING_TOKEN") &&
         <Route path="/user/edit" element={<Edit/>}/>   

@@ -1,16 +1,16 @@
 from datetime import datetime
 from random import randint
-from passlib.context import CryptContext
+from passlib.hash import bcrypt
 from exception.http_exception import CredentialException
 from model import ConfirmationToken
 from jose import JWTError, jwt
 from core import settings
 from core.model import TokenPayload
-from utils.time_utils import get_current_timestamp, get_timestamp_after
+from utils.time_utils import get_current_timestamp
 from utils.model_utils import get_dict
 
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = bcrypt
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.SECURITY_ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES

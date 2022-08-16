@@ -23,33 +23,33 @@ export function ContactUs() {
               <div className="col-lg-7">
                   <form action="/" className="mb-4 mb-lg-0">
                       <div className="form-row">
-                          <div className="col-md-6 form-group">
+                          <div className="m-2 col-md-6 form-group">
                               <input type="text" name="name" className="form-control" id="nameMail" placeholder="Your Name" 
                                 value={nameMail}
                                 onChange= {(e) => setNameMail(e.target.value)} 
                               />
                           </div>
-                          <div className="col-md-6 form-group">
+                          <div className="m-2 col-md-6 form-group">
                               <input type="email" className="form-control" name="email" id="emailMail" placeholder="Your Email" 
                                 value={emailMail}
                                 onChange= {(e) => setEmailMail(e.target.value)} 
                               />
                           </div>
                       </div>
-                      <div className="form-group">
+                      <div className="m-2 form-group">
                           <input type="text" className="form-control" name="subject" id="subjectMail" placeholder="Subject" 
                             value={subjectMail}
                             onChange= {(e) => setSubjectMail(e.target.value)} 
                           />
                       </div>
-                      <div className="form-group">
+                      <div className="m-2 form-group">
                           <textarea className="form-control" name="message" id="messageMail" placeholder="Type Message"
                             value={messageMail}
                             onChange= {(e) => setMessageMail(e.target.value)} 
                           >
                           </textarea>
                       </div>
-                      <button type="submit" className="btn btn-light" >Contact Now</button>
+                      <button type="submit" className="m-2 btn btn-light" >Contact Now</button>
                   </form>
               </div>
 

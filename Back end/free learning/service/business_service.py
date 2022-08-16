@@ -20,7 +20,7 @@ from utils.mail_utils import send_mail
 from utils.model_utils import get_dict, to_response_dto
 from core.project_config import settings
 from utils.time_utils import get_current_timestamp, get_timestamp_after
-from connections.config import LESSION_COLLECTION, USER_COLLECTION, COURSE_COLLECTION
+from connections.config import db
 from core.log_config import logger
 from service.notification_service import NotificationService
 from core.cache_config import cache
@@ -29,9 +29,9 @@ from core.cache_config import cache
 class BusinessService():
 
     def __init__(self):
-        self.account_repo = get_repo(Account, USER_COLLECTION)
-        self.course_repo = get_repo(Course, COURSE_COLLECTION)
-        self.lession_repo = get_repo(Lession, LESSION_COLLECTION)
+        self.account_repo = get_repo(Account, db.USER_COLLECTION)
+        self.course_repo = get_repo(Course, db.COURSE_COLLECTION)
+        self.lession_repo = get_repo(Lession, db.LESSION_COLLECTION)
 
     @staticmethod
     def validate_course(item: Union[Course, CourseCreate, CourseUpdate, Lession, LessionCreate, LessionUpdate]):

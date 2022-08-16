@@ -2,6 +2,7 @@
   "name": "free_learning",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@react-pdf-viewer/core": "^3.3.2",
     "@react-pdf-viewer/default-layout": "^3.3.2",
